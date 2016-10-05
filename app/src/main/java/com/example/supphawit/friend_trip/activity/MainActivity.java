@@ -1,7 +1,9 @@
 package com.example.supphawit.friend_trip.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 
 import com.example.supphawit.friend_trip.R;
 import com.google.firebase.database.DatabaseReference;
@@ -16,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference();
+        Intent intent = new Intent(this, CreateTripActivity.class);
+
     }
 
 
