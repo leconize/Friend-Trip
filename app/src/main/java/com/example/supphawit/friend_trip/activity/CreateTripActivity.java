@@ -32,9 +32,10 @@ public class CreateTripActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
-    @BindView(R.id.starttime_fill) EditText starttime_fill;
-    @BindView(R.id.endtime_fill) EditText endtime_fill;
-    @BindView(R.id.date_fill) EditText date_fill;
+    @BindView(R.id.start_date_fill) EditText startdate_fill;
+    @BindView(R.id.start_time_fill) EditText starttime_fill;
+    @BindView(R.id.end_time_fill) EditText endtime_fill;
+    @BindView(R.id.end_date_fill) EditText enddate_fill;
     @BindView(R.id.name_fill) EditText tripname_fill;
     @BindView(R.id.place_fill) EditText place_fill;
     @BindView(R.id.submit_btn) Button submit_btn;
@@ -49,7 +50,8 @@ public class CreateTripActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTimePickerDialog(starttime_fill);
         setTimePickerDialog(endtime_fill);
-        setDatePickerDialog(date_fill);
+        setDatePickerDialog(startdate_fill);
+        setDatePickerDialog(enddate_fill);
     }
 
     private void setDatePickerDialog(final EditText editText){
@@ -100,7 +102,7 @@ public class CreateTripActivity extends AppCompatActivity {
     }
 
     private boolean validateData(){
-        return checktextNotNull(endtime_fill) && checktextNotNull(date_fill) &&
+        return checktextNotNull(endtime_fill) && checktextNotNull(startdate_fill) &&
                 checktextNotNull(starttime_fill) && checktextNotNull(maxperson_fill) &&
                 checktextNotNull(place_fill) && checktextNotNull(tripname_fill);
     }
@@ -119,7 +121,7 @@ public class CreateTripActivity extends AppCompatActivity {
         trip_map.put("maxperson", maxperson_fill.getText().toString());
         trip_map.put("starttime", starttime_fill.getText().toString());
         trip_map.put("endtime", endtime_fill.getText().toString());
-        trip_map.put("startdate", date_fill.getText().toString());
+        trip_map.put("startdate", startdate_fill.getText().toString());
         trip_map.put("description", description_fill.getText().toString());
         return trip_map;
     }
@@ -138,7 +140,7 @@ public class CreateTripActivity extends AppCompatActivity {
         trip.setEndtime(endtime_fill.getText().toString());
         trip.setPlaces(place_fill.getText().toString());
         trip.setDescription(description_fill.getText().toString());
-        trip.setStartdate(date_fill.getText().toString());
+        trip.setStartdate(startdate_fill.getText().toString());
 
         Map<String, Object> trip_map = createTripMap();
         DatabaseReference trip_ref = FirebaseDatabase.getInstance().getReference("trips");

@@ -1,6 +1,5 @@
 package com.example.supphawit.friend_trip.test;
 
-import com.firebase.client.Firebase;
 
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

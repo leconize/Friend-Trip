@@ -9,11 +9,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.supphawit.friend_trip.activity.CreateTripActivity">
+
     <TextView android:id="@+id/name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TripName"
-        />
+        android:text="Trip Name"
+        android:textSize="20dp" />
     <EditText android:id="@+id/name_fill"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -26,103 +27,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Place"
-        android:layout_below="@+id/name_fill"/>
-    <EditText android:id="@+id/place_fill"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/place_label"
-        android:maxLines="1"
-        android:scrollHorizontally="true"
-        android:ellipsize="end"
-        android:ems="10"/>
+        android:layout_below="@+id/name_fill"
+        android:textSize="20dp" />
+
+
     <LinearLayout
-        android:id="@+id/layout_1"
-        android:layout_below="@+id/place_fill"
+        android:id="@+id/start"
+        android:layout_below="@+id/max"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
         <LinearLayout
-            android:layout_weight="0.2"
+            android:layout_weight="0.7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="maxPerson"
-                android:gravity="top"
-
-                />
+                android:layout_height="match_parent"
+                android:text="Start Date"
+                android:gravity="center"
+                android:textSize="20dp" />
             <EditText
-                android:inputType="number"
-                android:id="@+id/maxperson_fill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:maxLength="2"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/starttime_layout"
-            android:layout_weight="0.8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/starttime_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="starttime"
-                android:gravity="top"
-                />
-            <EditText
-                android:id="@+id/starttime_fill"
+                android:id="@+id/start_date_fill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:focusableInTouchMode="false"
-                />
+                android:layout_marginLeft="10dp"
+                android:inputType="date" />
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout_2"
-        android:layout_below="@+id/layout_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
+
         <LinearLayout
-            android:layout_weight="0.8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start/End Date"
-                android:gravity="top"
-                />
-            <EditText
-                android:id="@+id/date_fill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:focusableInTouchMode="false"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="endtime"
-                android:gravity="top"
-                />
             <EditText
                 android:inputType="time"
-                android:id="@+id/endtime_fill"
+                android:id="@+id/start_time_fill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -130,13 +74,59 @@
                 />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/end"
+        android:layout_below="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <LinearLayout
+            android:layout_weight="0.7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="End Date"
+                android:gravity="center"
+                android:textSize="20dp" />
+            <EditText
+                android:id="@+id/end_date_fill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:focusableInTouchMode="false"
+                android:layout_marginLeft="10dp"
+                android:inputType="date" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="0.3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <EditText
+                android:inputType="time"
+                android:id="@+id/end_time_fill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:focusableInTouchMode="false"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
     <TextView
-        android:layout_below="@+id/layout_2"
+        android:layout_below="@+id/end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
         android:id="@+id/description_label"
-        />
+        android:textSize="20dp"
+        android:layout_marginTop="10dp" />
     <EditText
         android:id="@+id/description_fill"
         android:layout_width="match_parent"
@@ -154,5 +144,48 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="submit"/>
+        android:text="submit"
+        android:textSize="20dp" />
+
+    <EditText android:id="@+id/place_fill"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:ems="10"
+        android:layout_below="@+id/place_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:id="@+id/max"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_below="@+id/place_fill"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_weight="0.2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Max Person"
+
+                android:textSize="20dp"
+                android:gravity="center_vertical|center" />
+            <EditText
+                android:inputType="number"
+                android:id="@+id/maxperson_fill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="2"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>
