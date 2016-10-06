@@ -2,7 +2,6 @@ package com.example.supphawit.friend_trip.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +14,10 @@ import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.activity.model.Trip;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -57,12 +56,20 @@ public class CreateTripActivity extends AppCompatActivity {
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String date = editText.getText().toString();
+                String[] year_month_day = date.split("/");
+                if(year_month_day.length == 3){
+
+                }
+                int year = Calendar.YEAR;
+                int month = Calendar.MONTH;
+                int day = Calendar.DAY_OF_MONTH;
                 Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog;
                 datePickerDialog = new DatePickerDialog(CreateTripActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        editText.setText(i+"/"+i1+"/"+i2);
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        editText.setText(day+"/"+month+"/"+year);
                     }
                 },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -105,13 +112,22 @@ public class CreateTripActivity extends AppCompatActivity {
         return false;
     }
 
+
+    private Map<String, Object> createTripMap(){
+        Map<String, Object> trip_map = new HashMap<>();
+        trip_map.put("tripname", tripname_fill.getText().toString());
+        trip_map.put("maxperson", maxperson_fill.getText().toString());
+        trip_map.put("starttime", starttime_fill.getText().toString());
+        trip_map.put("endtime", endtime_fill.getText().toString());
+        trip_map.put("startdate", date_fill.getText().toString());
+        trip_map.put("description", description_fill.getText().toString());
+        return trip_map;
+    }
+
     @OnClick(R.id.submit_btn)
     public void submitbuttonClick(){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Test");
-        databaseReference.setValue("Test");
-        databaseReference.push().setValue("OKIE");
 
-        /*if(validateData() == false){
+        if(validateData() == false){
             Toast.makeText(this, "Please Fill in the blank", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -122,9 +138,15 @@ public class CreateTripActivity extends AppCompatActivity {
         trip.setEndtime(endtime_fill.getText().toString());
         trip.setPlaces(place_fill.getText().toString());
         trip.setDescription(description_fill.getText().toString());
-        trip.setStartdate(date_fill.getText().toString());*/
+        trip.setStartdate(date_fill.getText().toString());
+
+        Map<String, Object> trip_map = createTripMap();
+        DatabaseReference trip_ref = FirebaseDatabase.getInstance().getReference("trips");
+        trip_ref.push().updateChildren(trip_map);
+
 
     }
+
 
     @Override
     protected void onDestroy() {

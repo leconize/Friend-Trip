@@ -95,18 +95,6 @@ public class Trip {
         this.description = description;
     }
 
-
-
-    public Trip(String name, String creatername, String places, int maxpeople, Date startdate, Date enddate, String description) {
-        this.name = name;
-        this.creatername = creatername;
-        this.places = places;
-        this.maxpeople = maxpeople;
-
-        this.description = description;
-    }
-
-
     public Trip() {
 
     }
