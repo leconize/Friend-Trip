@@ -2,10 +2,13 @@ package com.example.supphawit.friend_trip.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,11 +16,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.activity.model.Trip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,18 +29,20 @@ import butterknife.OnClick;
 
 public class CreateTripActivity extends AppCompatActivity {
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
-
     @BindView(R.id.start_date_fill) EditText startdate_fill;
     @BindView(R.id.start_time_fill) EditText starttime_fill;
     @BindView(R.id.end_time_fill) EditText endtime_fill;
     @BindView(R.id.end_date_fill) EditText enddate_fill;
     @BindView(R.id.name_fill) EditText tripname_fill;
-    @BindView(R.id.place_fill) EditText place_fill;
+    @BindView(R.id.place_fill) AutoCompleteTextView place_fill;
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxperson_fill) EditText maxperson_fill;
     @BindView(R.id.description_fill) EditText description_fill;
+
+    private static final String[] COUNTRIES = new String[] {
+            "Belgium", "France", "Italy", "Germany", "Spain"
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,9 @@ public class CreateTripActivity extends AppCompatActivity {
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        place_fill.setAdapter(adapter);
+
     }
 
     private void setDatePickerDialog(final EditText editText){
@@ -59,13 +64,6 @@ public class CreateTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String date = editText.getText().toString();
-                String[] year_month_day = date.split("/");
-                if(year_month_day.length == 3){
-
-                }
-                int year = Calendar.YEAR;
-                int month = Calendar.MONTH;
-                int day = Calendar.DAY_OF_MONTH;
                 Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog;
                 datePickerDialog = new DatePickerDialog(CreateTripActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -117,37 +115,31 @@ public class CreateTripActivity extends AppCompatActivity {
 
     private Map<String, Object> createTripMap(){
         Map<String, Object> trip_map = new HashMap<>();
-        trip_map.put("tripname", tripname_fill.getText().toString());
-        trip_map.put("maxperson", maxperson_fill.getText().toString());
-        trip_map.put("starttime", starttime_fill.getText().toString());
-        trip_map.put("endtime", endtime_fill.getText().toString());
+        trip_map.put("name", tripname_fill.getText().toString());
+        trip_map.put("places", place_fill.getText().toString());
+        trip_map.put("maxpeople", maxperson_fill.getText().toString());
         trip_map.put("startdate", startdate_fill.getText().toString());
+        trip_map.put("starttime", starttime_fill.getText().toString());
+        trip_map.put("enddate", enddate_fill.getText().toString());
+        trip_map.put("endtime", endtime_fill.getText().toString());
         trip_map.put("description", description_fill.getText().toString());
         return trip_map;
     }
 
     @OnClick(R.id.submit_btn)
     public void submitbuttonClick(){
-
         if(validateData() == false){
             Toast.makeText(this, "Please Fill in the blank", Toast.LENGTH_SHORT).show();
             return;
         }
-        Trip trip = new Trip();
-        trip.setName(tripname_fill.getText().toString());
-        trip.setMaxpeople(Integer.parseInt(maxperson_fill.getText().toString()));
-        trip.setStarttime(starttime_fill.getText().toString());
-        trip.setEndtime(endtime_fill.getText().toString());
-        trip.setPlaces(place_fill.getText().toString());
-        trip.setDescription(description_fill.getText().toString());
-        trip.setStartdate(startdate_fill.getText().toString());
 
         Map<String, Object> trip_map = createTripMap();
         DatabaseReference trip_ref = FirebaseDatabase.getInstance().getReference("trips");
         trip_ref.push().updateChildren(trip_map);
 
-
     }
+
+
 
 
     @Override

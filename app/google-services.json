@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "957602804258-fbombded7gjbiio2hr0jg8i4hvcq3hco.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.supphawit.friend_trip",
+            "certificate_hash": "3AE240765BA9495500B22A505556589953C58597"
+          }
+        },
+        {
           "client_id": "957602804258-pfvjf1k25tov5etcjm8ihfit7pqminco.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
