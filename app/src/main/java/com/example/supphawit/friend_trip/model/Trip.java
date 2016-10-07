@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.activity.model;
+package com.example.supphawit.friend_trip.model;
 
 import android.media.TimedText;
 import android.text.format.Time;

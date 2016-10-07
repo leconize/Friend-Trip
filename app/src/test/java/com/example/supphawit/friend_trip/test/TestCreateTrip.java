@@ -1,6 +1,6 @@
 package com.example.supphawit.friend_trip.test;
 
-import com.example.supphawit.friend_trip.activity.model.Trip;
+import com.example.supphawit.friend_trip.model.Trip;
 
 import junit.framework.Assert;
 
