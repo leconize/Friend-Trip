@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,14 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.impchanii.week7.MainActivity">
+    tools:context="com.example.impchanii.week7.SignupActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Name"
+        android:text="Sign Up"
         android:layout_centerHorizontal="true"
-        android:id="@+id/toplogo"
+        android:id="@+id/toplogo1"
         android:textSize="30dp"
         android:layout_marginBottom="20dp"
         />
@@ -23,8 +22,8 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toplogo"
-        android:id="@+id/logintable"
+        android:layout_below="@id/toplogo1"
+        android:id="@+id/signuptable"
         >
 
         <TableRow android:background="#d5f9ed">
@@ -32,47 +31,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint = "E-mail"
-                android:id="@+id/idinput"
+                android:id="@+id/idsignupinput"
                 android:layout_weight="10"
                 android:inputType="textEmailAddress"
                 />
         </TableRow>
 
         <TableRow android:background="#d5f9ed">
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint = "Password"
-            android:id="@+id/pwdinput"
-            android:layout_weight="10"
-            android:maxLength="10"
-            android:maxLines="1"
-            />
-        </TableRow>
-        <TableRow>
-            <Button
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/logintable"
-                android:id="@+id/loginbt"
-                android:text="Log in"
+                android:hint = "Password"
+                android:id="@+id/pwdsignupinput"
+                android:layout_weight="10"
+                android:inputType="numberPassword"
+                android:maxLength="20"
+                android:maxLines="1"
+                />
+        </TableRow>
+
+        <TableRow android:background="#d5f9ed">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint = "Nickname"
+                android:id="@+id/nicknamesignupinput"
                 android:layout_weight="10"
                 />
         </TableRow>
-        <TableRow>
-        </TableRow>
-        <TableRow>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/logintable"
-                android:id="@+id/signupbt"
-                android:text="Sign Up"
-                android:onClick="toSignUp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_weight="10"
-                />
-        </TableRow>
-</TableLayout>
+    </TableLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signuptable"
+        android:layout_centerHorizontal="true"
+        android:text="Confirm"
+        android:onClick="confirmSignUp"
+        />
+
 </RelativeLayout>
