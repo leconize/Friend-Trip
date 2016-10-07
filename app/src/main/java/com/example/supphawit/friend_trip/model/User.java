@@ -1,4 +1,4 @@
-package com.example.impchanii.week7;
+package com.example.supphawit.friend_trip.model;
 
 public class User {
     private String firstname;
