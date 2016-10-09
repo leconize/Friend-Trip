@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -34,10 +38,8 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.end_time_fill) EditText endtime_fill;
     @BindView(R.id.end_date_fill) EditText enddate_fill;
     @BindView(R.id.name_fill) EditText tripname_fill;
-    @BindView(R.id.place_fill) AutoCompleteTextView place_fill;
     @BindView(R.id.submit_btn) Button submit_btn;
-    @BindView(R.id.maxperson_fill) EditText maxperson_fill;
-    @BindView(R.id.description_fill) EditText description_fill;
+    @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
 
     private static final String[] COUNTRIES = new String[] {
             "Belgium", "France", "Italy", "Germany", "Spain"
@@ -51,12 +53,37 @@ public class CreateTripActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         setTimePickerDialog(starttime_fill);
-        setTimePickerDialog(endtime_fill);
+       setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        place_fill.setAdapter(adapter);
 
+
+    }
+    @OnClick(R.id.addplace_btn)
+    public void makePlaceEditText(){
+        AutoCompleteTextView editText = new AutoCompleteTextView(this);
+        editText.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        editText.setAdapter(adapter);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
+        linearLayout.addView(editText);
+    }
+
+    @OnClick(R.id.createtrip_btn)
+    public void createButtonClick(){
+        if(!validateData()){
+            Toast.makeText(this, "Please Enter all value", Toast.LENGTH_SHORT).show();
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
+            final int childcount = linearLayout.getChildCount();
+            for(int i = 0; i < childcount; i++){
+                AutoCompleteTextView textView = (AutoCompleteTextView) linearLayout.getChildAt(i);
+                textView.getText().toString();
+            }
+        }
+        else{
+
+        }
     }
 
     private void setDatePickerDialog(final EditText editText){
@@ -96,13 +123,12 @@ public class CreateTripActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private boolean validateData(){
         return checktextNotNull(endtime_fill) && checktextNotNull(startdate_fill) &&
                 checktextNotNull(starttime_fill) && checktextNotNull(maxperson_fill) &&
-                checktextNotNull(place_fill) && checktextNotNull(tripname_fill);
+                checktextNotNull(tripname_fill);
     }
 
     private boolean checktextNotNull(EditText editText){
@@ -111,36 +137,6 @@ public class CreateTripActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
-    private Map<String, Object> createTripMap(){
-        Map<String, Object> trip_map = new HashMap<>();
-        trip_map.put("name", tripname_fill.getText().toString());
-        trip_map.put("places", place_fill.getText().toString());
-        trip_map.put("maxpeople", maxperson_fill.getText().toString());
-        trip_map.put("startdate", startdate_fill.getText().toString());
-        trip_map.put("starttime", starttime_fill.getText().toString());
-        trip_map.put("enddate", enddate_fill.getText().toString());
-        trip_map.put("endtime", endtime_fill.getText().toString());
-        trip_map.put("description", description_fill.getText().toString());
-        return trip_map;
-    }
-
-    @OnClick(R.id.submit_btn)
-    public void submitbuttonClick(){
-        if(validateData() == false){
-            Toast.makeText(this, "Please Fill in the blank", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Map<String, Object> trip_map = createTripMap();
-        DatabaseReference trip_ref = FirebaseDatabase.getInstance().getReference("trips");
-        trip_ref.push().updateChildren(trip_map);
-
-    }
-
-
-
 
     @Override
     protected void onDestroy() {

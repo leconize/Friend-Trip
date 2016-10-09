@@ -14,6 +14,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.CreateTripActivity">
+
+
         </activity>
         <activity android:name=".activity.SignInActivity">
             <intent-filter>
@@ -21,8 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.SignUpActivity"></activity>
+        <activity android:name=".activity.SignUpActivity" />
+        <activity android:name=".activity.DeveloperActivity"></activity>
     </application>
 
 </manifest>

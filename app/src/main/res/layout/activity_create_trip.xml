@@ -17,26 +17,53 @@
         android:layout_height="wrap_content"
         android:text="Trip Name"
         android:textSize="20dp" />
-    <EditText android:id="@+id/name_fill"
+    <EditText
+        android:id="@+id/name_fill"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name_label"
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:ellipsize="end"
+        android:ems="10"
+        android:layout_below="@+id/name_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/maxpeople_lable"
+        android:layout_below="@id/name_fill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max People"
+        android:textSize="20dp"/>
+    <EditText
+        android:id="@+id/maxpeople_fill"
+        android:layout_below="@+id/maxpeople_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="1-99"
+        android:maxLength="2"/>
 
-        android:ems="10" />
+
     <TextView android:id="@+id/place_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Place"
-        android:layout_below="@+id/name_fill"
+        android:layout_below="@+id/maxpeople_fill"
         android:textSize="20dp" />
 
 
     <LinearLayout
+        android:id="@+id/place_wrapper"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/place_label">
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/start"
-        android:layout_below="@+id/max"
+        android:layout_below="@+id/addplace_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
@@ -122,75 +149,23 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:layout_below="@+id/end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:id="@+id/description_label"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp" />
-    <EditText
-        android:id="@+id/description_fill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description_label"
-        android:scrollHorizontally="true"
-        android:ellipsize="end"
-        android:maxLines="4"
-        android:gravity="top"
-        android:lines="4"/>
-
     <Button
         android:id="@+id/submit_btn"
-        android:layout_below="@+id/description_fill"
+        android:layout_below="@+id/end"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="create trip"
-        android:textSize="20dp" />
+         />
 
-    <AutoCompleteTextView android:id="@+id/place_fill"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:scrollHorizontally="true"
-        android:ellipsize="end"
-        android:ems="10"
-        android:layout_below="@+id/place_label"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
-
-    <LinearLayout
-        android:id="@+id/max"
+    <Button
+        android:id="@+id/addplace_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_below="@+id/place_fill"
+        android:text="Add new place"
+        android:layout_below="@+id/place_label"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <LinearLayout
-            android:layout_weight="0.2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Max Person"
+        android:layout_alignParentStart="true" />
 
-                android:textSize="20dp"
-                android:gravity="center_vertical|center" />
-            <EditText
-                android:inputType="number"
-                android:id="@+id/maxperson_fill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="2"
-                android:layout_marginLeft="10dp" />
-        </LinearLayout>
-
-    </LinearLayout>
 
 </RelativeLayout>

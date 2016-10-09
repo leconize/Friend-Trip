@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();//paasword length >= 6
                 }
                 else{
-                    Toast.makeText(SignUpActivity.this, "Great Job mate", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "You just create Account", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                     startActivity(intent);
                 }

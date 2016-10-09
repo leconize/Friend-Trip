@@ -1,11 +1,5 @@
 package com.example.supphawit.friend_trip.model;
 
-import android.media.TimedText;
-import android.text.format.Time;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by Supphawit on 4/10/2559.
