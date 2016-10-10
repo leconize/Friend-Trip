@@ -10,13 +10,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +32,7 @@ public class SignInActivity extends AppCompatActivity {
     private DatabaseReference myFirebaseRef;
     private FirebaseAuth myAuth;
     private FirebaseAuth.AuthStateListener myAuthListener;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "SignInActivity";
 
     @BindView(R.id.idinput) EditText idinput;
     @BindView(R.id.pwdinput) EditText pwdinput;
@@ -75,11 +80,6 @@ public class SignInActivity extends AppCompatActivity {
         //myAuth.removeAuthStateListener(myAuthListener);
     }
 
-    public void toSignUp(View view){
-        Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
-        startActivityForResult(i, 1);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,10 +117,37 @@ public class SignInActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
-                            startActivity(intent);
+                            final String useremail = myAuth.getCurrentUser().getEmail();
+                            myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("users");
+                            //Log.d(TAG, myFirebaseRef.toString());
+                            myFirebaseRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    //Log.e("Count ",""+dataSnapshot.getChildrenCount());
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                                            User post = postSnapshot.getValue(User.class);
+                                        if(post.getEmail().equals(useremail)){
+                                            //Log.e("Get data", post.getEmail());
+                                            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
+                                            intent.putExtra("loginuser", post);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.e("Read failed: ", databaseError.getMessage());
+                                }
+                            });
                         }
                     }
                 });
+    }
+
+    @OnClick(R.id.tosignupbt)
+    public void toSignUp(View view){
+        Intent i = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivityForResult(i, 1);
     }
 }

@@ -10,10 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +26,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.idsignupinput) EditText idinput;
     @BindView(R.id.pwdsignupinput) EditText pwdinput;
+    @BindView(R.id.nicknamesignupinput) EditText nicknameinput;
+
+    private DatabaseReference myFirebaseRef;
+    private FirebaseAuth myAuth;
+    private static final String TAG = "SignUpActivity";
 
     public static final int REQ_CODE = 123;
 
@@ -59,6 +67,11 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(SignUpActivity.this, "You just create Account", Toast.LENGTH_SHORT).show();
+                    User signupuser = new User(idinput.getText().toString(), nicknameinput.getText().toString());
+                    myFirebaseRef = FirebaseDatabase.getInstance().getReference();
+                    myFirebaseRef = myFirebaseRef.child("users").push();
+                    signupuser.setFirebaseid(myFirebaseRef.getKey());
+                    myFirebaseRef.setValue(signupuser);
                     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                     startActivity(intent);
                 }

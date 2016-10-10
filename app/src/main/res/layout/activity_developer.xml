@@ -10,8 +10,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.supphawit.friend_trip.activity.DeveloperActivity">
 
+    <TextView
+        android:text="username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:id="@+id/welcomeuser"/>
+
     <Button
-        android:text="Button"
+        android:text="View Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/createtrip_btn"
@@ -19,7 +26,7 @@
         android:layout_toEndOf="@+id/createtrip_btn"
         android:layout_marginLeft="43dp"
         android:layout_marginStart="43dp"
-        android:id="@+id/button3" />
+        android:id="@+id/viewprofilebt" />
 
     <Button
         android:text="CreateTrip"
