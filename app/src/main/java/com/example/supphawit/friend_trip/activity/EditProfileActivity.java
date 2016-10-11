@@ -75,6 +75,6 @@ public class EditProfileActivity extends AppCompatActivity {
         updateRef.setValue(loginuser);
         intent.putExtra("loginuser", loginuser);
         setResult(Activity.RESULT_OK, intent);
-        finish();
+        startActivity(intent);
     }
 }

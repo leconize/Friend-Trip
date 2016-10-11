@@ -28,6 +28,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindArray;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,9 +47,7 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
 
-    private static final String[] COUNTRIES = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain"
-    };
+    @BindArray(R.array.string_array_name) String[] test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +59,13 @@ public class CreateTripActivity extends AppCompatActivity {
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
-
     }
     @OnClick(R.id.addplace_btn)
     public void makePlaceEditText(){
         AutoCompleteTextView editText = new AutoCompleteTextView(this);
         editText.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, test);
         editText.setAdapter(adapter);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
         linearLayout.addView(editText);
