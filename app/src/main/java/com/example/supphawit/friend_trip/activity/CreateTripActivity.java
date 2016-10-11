@@ -70,7 +70,7 @@ public class CreateTripActivity extends AppCompatActivity {
         linearLayout.addView(editText);
     }
 
-    @OnClick(R.id.createtrip_btn)
+    @OnClick(R.id.submit_btn)
     public void createButtonClick(){
         if(!validateData()){
             Toast.makeText(this, "Please Enter all value", Toast.LENGTH_SHORT).show();
