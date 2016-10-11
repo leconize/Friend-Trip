@@ -2,7 +2,7 @@ package com.example.supphawit.friend_trip.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,12 +14,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.listener.DatabaseValueListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +34,9 @@ import butterknife.OnClick;
 
 public class CreateTripActivity extends AppCompatActivity {
 
+    public static final String TAG = "CreateTripActivity";
+    FirebaseAuth firebaseAuth;
+
     @BindView(R.id.start_date_fill) EditText startdate_fill;
     @BindView(R.id.start_time_fill) EditText starttime_fill;
     @BindView(R.id.end_time_fill) EditText endtime_fill;
@@ -45,18 +49,16 @@ public class CreateTripActivity extends AppCompatActivity {
             "Belgium", "France", "Italy", "Germany", "Spain"
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_create_trip);
-
         ButterKnife.bind(this);
         setTimePickerDialog(starttime_fill);
-       setTimePickerDialog(endtime_fill);
+        setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
-
 
     }
     @OnClick(R.id.addplace_btn)
@@ -71,20 +73,59 @@ public class CreateTripActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.submit_btn)
-    public void createButtonClick(){
+    public void submitButtonClick(){
         if(!validateData()){
             Toast.makeText(this, "Please Enter all value", Toast.LENGTH_SHORT).show();
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
-            final int childcount = linearLayout.getChildCount();
-            for(int i = 0; i < childcount; i++){
-                AutoCompleteTextView textView = (AutoCompleteTextView) linearLayout.getChildAt(i);
-                textView.getText().toString();
-            }
+            return;
         }
         else{
-
+            try{
+                String[] places = getPlacesValues();
+                Map<String, Object> map = createInputMap(places);
+                FirebaseDatabase.getInstance().getReference("trips").push().
+                        updateChildren(map, new DatabaseValueListener());
+            }
+            catch (NullPointerException e){
+                Log.d(TAG, "get null value from place edittexts");
+                Toast.makeText(this, "Please Enter all value", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
     }
+
+    private String[] getPlacesValues() throws NullPointerException{
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
+        final int childcount = linearLayout.getChildCount();
+        String[] places = new String[childcount];
+        for(int i = 0; i < childcount; i++){
+            AutoCompleteTextView textView = (AutoCompleteTextView) linearLayout.getChildAt(i);
+            places[i] = textView.getText().toString();
+            if(places[i] == null || places.equals("")){
+                throw new NullPointerException();
+            }
+        }
+        return places;
+    }
+
+    private Map<String, Object> createInputMap(String[] places){
+        Map<String, Object> trip_map = createInputMapWithoutPlaces();
+        trip_map.put("places", places);
+        return trip_map;
+    }
+
+
+    private Map<String, Object> createInputMapWithoutPlaces() {
+        Map<String, Object> trip_map = new HashMap<>();
+        trip_map.put("name", tripname_fill.getText().toString());
+        trip_map.put("maxpeople", maxperson_fill.getText().toString());
+        trip_map.put("startdate", startdate_fill.getText().toString());
+        trip_map.put("enddate", enddate_fill.getText().toString());
+        trip_map.put("starttime", starttime_fill.getText().toString());
+        trip_map.put("endtime", endtime_fill.getText().toString());
+        return trip_map;
+    }
+
+
 
     private void setDatePickerDialog(final EditText editText){
         editText.setOnClickListener(new View.OnClickListener() {
