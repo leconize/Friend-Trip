@@ -24,8 +24,10 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindArray;
@@ -59,17 +61,10 @@ public class CreateTripActivity extends AppCompatActivity {
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        Log.i("user", firebaseAuth.getCurrentUser().getEmail());
     }
-    @OnClick(R.id.addplace_btn)
-    public void makePlaceEditText(){
-        AutoCompleteTextView editText = new AutoCompleteTextView(this);
-        editText.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, test);
-        editText.setAdapter(adapter);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
-        linearLayout.addView(editText);
-    }
+
 
     @OnClick(R.id.submit_btn)
     public void submitButtonClick(){
@@ -79,7 +74,7 @@ public class CreateTripActivity extends AppCompatActivity {
         }
         else{
             try{
-                String[] places = getPlacesValues();
+                List<String> places = getPlacesValues();
                 Map<String, Object> map = createInputMap(places);
                 FirebaseDatabase.getInstance().getReference("trips").push().
                         updateChildren(map, new DatabaseValueListener());
@@ -92,21 +87,32 @@ public class CreateTripActivity extends AppCompatActivity {
         }
     }
 
-    private String[] getPlacesValues() throws NullPointerException{
+    @OnClick(R.id.addplace_btn)
+    public void makePlaceEditText(){
+        AutoCompleteTextView editText = new AutoCompleteTextView(this);
+        editText.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, test);
+        editText.setAdapter(adapter);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
+        linearLayout.addView(editText);
+    }
+
+    private List<String> getPlacesValues() throws NullPointerException{
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
         final int childcount = linearLayout.getChildCount();
-        String[] places = new String[childcount];
+        ArrayList<String> places = new ArrayList<>();
         for(int i = 0; i < childcount; i++){
             AutoCompleteTextView textView = (AutoCompleteTextView) linearLayout.getChildAt(i);
-            places[i] = textView.getText().toString();
-            if(places[i] == null || places.equals("")){
+            places.add(textView.getText().toString());
+            if(places.get(i) == null || places.get(i).equals("")){
                 throw new NullPointerException();
             }
         }
         return places;
     }
 
-    private Map<String, Object> createInputMap(String[] places){
+    private Map<String, Object> createInputMap(List<String> places){
         Map<String, Object> trip_map = createInputMapWithoutPlaces();
         trip_map.put("places", places);
         return trip_map;
