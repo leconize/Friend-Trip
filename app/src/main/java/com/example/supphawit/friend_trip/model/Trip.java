@@ -7,18 +7,18 @@ package com.example.supphawit.friend_trip.model;
 
 public class Trip {
 
-    private String name;
+    private String tripname;
     private String creatername;
     private String places;
-    private int maxpeople;
+    private int maxperson;
     private String starttime;
     private String endtime;
     private String startdate;
     private String enddate;
     private String description;
 
-    public String getName() {
-        return name;
+    public String getTripname() {
+        return tripname;
     }
 
     public String getStarttime() {
@@ -53,8 +53,8 @@ public class Trip {
         this.enddate = enddate;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTripname(String name) {
+        this.tripname = name;
     }
 
     public String getCreatername() {
@@ -73,12 +73,12 @@ public class Trip {
         this.places = places;
     }
 
-    public int getMaxpeople() {
-        return maxpeople;
+    public int getMaxperson() {
+        return maxperson;
     }
 
-    public void setMaxpeople(int maxpeople) {
-        this.maxpeople = maxpeople;
+    public void setMaxperson(int maxperson) {
+        this.maxperson = maxperson;
     }
 
     public String getDescription() {

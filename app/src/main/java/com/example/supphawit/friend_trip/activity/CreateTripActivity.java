@@ -34,7 +34,7 @@ import butterknife.OnClick;
 
 public class CreateTripActivity extends AppCompatActivity {
 
-    public static final String TAG = "CreateTripActivity";
+    private static final String TAG = "CreateTripActivity";
     FirebaseAuth firebaseAuth;
 
     @BindView(R.id.start_date_fill) EditText startdate_fill;
