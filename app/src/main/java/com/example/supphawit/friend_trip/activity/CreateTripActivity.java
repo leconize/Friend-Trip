@@ -2,7 +2,6 @@ package com.example.supphawit.friend_trip.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,10 +17,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.listener.DatabaseValueListener;
+import com.example.supphawit.friend_trip.listener.FirebaseCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -31,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindArray;
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -77,7 +73,7 @@ public class CreateTripActivity extends AppCompatActivity {
                 List<String> places = getPlacesValues();
                 Map<String, Object> map = createInputMap(places);
                 FirebaseDatabase.getInstance().getReference("trips").push().
-                        updateChildren(map, new DatabaseValueListener());
+                        updateChildren(map, new FirebaseCompleteListener());
             }
             catch (NullPointerException e){
                 Log.d(TAG, "get null value from place edittexts");
@@ -97,6 +93,7 @@ public class CreateTripActivity extends AppCompatActivity {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
         linearLayout.addView(editText);
     }
+
 
     private List<String> getPlacesValues() throws NullPointerException{
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
@@ -178,10 +175,7 @@ public class CreateTripActivity extends AppCompatActivity {
     }
 
     private boolean checktextNotNull(EditText editText){
-        if(editText.getText().toString() != null && !editText.getText().toString().equals("")){
-            return true;
-        }
-        return false;
+        return !editText.getText().toString().equals("");
     }
 
     @Override
