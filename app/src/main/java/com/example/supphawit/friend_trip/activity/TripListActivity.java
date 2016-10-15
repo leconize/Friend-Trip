@@ -39,7 +39,7 @@ public class TripListActivity extends AppCompatActivity {
 
                 for(DataSnapshot child: dataSnapshot.getChildren()){
                     Trip trip = child.getValue(Trip.class);
-                    Log.d("Trip", trip.getPlaces());
+                    //Log.d("Trip", trip.getPlaces());
                     tripAdapter.notifyItemInserted(trips.size()-1);
                 }
             }

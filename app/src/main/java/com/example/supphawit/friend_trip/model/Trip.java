@@ -1,6 +1,9 @@
 package com.example.supphawit.friend_trip.model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Supphawit on 4/10/2559.
  */
@@ -9,7 +12,16 @@ public class Trip {
 
     private String tripname;
     private String creatername;
-    private String places;
+    private List<String> places;
+
+    public List<String> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(List<String> places) {
+        this.places = places;
+    }
+
     private int maxperson;
     private String starttime;
     private String endtime;
@@ -65,13 +77,6 @@ public class Trip {
         this.creatername = creatername;
     }
 
-    public String getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(String places) {
-        this.places = places;
-    }
 
     public int getMaxperson() {
         return maxperson;

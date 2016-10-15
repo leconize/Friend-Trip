@@ -39,4 +39,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Trip_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createtrip_btn"
+        android:layout_toLeftOf="@+id/viewprofilebt"
+        android:layout_toStartOf="@+id/viewprofilebt"
+        android:layout_marginTop="42dp"
+        android:id="@+id/listbtn" />
 </RelativeLayout>

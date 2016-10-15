@@ -54,7 +54,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         TextView tripdate = holder.tripdate;
         tripname.setText(trip.getStartdate());
         TextView tripplaces = holder.tripplaces;
-        tripname.setText(trip.getPlaces());
+        //tripname.setText(trip.getPlaces());
     }
 
     @Override

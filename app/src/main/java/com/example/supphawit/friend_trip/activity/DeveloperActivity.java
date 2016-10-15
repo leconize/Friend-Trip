@@ -53,4 +53,10 @@ public class DeveloperActivity extends AppCompatActivity {
         intent.putExtra("loginuser", loginuser);
         startActivity(intent);
     }
+
+    @OnClick(R.id.listbtn)
+    public void tripList(){
+        Intent intent = new Intent(this, TripListActivity.class);
+        startActivity(intent);
+    }
 }
