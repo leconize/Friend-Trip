@@ -1,6 +1,8 @@
 package com.example.supphawit.friend_trip.model;
 
 
+import com.google.common.base.Joiner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,27 +12,21 @@ import java.util.List;
 
 public class Trip {
 
-    private String tripname;
+    private String name;
     private String creatername;
     private List<String> places;
 
-    public List<String> getPlaces() {
-        return places;
-    }
 
-    public void setPlaces(List<String> places) {
-        this.places = places;
-    }
 
-    private int maxperson;
+    private int maxpeople;
     private String starttime;
     private String endtime;
     private String startdate;
     private String enddate;
     private String description;
 
-    public String getTripname() {
-        return tripname;
+    public String getName() {
+        return name;
     }
 
     public String getStarttime() {
@@ -66,7 +62,7 @@ public class Trip {
     }
 
     public void setTripname(String name) {
-        this.tripname = name;
+        this.name = name;
     }
 
     public String getCreatername() {
@@ -77,13 +73,20 @@ public class Trip {
         this.creatername = creatername;
     }
 
-
-    public int getMaxperson() {
-        return maxperson;
+    public String getPlaces() {
+        return Joiner.on(" ").join(places);
     }
 
-    public void setMaxperson(int maxperson) {
-        this.maxperson = maxperson;
+    public void setPlaces(List<String> places) {
+        this.places = places;
+    }
+
+    public int getMaxpeople() {
+        return maxpeople;
+    }
+
+    public void setMaxpeople(int maxpeople) {
+        this.maxpeople = maxpeople;
     }
 
     public String getDescription() {

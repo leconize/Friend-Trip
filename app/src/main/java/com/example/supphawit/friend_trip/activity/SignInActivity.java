@@ -64,6 +64,13 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
+        createAuthUser();
+        createDatabase();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         try{
             if(FirebaseAuth.getInstance().getCurrentUser() != null){
                 Intent intent = new Intent(this, DeveloperActivity.class);
@@ -74,14 +81,6 @@ public class SignInActivity extends AppCompatActivity {
             Log.e(TAG, e.getMessage());
             Log.e(TAG, "Error cann't get firebaseAuth");
         }
-
-        createAuthUser();
-        createDatabase();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         //myAuth.addAuthStateListener(myAuthListener);
     }
 
