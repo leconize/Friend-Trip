@@ -45,7 +45,7 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
 
-    @BindArray(R.array.string_array_name) String[] test;
+    @BindArray(R.array.string_array_name) String[] autocompleteData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class CreateTripActivity extends AppCompatActivity {
         AutoCompleteTextView editText = new AutoCompleteTextView(this);
         editText.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, test);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, autocompleteData);
         editText.setAdapter(adapter);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
         linearLayout.addView(editText);
@@ -119,6 +119,7 @@ public class CreateTripActivity extends AppCompatActivity {
         trip_map.put("enddate", enddate_fill.getText().toString());
         trip_map.put("starttime", starttime_fill.getText().toString());
         trip_map.put("endtime", endtime_fill.getText().toString());
+        trip_map.put("creatername", FirebaseAuth.getInstance().getCurrentUser().getUid());
         return trip_map;
     }
 

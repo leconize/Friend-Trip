@@ -50,11 +50,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         Trip trip = trips.get(position);
 
         TextView tripname = holder.tripname;
+
         tripname.setText(trip.getName());
         TextView tripdate = holder.tripdate;
-        tripname.setText(trip.getStartdate());
+        tripdate.setText(trip.getStartdate());
         TextView tripplaces = holder.tripplaces;
-        //tripname.setText(trip.getPlaces());
+        tripplaces.setText(trip.getPlaces());
     }
 
     @Override

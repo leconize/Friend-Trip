@@ -15,15 +15,15 @@ public class Trip {
     private String name;
     private String creatername;
     private List<String> places;
-
-
-
     private int maxpeople;
     private String starttime;
     private String endtime;
     private String startdate;
     private String enddate;
     private String description;
+    private String id;
+
+
 
     public String getName() {
         return name;
@@ -61,7 +61,7 @@ public class Trip {
         this.enddate = enddate;
     }
 
-    public void setTripname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -85,8 +85,9 @@ public class Trip {
         return maxpeople;
     }
 
-    public void setMaxpeople(int maxpeople) {
-        this.maxpeople = maxpeople;
+
+    public void setMaxpeople(String maxpeople) {
+        this.maxpeople = Integer.parseInt(maxpeople);
     }
 
     public String getDescription() {
@@ -99,5 +100,18 @@ public class Trip {
 
     public Trip() {
 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Trip && (((Trip) obj).id) .equals(this.id);
     }
 }
