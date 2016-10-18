@@ -10,9 +10,9 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by Supphawit on 11/10/2559.
  */
 
-public class DatabaseValueListener implements DatabaseReference.CompletionListener {
+public class FirebaseCompleteListener implements DatabaseReference.CompletionListener {
 
-    public static final String TAG = "DATABASE ERROR";
+    public static final String TAG = "Firebase Database";
     @Override
     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
         if(databaseError != null){

@@ -2,7 +2,6 @@ package com.example.supphawit.friend_trip.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,10 +17,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.listener.DatabaseValueListener;
+import com.example.supphawit.friend_trip.listener.FirebaseCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -31,14 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindArray;
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CreateTripActivity extends AppCompatActivity {
 
-    public static final String TAG = "CreateTripActivity";
+    private static final String TAG = CreateTripActivity.class.getName();
     FirebaseAuth firebaseAuth;
 
     @BindView(R.id.start_date_fill) EditText startdate_fill;
@@ -49,7 +45,7 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
 
-    @BindArray(R.array.string_array_name) String[] test;
+    @BindArray(R.array.string_array_name) String[] autocompleteData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +57,6 @@ public class CreateTripActivity extends AppCompatActivity {
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        Log.i("user", firebaseAuth.getCurrentUser().getEmail());
     }
 
 
@@ -70,19 +64,17 @@ public class CreateTripActivity extends AppCompatActivity {
     public void submitButtonClick(){
         if(!validateData()){
             Toast.makeText(this, "Please Enter all value", Toast.LENGTH_SHORT).show();
-            return;
         }
         else{
             try{
                 List<String> places = getPlacesValues();
                 Map<String, Object> map = createInputMap(places);
                 FirebaseDatabase.getInstance().getReference("trips").push().
-                        updateChildren(map, new DatabaseValueListener());
+                        updateChildren(map, new FirebaseCompleteListener());
             }
             catch (NullPointerException e){
                 Log.d(TAG, "get null value from place edittexts");
                 Toast.makeText(this, "Please Enter all value", Toast.LENGTH_SHORT).show();
-                return;
             }
         }
     }
@@ -92,7 +84,7 @@ public class CreateTripActivity extends AppCompatActivity {
         AutoCompleteTextView editText = new AutoCompleteTextView(this);
         editText.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, test);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, autocompleteData);
         editText.setAdapter(adapter);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
         linearLayout.addView(editText);
@@ -127,6 +119,7 @@ public class CreateTripActivity extends AppCompatActivity {
         trip_map.put("enddate", enddate_fill.getText().toString());
         trip_map.put("starttime", starttime_fill.getText().toString());
         trip_map.put("endtime", endtime_fill.getText().toString());
+        trip_map.put("creatername", FirebaseAuth.getInstance().getCurrentUser().getUid());
         return trip_map;
     }
 
@@ -136,7 +129,7 @@ public class CreateTripActivity extends AppCompatActivity {
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String date = editText.getText().toString();
+
                 Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog;
                 datePickerDialog = new DatePickerDialog(CreateTripActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -178,10 +171,7 @@ public class CreateTripActivity extends AppCompatActivity {
     }
 
     private boolean checktextNotNull(EditText editText){
-        if(editText.getText().toString() != null && !editText.getText().toString().equals("")){
-            return true;
-        }
-        return false;
+        return !editText.getText().toString().equals("");
     }
 
     @Override
