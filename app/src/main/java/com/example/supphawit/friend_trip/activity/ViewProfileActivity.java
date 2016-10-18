@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,11 @@ import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,10 +44,32 @@ public class ViewProfileActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        loginuser = getIntent().getParcelableExtra("loginuser");
         //Log.d("ViewProfileActivity", loginuser.getEmail());
+        final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Log.d(TAG, "Login as " + user_email);
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot usersdata) {
+                Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
+                for (DataSnapshot usersnapshot: usersdata.getChildren()){
+                    User post = usersnapshot.getValue(User.class);
+                    if(post.getEmail().equals(user_email)){
+                        loginuser = post;
+                        setProfile(loginuser);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         ButterKnife.bind(this);
-        setProfile(loginuser);
+
     }
 
     private void setProfile (User user){

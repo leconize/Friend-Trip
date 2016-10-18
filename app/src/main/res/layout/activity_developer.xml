@@ -49,4 +49,14 @@
         android:layout_toStartOf="@+id/viewprofilebt"
         android:layout_marginTop="42dp"
         android:id="@+id/listbtn" />
+
+    <Button
+        android:text="Log-out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/listbtn"
+        android:layout_alignLeft="@+id/viewprofilebt"
+        android:layout_alignStart="@+id/viewprofilebt"
+        android:layout_marginTop="13dp"
+        android:id="@+id/log_out" />
 </RelativeLayout>

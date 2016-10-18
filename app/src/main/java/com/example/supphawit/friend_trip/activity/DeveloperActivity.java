@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DeveloperActivity extends AppCompatActivity {
 
     private static final String TAG = "DeveloperActivity";
-    private User loginuser;
 
     @BindView(R.id.welcomeuser) TextView welcomeuser;
 
@@ -31,8 +30,6 @@ public class DeveloperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer);
         ButterKnife.bind(this);
-        loginuser = getIntent().getParcelableExtra("loginuser");
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             welcomeuser.setText("Welcome " + user.getEmail());
@@ -50,7 +47,6 @@ public class DeveloperActivity extends AppCompatActivity {
     @OnClick(R.id.viewprofilebt)
     public void viewProfile(){
         Intent intent = new Intent(this, ViewProfileActivity.class);
-        intent.putExtra("loginuser", loginuser);
         startActivity(intent);
     }
 
@@ -58,5 +54,11 @@ public class DeveloperActivity extends AppCompatActivity {
     public void tripList(){
         Intent intent = new Intent(this, TripListActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.log_out)
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, SignInActivity.class));
     }
 }

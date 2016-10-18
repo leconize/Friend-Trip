@@ -10,6 +10,7 @@
     tools:context="com.example.supphawit.friend_trip.activity.SignInActivity">
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Friend-Trip"
@@ -22,9 +23,10 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toplogo"
         android:id="@+id/logintable"
-        >
+        android:layout_below="@+id/toplogo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TableRow android:background="#d5f9ed">
             <EditText

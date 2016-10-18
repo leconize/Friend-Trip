@@ -38,7 +38,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View contractView = inflater.inflate(R.layout.triprow_layout, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(contractView);
@@ -48,9 +47,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Trip trip = trips.get(position);
-
         TextView tripname = holder.tripname;
-
         tripname.setText(trip.getName());
         TextView tripdate = holder.tripdate;
         tripdate.setText(trip.getStartdate());
@@ -63,7 +60,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         return trips.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView tripname;
         public TextView tripdate;
@@ -74,5 +71,13 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
             tripdate = (TextView) itemView.findViewById(R.id.trip_date);
             tripplaces = (TextView) itemView.findViewById(R.id.trip_places);
         }
+
+
+        @Override
+        public void onClick(View view) {
+
+        }
     }
+
+
 }

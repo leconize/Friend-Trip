@@ -44,7 +44,7 @@ public class TripListActivity extends AppCompatActivity {
         test.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.i(TAG, "Add trip id:" + dataSnapshot.getRef().getKey() );
+                Log.i(TAG, "Add trip id:" + dataSnapshot.getRef().getKey());
                 Trip trip = dataSnapshot.getValue(Trip.class);
                 trip.setId(dataSnapshot.getKey());
                 trips.add(trip);
