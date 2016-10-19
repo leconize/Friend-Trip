@@ -31,63 +31,18 @@ public class SignInActivity extends AppCompatActivity {
 
     private DatabaseReference myFirebaseRef;
     private FirebaseAuth myAuth;
-    private FirebaseAuth.AuthStateListener myAuthListener;
     private static final String TAG = "SignInActivity";
 
     @BindView(R.id.idinput) EditText idinput;
     @BindView(R.id.pwdinput) EditText pwdinput;
-    public SignInActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-        createAuthUser();
-        createDatabase();
-    }
-
-    private void createAuthUser() {
+        myFirebaseRef = FirebaseDatabase.getInstance().getReference();
         myAuth = FirebaseAuth.getInstance();
-        myAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-    }
-
-    private void createDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myFirebaseRef = database.getReference();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        try{
-            if(FirebaseAuth.getInstance().getCurrentUser() != null){
-                Intent intent = new Intent(this, DeveloperActivity.class);
-                startActivity(intent);
-            }
-        }
-        catch (Exception e){//Null FirebaseAuth
-            Log.e(TAG, e.getMessage());
-            Log.e(TAG, "Error cann't get firebaseAuth");
-        }
-        //myAuth.addAuthStateListener(myAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //myAuth.removeAuthStateListener(myAuthListener);
     }
 
     @Override
@@ -104,8 +59,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private boolean checktextNotNull(EditText editText){
-        return !editText.getText().toString().equals("");
-
+        if(editText.getText().toString() != null && !editText.getText().toString().equals("")){
+            return true;
+        }
+        return false;
     }
 
     @OnClick(R.id.loginbt)
@@ -125,9 +82,26 @@ public class SignInActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Log.i(TAG, "Log-in Success");
-                            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
-                            startActivity(intent);
+                            final String useremail = myAuth.getCurrentUser().getEmail();
+                            myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("users");
+                            myFirebaseRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                                            User post = postSnapshot.getValue(User.class);
+                                        if(post.getEmail().equals(useremail)){
+                                            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
+                                            intent.putExtra("loginuser", post);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.e("Read failed: ", databaseError.getMessage());
+                                }
+                            });
                         }
                     }
                 });
@@ -135,7 +109,7 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.tosignupbt)
     public void toSignUp(View view){
-        Intent i = new Intent(SignInActivity.this, SignUpActivity.class);
-        startActivityForResult(i, 1);
+        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivity(intent);
     }
 }

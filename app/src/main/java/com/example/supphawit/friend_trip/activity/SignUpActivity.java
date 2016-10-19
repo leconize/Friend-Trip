@@ -77,9 +77,13 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
+    @OnClick(R.id.cancelsignupbt)
+    public void cancelSignUp(){
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
+    }
 
 
 }

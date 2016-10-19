@@ -1,5 +1,6 @@
 package com.example.supphawit.friend_trip.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -96,4 +97,13 @@ public class ViewProfileActivity extends AppCompatActivity{
         startActivityForResult(intent, REQUESTCODE_EDIT);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUESTCODE_EDIT){
+            if(resultCode == Activity.RESULT_OK){
+                onCreate(null);
+            }
+        }
+    }
 }

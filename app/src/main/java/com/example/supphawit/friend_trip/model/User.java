@@ -34,7 +34,7 @@ public class User implements Parcelable {
     }
 
     //Parcel Constructor
-    public User (Parcel in){
+    public User (Parcel in) {
         String[] data = new String[10];
 
         in.readStringArray(data);
