@@ -54,9 +54,15 @@ public class ViewProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ButterKnife.bind(this);
         //Log.d("ViewProfileActivity", loginuser.getEmail());
+        queryUserfromDatabase();
+
+
+    }
+
+    private void queryUserfromDatabase(){
         final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        Log.i(TAG, "user id: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         Log.d(TAG, "Login as " + user_email);
         FirebaseDatabase.getInstance()
                 .getReference("users").orderByChild("email").equalTo(user_email)
@@ -66,13 +72,13 @@ public class ViewProfileActivity extends AppCompatActivity {
                         Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
                         for (DataSnapshot usersnapshot : usersdata.getChildren()) {
                             User post = usersnapshot.getValue(User.class);
-                                loginuser = post;
-                                storageReference = FirebaseStorage.getInstance().
-                                        getReference("profile_pic/"+loginuser.getFirebaseid()
-                                                +".jpg");
-                                setProfile(loginuser);
+                            loginuser = post;
+                            storageReference = FirebaseStorage.getInstance().
+                                    getReference("profile_pic/"+loginuser.getFirebaseid()
+                                            +".jpg");
+                            setProfile(loginuser);
 
-                                return;
+                            return;
                         }
                     }
 
@@ -81,8 +87,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                         Log.d(TAG, databaseError.getMessage());
                     }
                 });
-        ButterKnife.bind(this);
-
     }
 
     private void setProfile(User user) {

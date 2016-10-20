@@ -67,9 +67,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         public TextView tripplaces;
         public ViewHolder(View itemView) {
             super(itemView);
-            tripname = (TextView) itemView.findViewById(R.id.trip_name);
-            tripdate = (TextView) itemView.findViewById(R.id.trip_date);
-            tripplaces = (TextView) itemView.findViewById(R.id.trip_places);
+            //tripname = (TextView) itemView.findViewById(R.id.trip_name);
+            //tripdate = (TextView) itemView.findViewById(R.id.trip_date);
+            //tripplaces = (TextView) itemView.findViewById(R.id.trip_places);
         }
 
 
