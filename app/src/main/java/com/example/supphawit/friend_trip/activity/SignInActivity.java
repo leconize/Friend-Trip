@@ -43,7 +43,7 @@ public class SignInActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         myFirebaseRef = FirebaseDatabase.getInstance().getReference();
         myAuth = FirebaseAuth.getInstance();
-        if(myAuth.getCurrentUser().getEmail() != null){
+        if(myAuth.getCurrentUser() != null){
             Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
             startActivity(intent);
         }

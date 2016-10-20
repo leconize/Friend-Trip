@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -54,22 +56,23 @@ public class ViewProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         //Log.d("ViewProfileActivity", loginuser.getEmail());
         final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        //TODO Add real path for img file
-        storageReference = FirebaseStorage.getInstance().getReference("tree.jpg");
+        Log.i(TAG, "user id: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         Log.d(TAG, "Login as " + user_email);
         FirebaseDatabase.getInstance()
-                .getReference("users")
+                .getReference("users").orderByChild("email").equalTo(user_email)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot usersdata) {
                         Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
                         for (DataSnapshot usersnapshot : usersdata.getChildren()) {
                             User post = usersnapshot.getValue(User.class);
-                            if (post.getEmail().equals(user_email)) {
                                 loginuser = post;
+                                storageReference = FirebaseStorage.getInstance().
+                                        getReference("profile_pic/"+loginuser.getFirebaseid()
+                                                +".jpg");
                                 setProfile(loginuser);
+
                                 return;
-                            }
                         }
                     }
 
@@ -97,17 +100,25 @@ public class ViewProfileActivity extends AppCompatActivity {
         if (user.getMobile() != null) {
             profileMobile.setText(user.getMobile());
         }
-        if (user.getPictureurl() != null) {
+        if (user.getPictureurl() != null && user.getPictureurl().equals("true")) {
             final long ONE_MEGABYTE = 1024 * 1024;
+            Log.i(TAG, "start downloading");
             storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     profilePicture.setImageBitmap(bmp);
+                    Log.i(TAG, "set Profile picture from database");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, e.getMessage());
+                    e.getStackTrace();
                 }
             });
         } else {
-            Log.i(TAG, "setTodefault ProfilePicture");
+            Log.i(TAG, "set To default ProfilePicture");
 
         }
     }

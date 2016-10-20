@@ -24,8 +24,12 @@ import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,7 +49,7 @@ import butterknife.OnClick;
 public class EditProfileActivity extends AppCompatActivity {
 
     private User loginuser;
-    StorageReference storageReference;
+    StorageReference profileRef;
     private final String TAG = "EditProfileActivity";
     private final String CAMERA_IMG_NAME = "temp.jpg";
 
@@ -66,7 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editprofile);
         ButterKnife.bind(this);
         loginuser = getIntent().getParcelableExtra("loginuser");
-        storageReference = FirebaseStorage.getInstance().
+        profileRef = FirebaseStorage.getInstance().
                 getReference("profile_pic/"+loginuser.
                         getFirebaseid()+".jpg");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Male", "Female"});
@@ -84,9 +88,9 @@ public class EditProfileActivity extends AppCompatActivity {
         if(loginuser.getMobile() != null) {
             editMobile.setText(loginuser.getMobile());
         }
-        if(loginuser.getPictureurl() != null){
+        if(loginuser.getPictureurl() != null && loginuser.getPictureurl().equals("true")){
             final long ONE_MEGABYTE = 1024 * 1024;
-            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            profileRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -197,19 +201,33 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void uploadfile(Uri imageUri){
         Log.i(TAG, "StartUploading File");
-        storageReference.putFile(imageUri).
+        profileRef.putFile(imageUri).
                 addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(EditProfileActivity.this, "Upload success", Toast.LENGTH_SHORT);
                         Log.i(TAG, "Upload success");
+                        loginuser.setPictureurl("true");
                         Log.i(TAG, taskSnapshot.getDownloadUrl().toString());
+                        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder().
+                                setPhotoUri(taskSnapshot.getDownloadUrl()).build();
+                        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("users").child(loginuser.getFirebaseid());
+                        updateRef.setValue(loginuser);
+                        FirebaseAuth.getInstance().getCurrentUser().updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "User email address updated.");
+                                }
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(EditProfileActivity.this, "Please Try again", Toast.LENGTH_SHORT);
+                        loginuser.setPictureurl("false");
                         Log.i(TAG, "Upload fail");
                     }
                 });
