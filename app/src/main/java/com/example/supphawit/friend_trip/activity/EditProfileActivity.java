@@ -207,20 +207,22 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(EditProfileActivity.this, "Upload success", Toast.LENGTH_SHORT);
                         Log.i(TAG, "Upload success");
-                        loginuser.setPictureurl("true");
                         Log.i(TAG, taskSnapshot.getDownloadUrl().toString());
                         UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder().
                                 setPhotoUri(taskSnapshot.getDownloadUrl()).build();
-                        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("users").child(loginuser.getFirebaseid());
-                        updateRef.setValue(loginuser);
+                        DatabaseReference updateRef = FirebaseDatabase.getInstance()
+                                .getReference().child("profile_pic")
+                                .child(loginuser.getFirebaseid());
+                        updateRef.setValue(true);
                         FirebaseAuth.getInstance().getCurrentUser().updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Log.d(TAG, "User email address updated.");
+                                    Log.d(TAG, "User Profile updated.");
                                 }
                             }
                         });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

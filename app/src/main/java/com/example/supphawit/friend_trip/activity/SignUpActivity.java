@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -63,15 +64,17 @@ public class SignUpActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
                     Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();//paasword length >= 6
+                            Toast.LENGTH_SHORT).show();//password length >= 6
+                    Log.d(TAG, task.getException().toString());
                 }
                 else{
                     Toast.makeText(SignUpActivity.this, "You just create Account", Toast.LENGTH_SHORT).show();
                     User signupuser = new User(idinput.getText().toString(), nicknameinput.getText().toString());
                     myFirebaseRef = FirebaseDatabase.getInstance().getReference();
-                    myFirebaseRef = myFirebaseRef.child("users").push();
-                    signupuser.setFirebaseid(myFirebaseRef.getKey());
+                    myFirebaseRef = myFirebaseRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    signupuser.setFirebaseid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     myFirebaseRef.setValue(signupuser);
+                    Log.i(TAG, "create user in database");
                     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                     startActivity(intent);
                 }
