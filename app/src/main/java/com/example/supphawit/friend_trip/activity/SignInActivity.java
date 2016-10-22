@@ -58,6 +58,11 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private boolean validateinput(){
         return checktextNotNull(pwdinput) && checktextNotNull(idinput);
     }

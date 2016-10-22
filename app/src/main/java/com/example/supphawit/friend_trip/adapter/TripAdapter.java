@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.Trip;
 
@@ -59,6 +60,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         tripdate.setText(trip.getStartdate());
         TextView tripplaces = holder.tripplaces;
         tripplaces.setText(trip.getPlaces());
+        ImageView trippicture = holder.trippicture;
+        Glide.with(context)
+                .load("").fitCenter()
+                .placeholder(R.drawable.pic)
+                .into(trippicture);
     }
 
     @Override

@@ -14,6 +14,11 @@ public class Trip {
 
     private String name;
     private String creatername;
+    private String createrid;
+
+
+
+
     private List<String> places;
     private int maxpeople;
     private String starttime;
@@ -100,6 +105,14 @@ public class Trip {
 
     public Trip() {
 
+    }
+
+    public String getCreaterid() {
+        return createrid;
+    }
+
+    public void setCreaterid(String createrid) {
+        this.createrid = createrid;
     }
 
     public String getId() {

@@ -146,4 +146,8 @@ public class ViewProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUESTCODE_EDIT);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
