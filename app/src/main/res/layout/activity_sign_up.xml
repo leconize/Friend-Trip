@@ -26,38 +26,53 @@
         android:id="@+id/signuptable"
         >
 
-        <TableRow android:background="#d5f9ed">
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint = "E-mail"
                 android:id="@+id/idsignupinput"
                 android:layout_weight="10"
                 android:inputType="textEmailAddress"
                 />
+            </android.support.design.widget.TextInputLayout>
         </TableRow>
 
-        <TableRow android:background="#d5f9ed">
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint = "Password"
                 android:id="@+id/pwdsignupinput"
                 android:layout_weight="10"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:maxLength="20"
                 android:maxLines="1"
                 />
+            </android.support.design.widget.TextInputLayout>
         </TableRow>
 
-        <TableRow android:background="#d5f9ed">
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint = "Nickname"
                 android:id="@+id/nicknamesignupinput"
                 android:layout_weight="10"
                 />
+            </android.support.design.widget.TextInputLayout>
         </TableRow>
     </TableLayout>
 
@@ -68,6 +83,18 @@
         android:layout_centerHorizontal="true"
         android:text="Confirm"
         android:id="@+id/signupbtn"
+        android:padding="20dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelsignupbt"
+        android:text="Cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:padding="20dp"
         />
 
 </RelativeLayout>

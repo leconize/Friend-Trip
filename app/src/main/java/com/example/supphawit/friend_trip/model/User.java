@@ -7,7 +7,7 @@ public class User implements Parcelable {
 
     private String firstname, lastname, nickname, gender;
     private String facebook, birthday, mobile, address, email;
-    private String firebaseid;
+    private String firebaseid, pictureurl;
 
     public User() {}
 
@@ -35,7 +35,7 @@ public class User implements Parcelable {
 
     //Parcel Constructor
     public User (Parcel in){
-        String[] data = new String[10];
+        String[] data = new String[11];
 
         in.readStringArray(data);
         this.email = data[0];
@@ -48,6 +48,7 @@ public class User implements Parcelable {
         this.birthday = data[7];
         this.mobile = data[8];
         this.address = data[9];
+        this.pictureurl = data[10];
     }
 
     @Override
@@ -57,7 +58,7 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {
                 this.email, this.firebaseid, this.firstname, this.lastname, this.nickname,
-                this.gender, this.facebook, this.birthday, this.mobile, this.address
+                this.gender, this.facebook, this.birthday, this.mobile, this.address, this.pictureurl
         });
     }
 
@@ -95,4 +96,12 @@ public class User implements Parcelable {
     public void setEmail(String email) { this.email = email; }
     public String getFirebaseid() { return firebaseid; }
     public void setFirebaseid(String firebaseid) { this.firebaseid = firebaseid; }
+
+    public String getPictureurl() {
+        return pictureurl;
+    }
+
+    public void setPictureurl(String pictureurl) {
+        this.pictureurl = pictureurl;
+    }
 }

@@ -8,6 +8,10 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Created by Supphawit on 5/10/2559.
@@ -33,8 +37,8 @@ public class TestCreateTrip {
     private Trip setTripValue(Trip trip){
         trip.setName("My Trip");
         trip.setCreatername("Supphawit");
-        trip.setPlaces("somewhere on earth");
-        trip.setMaxpeople(10);
+        trip.setPlaces(java.util.Arrays.asList("someplace of earth"));
+        trip.setMaxpeople("10");
         trip.setDescription("This is Description");
         return trip;
     }

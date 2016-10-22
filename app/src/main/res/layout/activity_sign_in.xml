@@ -10,6 +10,7 @@
     tools:context="com.example.supphawit.friend_trip.activity.SignInActivity">
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Friend-Trip"
@@ -22,50 +23,62 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toplogo"
         android:id="@+id/logintable"
-        >
+        android:layout_below="@+id/toplogo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        <TableRow android:background="#d5f9ed">
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint = "E-mail"
                 android:id="@+id/idinput"
                 android:layout_weight="10"
                 android:inputType="textEmailAddress"
                 />
+            </android.support.design.widget.TextInputLayout>
         </TableRow>
-
-        <TableRow android:background="#d5f9ed">
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint = "Password"
                 android:id="@+id/pwdinput"
                 android:layout_weight="10"
                 android:maxLength="10"
                 android:maxLines="1"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 />
+            </android.support.design.widget.TextInputLayout>
         </TableRow>
         <TableRow>
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/loginbt"
                 android:text="Log in"
                 android:layout_weight="10"
-                />
-        </TableRow>
-        <TableRow>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tosignupbt"
-                android:text="Sign Up"
-                android:layout_weight="10"
+                android:padding="20dp"
                 />
         </TableRow>
     </TableLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tosignupbt"
+        android:text="Sign Up"
+        android:layout_weight="10"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        />
 </RelativeLayout>

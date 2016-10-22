@@ -31,53 +31,22 @@ public class SignInActivity extends AppCompatActivity {
 
     private DatabaseReference myFirebaseRef;
     private FirebaseAuth myAuth;
-    private FirebaseAuth.AuthStateListener myAuthListener;
     private static final String TAG = "SignInActivity";
 
     @BindView(R.id.idinput) EditText idinput;
     @BindView(R.id.pwdinput) EditText pwdinput;
-    public SignInActivity() {
-    }
-
-    private void createAuthUser() {
-        myAuth = FirebaseAuth.getInstance();
-        myAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-    }
-
-    private void createDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myFirebaseRef = database.getReference();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-        createAuthUser();
-        createDatabase();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //myAuth.addAuthStateListener(myAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //myAuth.removeAuthStateListener(myAuthListener);
+        myFirebaseRef = FirebaseDatabase.getInstance().getReference();
+        myAuth = FirebaseAuth.getInstance();
+        if(myAuth.getCurrentUser() != null){
+            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -119,15 +88,12 @@ public class SignInActivity extends AppCompatActivity {
                         else{
                             final String useremail = myAuth.getCurrentUser().getEmail();
                             myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("users");
-                            //Log.d(TAG, myFirebaseRef.toString());
                             myFirebaseRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    //Log.e("Count ",""+dataSnapshot.getChildrenCount());
                                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                                             User post = postSnapshot.getValue(User.class);
                                         if(post.getEmail().equals(useremail)){
-                                            //Log.e("Get data", post.getEmail());
                                             Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
                                             intent.putExtra("loginuser", post);
                                             startActivity(intent);
@@ -147,7 +113,7 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.tosignupbt)
     public void toSignUp(View view){
-        Intent i = new Intent(SignInActivity.this, SignUpActivity.class);
-        startActivityForResult(i, 1);
+        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivity(intent);
     }
 }

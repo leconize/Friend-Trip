@@ -1,85 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:context="com.example.supphawit.friend_trip.activity.EditProfileActivity"
-    android:layout_margin="15dp"
-    android:gravity="center"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+tools:context="com.example.supphawit.friend_trip.activity.EditProfileActivity"
+android:layout_margin="15dp"
+android:gravity="center"
+    android:scrollbars="none"
     >
+<RelativeLayout
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:text="Email"
-            android:inputType="textEmailAddress"
-            android:id="@+id/editemail"
-            />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:hint="Firstname"
-            android:id="@+id/editfirstname"
-            />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:id="@+id/editlastname"
-            android:hint="Lastname"
-            />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:id="@+id/editprofilelogo"
+        android:layout_centerHorizontal="true"
+        android:textSize="40dp"
+        android:layout_margin="20dp"
+        android:textColor="#000000"
+        />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:hint="Nickname"
-            android:id="@+id/editnickname"
-            />
+    <ImageView
+        android:layout_width="100sp"
+        android:scaleType="fitXY"
+        android:layout_height="100sp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/profile_picture"
+        android:id="@+id/editprofile_picture"
+        android:layout_below="@id/editprofilelogo"/>
+    <TableLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/editprofile_picture">
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    android:text="Email"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/editemail" />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    android:hint="Firstname"
+                    android:id="@+id/editfirstname"
+                    android:layout_weight="10"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    android:id="@+id/editlastname"
+                    android:hint="Lastname"
+                    android:layout_weight="10"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    android:hint="Nickname"
+                    android:id="@+id/editnickname"
+                    android:layout_weight="10"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+        <TableRow>
+            <Spinner
+                android:minHeight="40sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="#000000"
+                android:id="@+id/editgender"
+                />
+        </TableRow>
+        <TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    android:hint="Mobile"
+                    android:id="@+id/editmobile"
+                    android:layout_weight="10"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+    </TableLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:id="@+id/closeeditdialog"
+        android:layout_below="@+id/confirmeditdialog"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:id="@+id/confirmeditdialog"
+        android:layout_below="@+id/table_layout"
+        />
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:id="@+id/editgender"
-            />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:hint="Mobile"
-            android:id="@+id/editmobile"
-            />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Confirm"
-            android:id="@+id/confirmeditdialog"
-            />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Close"
-            android:id="@+id/closeeditdialog"
-            />
-</LinearLayout>
+</RelativeLayout>
+
+</ScrollView>
