@@ -6,6 +6,8 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
@@ -14,6 +16,10 @@ import com.example.supphawit.friend_trip.model.Trip;
 import org.w3c.dom.Text;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -62,16 +68,17 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public TextView tripname;
-        public TextView tripdate;
-        public TextView tripplaces;
+        @BindView(R.id.list_tripname) public TextView tripname;
+        @BindView(R.id.trip_startdate) public TextView tripdate;
+        @BindView(R.id.list_trip_place) public TextView tripplaces;
+        @BindView(R.id.trip_img) public ImageView trippicture;
+        @BindView(R.id.list_profile_image) public CircleImageView userprofile;
+        @BindView(R.id.list_username) public TextView trip_creator_name;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            tripname = (TextView) itemView.findViewById(R.id.trip_name);
-            tripdate = (TextView) itemView.findViewById(R.id.trip_date);
-            tripplaces = (TextView) itemView.findViewById(R.id.trip_places);
+            ButterKnife.bind(this, itemView);
         }
-
 
         @Override
         public void onClick(View view) {

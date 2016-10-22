@@ -129,7 +129,6 @@ public class CreateTripActivity extends AppCompatActivity {
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog;
                 datePickerDialog = new DatePickerDialog(CreateTripActivity.this, new DatePickerDialog.OnDateSetListener() {

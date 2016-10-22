@@ -3,14 +3,17 @@ package com.example.supphawit.friend_trip.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -18,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,6 +36,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private User loginuser;
     private final String TAG = "ViewProfileActivity";
     private static final int REQUESTCODE_EDIT = 159;
+    DatabaseReference databaseReference;
 
     @BindView(R.id.profile_picture)
     ImageView profilePicture;
@@ -54,35 +59,64 @@ public class ViewProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        //Log.d("ViewProfileActivity", loginuser.getEmail());
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        ButterKnife.bind(this);
+        queryUserfromDatabase();
+        loadPicture();
+    }
+
+    private void loadPicture() {
+        databaseReference.child("profile_pic/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.i(TAG, dataSnapshot.toString());
+                        if (dataSnapshot.exists()) {
+                            Log.i(TAG, "start downloading");
+                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Glide.with(ViewProfileActivity.this).load(uri).into(profilePicture);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void queryUserfromDatabase() {
         final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        Log.i(TAG, "user id: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         Log.d(TAG, "Login as " + user_email);
-        FirebaseDatabase.getInstance()
-                .getReference("users").orderByChild("email").equalTo(user_email)
+        databaseReference.child("users").orderByChild("email").equalTo(user_email)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot usersdata) {
                         Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
                         for (DataSnapshot usersnapshot : usersdata.getChildren()) {
                             User post = usersnapshot.getValue(User.class);
-                                loginuser = post;
-                                storageReference = FirebaseStorage.getInstance().
-                                        getReference("profile_pic/"+loginuser.getFirebaseid()
-                                                +".jpg");
-                                setProfile(loginuser);
-
-                                return;
+                            loginuser = post;
+                            storageReference = FirebaseStorage.getInstance().
+                                    getReference("profile_pic/" + loginuser.getFirebaseid()
+                                            + ".jpg");
+                            setProfile(loginuser);
+                            return;
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.d(TAG, databaseError.getMessage());
                     }
                 });
-        ButterKnife.bind(this);
-
     }
 
     private void setProfile(User user) {
@@ -99,24 +133,6 @@ public class ViewProfileActivity extends AppCompatActivity {
         }
         if (user.getMobile() != null) {
             profileMobile.setText(user.getMobile());
-        }
-        if (user.getPictureurl() != null && user.getPictureurl().equals("true")) {
-            final long ONE_MEGABYTE = 1024 * 1024;
-            Log.i(TAG, "start downloading");
-            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    profilePicture.setImageBitmap(bmp);
-                    Log.i(TAG, "set Profile picture from database");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG, e.getMessage());
-                    e.getStackTrace();
-                }
-            });
         } else {
             Log.i(TAG, "set To default ProfilePicture");
 
