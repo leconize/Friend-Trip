@@ -1,5 +1,6 @@
-package com.example.armzr.myapplication;
+package com.example.supphawit.friend_trip.activity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -9,6 +10,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.supphawit.friend_trip.R;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class FirstPage extends AppCompatActivity {
 
     @Override
@@ -16,7 +22,8 @@ public class FirstPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.content_first_page);
-
+        getSupportActionBar().hide();
+        ButterKnife.bind(this);
         TextView titleFriend = (TextView)findViewById(R.id.title_friend);
         TextView titleTrip = (TextView)findViewById(R.id.title_trip);
         TextView sampleText = (TextView)findViewById(R.id.shitty_text);
@@ -35,8 +42,19 @@ public class FirstPage extends AppCompatActivity {
         signIn.setTypeface(typeLeela);
         signUp.setTypeface(typeLeela);
 
-
-
     }
 
+    @OnClick(R.id.login_button)
+    public void signinbtnClick(){
+        startActivity(new Intent(this, SignInActivity.class));
+    }
+    @OnClick(R.id.signup_button)
+    public void signupbtnClick(){
+        startActivity(new Intent(this, SignUpActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

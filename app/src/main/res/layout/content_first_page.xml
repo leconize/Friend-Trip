@@ -60,9 +60,6 @@
         android:id="@+id/shitty_text" />
 
 
-
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
