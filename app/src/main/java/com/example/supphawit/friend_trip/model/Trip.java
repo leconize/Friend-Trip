@@ -15,10 +15,6 @@ public class Trip {
     private String name;
     private String creatername;
     private String createrid;
-
-
-
-
     private List<String> places;
     private int maxpeople;
     private String starttime;
@@ -27,7 +23,6 @@ public class Trip {
     private String enddate;
     private String description;
     private String id;
-
 
 
     public String getName() {
@@ -78,7 +73,11 @@ public class Trip {
         this.creatername = creatername;
     }
 
-    public String getPlaces() {
+    public List<String> getPlaces() {
+        return places;
+    }
+
+    public String getPlaceString(){
         return Joiner.on(" ").join(places);
     }
 
@@ -91,8 +90,8 @@ public class Trip {
     }
 
 
-    public void setMaxpeople(String maxpeople) {
-        this.maxpeople = Integer.parseInt(maxpeople);
+    public void setMaxpeople(int maxpeople) {
+        this.maxpeople = maxpeople;
     }
 
     public String getDescription() {

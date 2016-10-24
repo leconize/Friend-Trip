@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.listener.FirebaseCompleteListener;
+import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -68,9 +70,8 @@ public class CreateTripActivity extends AppCompatActivity {
         else{
             try{
                 List<String> places = getPlacesValues();
-                Map<String, Object> map = createInputMap(places);
-                FirebaseDatabase.getInstance().getReference("trips").push().
-                        updateChildren(map, new FirebaseCompleteListener());
+                Trip trip = createTrip(places);
+                FirebaseDatabase.getInstance().getReference("trips").push().setValue(trip);
             }
             catch (NullPointerException e){
                 Log.d(TAG, "get null value from place edittexts");
@@ -104,23 +105,24 @@ public class CreateTripActivity extends AppCompatActivity {
         return places;
     }
 
-    private Map<String, Object> createInputMap(List<String> places){
-        Map<String, Object> trip_map = createInputMapWithoutPlaces();
-        trip_map.put("places", places);
-        return trip_map;
+    private Trip createTrip(List<String> places){
+        Trip trip = createTripWithoutPlaces();
+        trip.setPlaces(places);
+        return trip;
     }
 
 
-    private Map<String, Object> createInputMapWithoutPlaces() {
-        Map<String, Object> trip_map = new HashMap<>();
-        trip_map.put("name", tripname_fill.getText().toString());
-        trip_map.put("maxpeople", maxperson_fill.getText().toString());
-        trip_map.put("startdate", startdate_fill.getText().toString());
-        trip_map.put("enddate", enddate_fill.getText().toString());
-        trip_map.put("starttime", starttime_fill.getText().toString());
-        trip_map.put("endtime", endtime_fill.getText().toString());
-        trip_map.put("creatername", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        return trip_map;
+    private Trip createTripWithoutPlaces() {
+        Trip trip = new Trip();
+        trip.setName(tripname_fill.getText().toString());
+        trip.setMaxpeople(Integer.parseInt(maxperson_fill.getText().toString()));
+        trip.setStartdate(startdate_fill.getText().toString());
+        trip.setEnddate(enddate_fill.getText().toString());
+        trip.setStarttime(starttime_fill.getText().toString());
+        trip.setEndtime(endtime_fill.getText().toString());
+        trip.setCreaterid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        trip.setCreatername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        return trip;
     }
 
 

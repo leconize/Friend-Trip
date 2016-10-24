@@ -24,7 +24,6 @@ public class FirstPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.content_first_page);
-        getSupportActionBar().hide();
         ButterKnife.bind(this);
         TextView titleFriend = (TextView)findViewById(R.id.title_friend);
         TextView titleTrip = (TextView)findViewById(R.id.title_trip);

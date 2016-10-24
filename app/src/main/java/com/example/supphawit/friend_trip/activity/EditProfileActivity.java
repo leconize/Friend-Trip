@@ -54,11 +54,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private User loginuser;
     StorageReference profileRef;
+    public final String APP_TAG = "FRIEND_TRIP";
     private final String TAG = "EditProfileActivity";
-    private final String CAMERA_IMG_NAME = "temp.jpg";
+    private final String CAMERA_IMG_NAME = "camera.jpg";
 
     private final int REQUEST_CAMERA = 269;
-    private final int SELECT_FILE = 369;
+    private final int REQUEST_SELECT_FILE = 369;
 
     @BindView(R.id.editprofile_picture) ImageView editprofile_picture;
     @BindView(R.id.editemail) TextView editEmail;
@@ -120,7 +121,6 @@ public class EditProfileActivity extends AppCompatActivity {
                             });
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.d(TAG, databaseError.getMessage());
@@ -128,34 +128,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick(R.id.closeeditdialog)
-    public void cancelEdit(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        intent.putExtra("loginuser", loginuser);
-        setResult(Activity.RESULT_CANCELED, intent);
-        finish();
-    }
 
-    @OnClick(R.id.confirmeditdialog)
-    public void confirmEdit(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        loginuser.setFirstname(editFirstname.getText().toString());
-        loginuser.setLastname(editLastname.getText().toString());
-        loginuser.setNickname(editNickname.getText().toString());
-        loginuser.setGender(editGender.getSelectedItem().toString());
-        loginuser.setMobile(editMobile.getText().toString());
-        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("users").child(loginuser.getFirebaseid());
-        updateRef.setValue(loginuser);
-        intent.putExtra("loginuser", loginuser);
-        setResult(Activity.RESULT_OK, intent);
-        startActivity(intent);
-    }
 
     @OnClick(R.id.editprofile_picture)
     public void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -164,9 +142,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (items[item].equals("Take Photo")) {
                     Log.i(TAG, "Take Photo");
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment
-                            .getExternalStorageDirectory(), CAMERA_IMG_NAME);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(CAMERA_IMG_NAME));
                     startActivityForResult(intent, REQUEST_CAMERA);
                 } else if (items[item].equals("Choose from Library")) {
                     Log.i(TAG, "Choose from Library");
@@ -176,7 +152,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     intent.setType("image/*");
                     startActivityForResult(
                             Intent.createChooser(intent, "Select File"),
-                            SELECT_FILE);
+                            REQUEST_SELECT_FILE);
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -185,47 +161,40 @@ public class EditProfileActivity extends AppCompatActivity {
         builder.show();
     }
 
+    public Uri getPhotoFileUri(String fileName) {
+        if (isExternalStorageAvailable()) {
+            File mediaStorageDir = new File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+                Log.d(APP_TAG, "failed to create directory");
+            }
+            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
+        }
+        return null;
+    }
+
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 takePhotoAction();
-            } else if (requestCode == SELECT_FILE) {
+            } else if (requestCode == REQUEST_SELECT_FILE) {
                 Uri selectedImageUri = data.getData();
                 uploadfile(selectedImageUri);
-                String tempPath = getRealPathFromURI(selectedImageUri);
-                Bitmap bm;
-                BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-                bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-                editprofile_picture.setImageBitmap(bm);
+                Glide.with(this).load(selectedImageUri).into(editprofile_picture);
             }
         }
     }
 
     private void takePhotoAction(){
-        //get FilePath
-        File f = new File(Environment.getExternalStorageDirectory()
-                .toString());
-        //file temp image for use & deleting after take a photo
-        for (File temp : f.listFiles()) {
-            if (temp.getName().equals(CAMERA_IMG_NAME)) {
-                f = temp;
-                break;
-            }
-        }
-        try {
-            uploadfile(Uri.fromFile(f));
-            Bitmap bm;
-            BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-
-            bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                    btmapOptions);
-
-            // bm = Bitmap.createScaledBitmap(bm, 70, 70, true);
-            editprofile_picture.setImageBitmap(bm);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Uri takenPhotoUri = getPhotoFileUri(CAMERA_IMG_NAME);
+        uploadfile(takenPhotoUri);
+        Glide.with(this).load(takenPhotoUri).into(editprofile_picture);
     }
 
     private void uploadfile(Uri imageUri){
@@ -265,21 +234,32 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 
-    //TODO understand this
-    public String getRealPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if(cursor.moveToFirst()){;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
+    @OnClick(R.id.closeeditdialog)
+    public void cancelEdit(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        intent.putExtra("loginuser", loginuser);
+        setResult(Activity.RESULT_CANCELED, intent);
+        finish();
+    }
+
+    @OnClick(R.id.confirmeditdialog)
+    public void confirmEdit(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        loginuser.setFirstname(editFirstname.getText().toString());
+        loginuser.setLastname(editLastname.getText().toString());
+        loginuser.setNickname(editNickname.getText().toString());
+        loginuser.setGender(editGender.getSelectedItem().toString());
+        loginuser.setMobile(editMobile.getText().toString());
+        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("users").child(loginuser.getFirebaseid());
+        updateRef.setValue(loginuser);
+        intent.putExtra("loginuser", loginuser);
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Glide.clear(editprofile_picture);
     }
 }

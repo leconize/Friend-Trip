@@ -156,5 +156,6 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Glide.clear(profilePicture);
     }
 }
