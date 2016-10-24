@@ -81,6 +81,7 @@
         android:layout_toEndOf="@+id/profile_wrapper" />
 
     <ImageView
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="173dp"
         android:id="@+id/trip_img"

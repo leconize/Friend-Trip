@@ -113,11 +113,14 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.i(TAG, dataSnapshot.toString());
                         if (dataSnapshot.exists()) {
-                            Log.i(TAG, "start downloading");
+                            Log.i(TAG, "start download Profile Picture");
                             profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Glide.with(EditProfileActivity.this).load(uri).into(editprofile_picture);
+                                    Glide.with(EditProfileActivity.this)
+                                            .load(uri)
+                                            .override(80,80)
+                                            .into(editprofile_picture);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -130,7 +133,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        Log.d(TAG, databaseError.getMessage());
                     }
                 });
     }

@@ -61,6 +61,12 @@ public class ViewProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         queryUserfromDatabase();
         loadPicture();
     }
@@ -76,7 +82,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Glide.with(ViewProfileActivity.this).load(uri).into(profilePicture);
+                                    Glide.with(ViewProfileActivity.this).load(uri).override(80,80).into(profilePicture);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

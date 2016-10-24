@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
+import com.example.supphawit.friend_trip.utils.DatabaseUtils;
+import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -70,9 +72,8 @@ public class SignUpActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(SignUpActivity.this, "You just create Account", Toast.LENGTH_SHORT).show();
                     User signupuser = new User(idinput.getText().toString(), nicknameinput.getText().toString());
-                    myFirebaseRef = FirebaseDatabase.getInstance().getReference();
-                    myFirebaseRef = myFirebaseRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    signupuser.setFirebaseid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    myFirebaseRef = DatabaseUtils.getUsersRef().child(UserUtils.getUserId());
+                    signupuser.setFirebaseid(UserUtils.getUserId());
                     myFirebaseRef.setValue(signupuser);
                     Log.i(TAG, "create user in database");
                     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
