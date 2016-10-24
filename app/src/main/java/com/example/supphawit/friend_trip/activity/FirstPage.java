@@ -18,7 +18,6 @@ import butterknife.OnClick;
 
 public class FirstPage extends AppCompatActivity {
 
-
     private FirebaseAuth myAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

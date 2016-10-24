@@ -61,17 +61,42 @@ public class ViewProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         queryUserfromDatabase();
-        loadPicture();
+    }
+
+    private void queryUserfromDatabase() {
+        final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Log.d(TAG, "Login as " + user_email);
+        databaseReference.child("users").orderByChild("email").equalTo(user_email)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot usersdata) {
+                        Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
+                        for (DataSnapshot usersnapshot : usersdata.getChildren()) {
+                            User post = usersnapshot.getValue(User.class);
+                            loginuser = post;
+                            storageReference = FirebaseStorage.getInstance().
+                                    getReference("profile_pic/" + loginuser.getFirebaseid()
+                                            + ".jpg");
+                            loadPicture();
+                            setProfile(loginuser);
+                            return;
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d(TAG, databaseError.getMessage());
+                    }
+                });
     }
 
     private void loadPicture() {
+        Log.i(TAG, "Load Picture");
         databaseReference.child("profile_pic/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -98,31 +123,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    private void queryUserfromDatabase() {
-        final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        Log.d(TAG, "Login as " + user_email);
-        databaseReference.child("users").orderByChild("email").equalTo(user_email)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot usersdata) {
-                        Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
-                        for (DataSnapshot usersnapshot : usersdata.getChildren()) {
-                            User post = usersnapshot.getValue(User.class);
-                            loginuser = post;
-                            storageReference = FirebaseStorage.getInstance().
-                                    getReference("profile_pic/" + loginuser.getFirebaseid()
-                                            + ".jpg");
-                            setProfile(loginuser);
-                            return;
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d(TAG, databaseError.getMessage());
-                    }
-                });
+        Log.i(TAG, databaseReference.toString());
     }
 
     private void setProfile(User user) {

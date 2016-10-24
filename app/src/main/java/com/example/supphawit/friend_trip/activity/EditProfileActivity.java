@@ -92,16 +92,6 @@ public class EditProfileActivity extends AppCompatActivity {
         if(loginuser.getMobile() != null) {
             editMobile.setText(loginuser.getMobile());
         }
-        if(loginuser.getPictureurl() != null && loginuser.getPictureurl().equals("true")){
-            final long ONE_MEGABYTE = 1024 * 1024;
-            profileRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    editprofile_picture.setImageBitmap(bmp);
-                }
-            });
-        }
         loadPicture();
     }
 
@@ -172,12 +162,14 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take Photo")) {
+                    Log.i(TAG, "Take Photo");
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File f = new File(android.os.Environment
                             .getExternalStorageDirectory(), CAMERA_IMG_NAME);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                     startActivityForResult(intent, REQUEST_CAMERA);
                 } else if (items[item].equals("Choose from Library")) {
+                    Log.i(TAG, "Choose from Library");
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -206,7 +198,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
                 bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
                 editprofile_picture.setImageBitmap(bm);
-
             }
         }
     }
