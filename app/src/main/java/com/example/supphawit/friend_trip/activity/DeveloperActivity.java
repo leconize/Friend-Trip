@@ -25,6 +25,8 @@ public class DeveloperActivity extends AppCompatActivity {
 
     @BindView(R.id.welcomeuser) TextView welcomeuser;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,5 +62,10 @@ public class DeveloperActivity extends AppCompatActivity {
     public void logout(){
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

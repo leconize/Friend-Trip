@@ -61,37 +61,12 @@ public class ViewProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
-        queryUserfromDatabase();
-        loadPicture();
     }
 
-    private void loadPicture() {
-        databaseReference.child("profile_pic/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i(TAG, dataSnapshot.toString());
-                        if (dataSnapshot.exists()) {
-                            Log.i(TAG, "start downloading");
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Glide.with(ViewProfileActivity.this).load(uri).into(profilePicture);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, e.getMessage());
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        queryUserfromDatabase();
     }
 
     private void queryUserfromDatabase() {
@@ -108,6 +83,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference = FirebaseStorage.getInstance().
                                     getReference("profile_pic/" + loginuser.getFirebaseid()
                                             + ".jpg");
+                            loadPicture();
                             setProfile(loginuser);
                             return;
                         }
@@ -117,6 +93,37 @@ public class ViewProfileActivity extends AppCompatActivity {
                         Log.d(TAG, databaseError.getMessage());
                     }
                 });
+    }
+
+    private void loadPicture() {
+        Log.i(TAG, "Load Picture");
+        databaseReference.child("profile_pic/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.i(TAG, dataSnapshot.toString());
+                        if (dataSnapshot.exists()) {
+                            Log.i(TAG, "start downloading");
+                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Glide.with(ViewProfileActivity.this).load(uri).override(80,80).into(profilePicture);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+        Log.i(TAG, databaseReference.toString());
     }
 
     private void setProfile(User user) {
@@ -146,4 +153,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUESTCODE_EDIT);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.clear(profilePicture);
+    }
 }

@@ -10,8 +10,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.utils.StorageUtils;
+import com.example.supphawit.friend_trip.utils.UserUtils;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
 
@@ -58,7 +62,16 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         TextView tripdate = holder.tripdate;
         tripdate.setText(trip.getStartdate());
         TextView tripplaces = holder.tripplaces;
-        tripplaces.setText(trip.getPlaces());
+        tripplaces.setText(trip.getPlaceString());
+        ImageView trippicture = holder.trippicture;
+        TextView owner_name = holder.trip_creator_name;
+        owner_name.setText(trip.getCreatername());
+        ImageView profile_pic = holder.userprofile;
+        Glide.with(context)
+                .load("").fitCenter()
+                .placeholder(R.drawable.pic)
+                .into(trippicture);
+        StorageUtils.loadProfilePicture(context, profile_pic, UserUtils.getUserId());
     }
 
     @Override

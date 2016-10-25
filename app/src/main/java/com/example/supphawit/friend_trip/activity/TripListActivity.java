@@ -3,6 +3,7 @@ package com.example.supphawit.friend_trip.activity;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,9 +39,13 @@ public class TripListActivity extends AppCompatActivity {
         trips = new ArrayList<>();
         tripAdapter = new TripAdapter(trips, this);
         recyclerView.setAdapter(tripAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        LinearLayout linearLayout = new LinearLayout(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setLayoutManager(layoutManager);
         DatabaseReference test = FirebaseDatabase.getInstance().getReference("trips");
+
         test.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
