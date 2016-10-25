@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.activity.ViewProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +39,12 @@ public class StorageUtils {
                                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Glide.with(context).load(uri).into(profile_img);
+                                    try {
+                                        Glide.with(context).load(uri).placeholder(R.drawable.profile_picture).into(profile_img);
+                                    }
+                                    catch (Exception e){
+                                        Log.e(TAG, e.getMessage());
+                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

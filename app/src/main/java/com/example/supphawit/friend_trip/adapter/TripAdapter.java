@@ -1,17 +1,21 @@
 package com.example.supphawit.friend_trip.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.activity.TripDetailActivity;
 import com.example.supphawit.friend_trip.model.Trip;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
@@ -34,6 +38,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
 
     private List<Trip> trips;
     private Context context;
+    private final String TAG = "TripAdapter";
 
     public TripAdapter(List<Trip> trips, Context context) {
         this.trips = trips;
@@ -44,6 +49,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         return context;
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -53,6 +59,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         ViewHolder viewHolder = new ViewHolder(contractView);
         return viewHolder;
     }
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -67,11 +74,17 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         TextView owner_name = holder.trip_creator_name;
         owner_name.setText(trip.getCreatername());
         ImageView profile_pic = holder.userprofile;
+        Glide.clear(profile_pic);
+        Glide.clear(trippicture);
         Glide.with(context)
                 .load("").fitCenter()
                 .placeholder(R.drawable.pic)
                 .into(trippicture);
-        StorageUtils.loadProfilePicture(context, profile_pic, UserUtils.getUserId());
+        StorageUtils.loadProfilePicture(context, profile_pic, trip.getCreaterid());
+    }
+
+    public void setTrips(List<Trip> trips) {
+        this.trips = trips;
     }
 
     @Override
@@ -79,7 +92,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         return trips.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.list_tripname) public TextView tripname;
         @BindView(R.id.trip_startdate) public TextView tripdate;
@@ -91,11 +104,18 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+            int position = getAdapterPosition(); // gets item position
+            if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                Trip trip = trips.get(position);
+                Intent intent = new Intent(context, TripDetailActivity.class);
+                intent.putExtra("trip", trip);
+                context.startActivity(intent);
+            }
         }
     }
 

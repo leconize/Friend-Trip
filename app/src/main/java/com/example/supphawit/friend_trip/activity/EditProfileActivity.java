@@ -23,8 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
+import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +59,7 @@ public class EditProfileActivity extends AppCompatActivity {
     StorageReference profileRef;
     public final String APP_TAG = "FRIEND_TRIP";
     private final String TAG = "EditProfileActivity";
-    private final String CAMERA_IMG_NAME = "camera.jpg";
+    private final String CAMERA_IMG_NAME = "photo.jpg";
 
     private final int REQUEST_CAMERA = 269;
     private final int REQUEST_SELECT_FILE = 369;
@@ -143,7 +146,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     Log.i(TAG, "Take Photo");
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(CAMERA_IMG_NAME));
-                    startActivityForResult(intent, REQUEST_CAMERA);
+                    if(intent.resolveActivity(getPackageManager()) != null){
+                        startActivityForResult(intent, REQUEST_CAMERA);
+                    }
                 } else if (items[item].equals("Choose from Library")) {
                     Log.i(TAG, "Choose from Library");
                     Intent intent = new Intent(
@@ -193,8 +198,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void takePhotoAction(){
         Uri takenPhotoUri = getPhotoFileUri(CAMERA_IMG_NAME);
+        Glide.with(this).load(takenPhotoUri).skipMemoryCache(true).diskCacheStrategy( DiskCacheStrategy.NONE )
+                .into(editprofile_picture);
         uploadfile(takenPhotoUri);
-        Glide.with(this).load(takenPhotoUri).into(editprofile_picture);
+
+
     }
 
     private void uploadfile(Uri imageUri){
@@ -203,13 +211,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(EditProfileActivity.this, "Upload success", Toast.LENGTH_SHORT);
                         Log.i(TAG, "Upload success");
                         Log.i(TAG, taskSnapshot.getDownloadUrl().toString());
+                        Toast.makeText(EditProfileActivity.this, "Upload success", Toast.LENGTH_SHORT);
                         UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder().
                                 setPhotoUri(taskSnapshot.getDownloadUrl()).build();
-                        DatabaseReference updateRef = FirebaseDatabase.getInstance()
-                                .getReference().child("profile_pic")
+                        DatabaseReference updateRef = DatabaseUtils.getUserProfileRef()
                                 .child(loginuser.getFirebaseid());
                         updateRef.setValue(true);
                         FirebaseAuth.getInstance().getCurrentUser().updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -217,6 +224,9 @@ public class EditProfileActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "User Profile updated.");
+                                }
+                                else{
+                                    Log.d(TAG, "Fail to UpdateUser Profile");
                                 }
                             }
                         });

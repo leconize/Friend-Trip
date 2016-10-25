@@ -3,6 +3,7 @@ package com.example.supphawit.friend_trip.model;
 
 import com.google.common.base.Joiner;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by Supphawit on 4/10/2559.
  */
 
-public class Trip {
+public class Trip implements Serializable{
 
     private String name;
     private String creatername;

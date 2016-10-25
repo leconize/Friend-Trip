@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
+import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,7 +73,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private void queryUserfromDatabase() {
         final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Log.d(TAG, "Login as " + user_email);
-        databaseReference.child("users").orderByChild("email").equalTo(user_email)
+        databaseReference.child("users").orderByKey().equalTo(UserUtils.getUserId())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot usersdata) {
@@ -96,7 +97,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
     private void loadPicture() {
-        Log.i(TAG, "Load Picture");
+        Log.i(TAG, "Load Picture function start");
         databaseReference.child("profile_pic/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -107,7 +108,12 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Glide.with(ViewProfileActivity.this).load(uri).override(80,80).into(profilePicture);
+                                    try{
+                                        Glide.with(ViewProfileActivity.this).load(uri).override(80,80).into(profilePicture);
+                                    }
+                                    catch (Exception e){
+                                        Log.e(TAG, e.getMessage());
+                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
