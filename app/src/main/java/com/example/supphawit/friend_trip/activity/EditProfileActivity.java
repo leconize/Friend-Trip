@@ -128,8 +128,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
     }
 
-
-
     @OnClick(R.id.editprofile_picture)
     public void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",

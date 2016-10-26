@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_developer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.supphawit.friend_trip.activity.DeveloperActivity">
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context="com.example.supphawit.friend_trip.activity.EditProfileActivity">
 
-    <TextView
-        android:text="username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:id="@+id/welcomeuser"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <Button
-        android:text="View Profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/createtrip_btn"
-        android:layout_toRightOf="@+id/createtrip_btn"
-        android:layout_toEndOf="@+id/createtrip_btn"
-        android:layout_marginLeft="43dp"
-        android:layout_marginStart="43dp"
-        android:id="@+id/viewprofilebt" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/devpagetoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/accent"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="@android:color/white" />
 
-    <Button
-        android:text="CreateTrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="40dp"
-        android:id="@+id/createtrip_btn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_developer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.example.supphawit.friend_trip.activity.DeveloperActivity">
 
-    <Button
-        android:text="Trip_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/createtrip_btn"
-        android:layout_toLeftOf="@+id/viewprofilebt"
-        android:layout_toStartOf="@+id/viewprofilebt"
-        android:layout_marginTop="42dp"
-        android:id="@+id/listbtn" />
+            <ImageButton
+                android:id="@+id/listbtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/pinkky" />
 
-    <Button
-        android:text="Log-out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/listbtn"
-        android:layout_alignLeft="@+id/viewprofilebt"
-        android:layout_alignStart="@+id/viewprofilebt"
-        android:layout_marginTop="13dp"
-        android:id="@+id/log_out" />
-</RelativeLayout>
+            <ImageButton
+                android:id="@+id/createtrip_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listbtn"
+                android:background="@null"
+                android:src="@drawable/orangy" />
+
+            <ImageButton
+                android:id="@+id/greenone"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/createtrip_btn"
+                android:background="@null"
+                android:src="@drawable/greeny" />
+
+            <ImageButton
+                android:id="@+id/blueone"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/greenone"
+                android:background="@null"
+                android:src="@drawable/bluey" />
+
+        </com.andexert.library.RippleView>
+
+        <android.support.design.widget.BottomNavigationView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            app:itemBackground="@color/accent"
+            app:itemTextColor="@drawable/nav_item_color_state"
+            app:itemIconTint="@drawable/nav_item_color_state"
+            app:menu="@menu/bottom_navigation_main"
+            />
+    </LinearLayout>
+</ScrollView>

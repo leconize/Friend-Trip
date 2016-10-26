@@ -60,22 +60,12 @@
                 />
             </android.support.design.widget.TextInputLayout>
         </TableRow>
-        <TableRow>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/loginbt"
-                android:text="Log in"
-                android:layout_weight="10"
-                android:padding="20dp"
-                />
-        </TableRow>
     </TableLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tosignupbt"
-        android:text="Sign Up"
+        android:id="@+id/loginbt"
+        android:text="Log in"
         android:layout_weight="10"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"

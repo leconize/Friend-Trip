@@ -38,7 +38,7 @@ public class TestCreateTrip {
         trip.setName("My Trip");
         trip.setCreatername("Supphawit");
         trip.setPlaces(java.util.Arrays.asList("someplace of earth"));
-        trip.setMaxpeople("10");
+        trip.setMaxpeople(10);
         trip.setDescription("This is Description");
         return trip;
     }

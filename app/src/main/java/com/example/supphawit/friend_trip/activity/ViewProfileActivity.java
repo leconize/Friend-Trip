@@ -70,9 +70,10 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
     private void queryUserfromDatabase() {
+        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Log.d(TAG, "Login as " + user_email);
-        databaseReference.child("users").orderByChild("email").equalTo(user_email)
+        databaseReference.child("users").orderByChild("firebaseid").equalTo(user_id)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot usersdata) {

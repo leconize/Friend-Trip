@@ -16,7 +16,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:civ_border_width="2dp"
-        android:src="@drawable/profile_picture"
+        android:src="@drawable/ic_user_profile"
         app:civ_border_color="#FF000000"
         android:padding="5dp"
         android:layout_below="@+id/profilelogo"
@@ -39,7 +39,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="email"
                 android:id="@+id/viewemail"
                 android:layout_weight="10"
                 />
@@ -54,7 +53,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Firstname not assigned"
                 android:id="@+id/viewfirstname"
                 android:layout_weight="10"
                 />
@@ -69,7 +67,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lastname not assigned"
                 android:id="@+id/viewlastname"
                 android:layout_weight="10"
                 />
@@ -84,7 +81,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nickname not assigned"
                 android:id="@+id/viewnickname"
                 android:layout_weight="10"
                 />
@@ -99,7 +95,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gender not assigned"
                 android:id="@+id/viewgender"
                 android:layout_weight="10"
                 />
@@ -114,7 +109,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mobile not assigned"
                 android:id="@+id/viewmobile"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="10"
@@ -143,6 +137,5 @@
         android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

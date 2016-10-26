@@ -86,34 +86,10 @@ public class SignInActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            final String useremail = myAuth.getCurrentUser().getEmail();
-                            myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("users");
-                            myFirebaseRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                                            User post = postSnapshot.getValue(User.class);
-                                        if(post.getEmail().equals(useremail)){
-                                            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
-                                            intent.putExtra("loginuser", post);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Log.e("Read failed: ", databaseError.getMessage());
-                                }
-                            });
+                            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
-    }
-
-    @OnClick(R.id.tosignupbt)
-    public void toSignUp(View view){
-        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
-        startActivity(intent);
     }
 }
