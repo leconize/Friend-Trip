@@ -50,7 +50,7 @@ public class StorageUtils {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     try {
-                                        Glide.with(context).load(uri).placeholder(R.drawable.profile_picture).into(profile_img);
+                                        Glide.with(context).load(uri).placeholder(R.drawable.ic_user_profile).into(profile_img);
                                     }
                                     catch (Exception e){
                                         Log.e(TAG, e.getMessage());

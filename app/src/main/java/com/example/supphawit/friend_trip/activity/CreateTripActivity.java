@@ -5,7 +5,10 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -47,8 +50,11 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.name_fill) EditText tripname_fill;
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
+    @BindView(R.id.devpagetoolbar)
+    Toolbar devtoolbar;
 
     @BindArray(R.array.string_array_name) String[] autocompleteData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +62,35 @@ public class CreateTripActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_create_trip);
         ButterKnife.bind(this);
+        setSupportActionBar(devtoolbar);
         setTimePickerDialog(starttime_fill);
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Log.d(TAG, "toolbar option selected");
+        switch (id) {
+            case R.id.log_out_main:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
 

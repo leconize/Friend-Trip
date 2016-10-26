@@ -1,169 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.supphawit.friend_trip.activity.ViewProfileActivity"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@drawable/bg"
-    >
+    android:weightSum="1"
+    tools:context="com.example.supphawit.friend_trip.activity.ViewProfileActivity">
 
-    <TextView
-        android:layout_below="@+id/profile_userpic"
-        android:id="@+id/profile_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30px"
-        android:text=""
-        android:paddingTop="5px"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="5px"/>
+    <include layout="@layout/toolbar_layout" />
 
-    <TextView
-        android:text=""
-        android:layout_below="@+id/profile_name"
-        android:id="@+id/profile_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textSize="25px"
-        android:paddingBottom="20px"/>
-
-    <View
-        android:layout_below="@id/profile_username"
-        android:id="@+id/profile_divider1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_margin="30px"
-        />
-
-    <LinearLayout
-        android:padding="10px"
-        android:layout_margin="20px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/profile_divider1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/profile_email_line">
-
-        <ImageView
-            android:layout_width="64px"
-            android:layout_height="64px"
-            android:src="@drawable/email"
-            android:paddingRight="6px"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Email: "
-            android:gravity="center_vertical"
-            android:id="@+id/profile_email_label"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:id="@+id/profile_email_fill"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:padding="10px"
-        android:layout_margin="20px"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_below="@+id/profile_email_line"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:id="@+id/profile_gender_line">
-
-    <ImageView
-        android:layout_width="64px"
-        android:layout_height="64px"
-        android:src="@drawable/ic_face_black_48dp"
-        android:paddingRight="6px"
-        />
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Gender: "
-        android:gravity="center_vertical"
-        android:id="@+id/profile_gender_label"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:id="@+id/profile_gender_fill"
-        android:gravity="center_vertical"
-        android:layout_height="match_parent" />
+        android:background="@drawable/bg"
+        android:paddingTop="16dp"
+        android:orientation="vertical">
 
-</LinearLayout>
-
-    <LinearLayout
-        android:padding="10px"
-        android:layout_margin="20px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/profile_gender_line"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/profile_contract_line">
-
-        <ImageView
-            android:layout_width="64px"
-            android:layout_height="64px"
-            android:src="@drawable/ic_phone_black_48dp"
-            android:paddingRight="6px"
-            />
         <TextView
+            android:id="@+id/profile_name"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Contract: "
-            android:gravity="center_vertical"
-            android:id="@+id/profile_contract_label"
-            />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_userpic"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="5px"
+            android:paddingTop="5px"
+            android:text=""
+            android:textSize="30px" />
 
         <TextView
+            android:id="@+id/profile_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_name"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="20px"
+            android:text=""
+            android:textSize="25px" />
+
+        <View
+            android:id="@+id/profile_divider1"
             android:layout_width="match_parent"
-            android:id="@+id/profile_contract_fill"
-            android:gravity="center_vertical"
-            android:layout_height="match_parent" />
+            android:layout_height="1dp"
+            android:layout_below="@id/profile_username"
+            android:layout_margin="30px"
+            android:background="@android:color/darker_gray" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/profile_email_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/profile_divider1"
+            android:layout_margin="20px"
+            android:orientation="horizontal"
+            android:padding="10px">
 
-    <View
-        android:layout_below="@id/profile_contract_line"
-        android:id="@+id/profile_divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_margin="30px"
-        />
+            <ImageView
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:paddingRight="6px"
+                android:src="@drawable/email" />
+
+            <TextView
+                android:id="@+id/profile_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Email: " />
+
+            <TextView
+                android:id="@+id/profile_email_fill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profile_gender_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/profile_email_line"
+            android:layout_margin="20px"
+            android:orientation="horizontal"
+            android:padding="10px">
+
+            <ImageView
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:paddingRight="6px"
+                android:src="@drawable/ic_face_black_48dp" />
+
+            <TextView
+                android:id="@+id/profile_gender_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Gender: " />
+
+            <TextView
+                android:id="@+id/profile_gender_fill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profile_contract_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/profile_gender_line"
+            android:layout_margin="20px"
+            android:orientation="horizontal"
+            android:padding="10px">
+
+            <ImageView
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:paddingRight="6px"
+                android:src="@drawable/ic_face_black_48dp" />
+
+            <TextView
+                android:id="@+id/profile_contract_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Contract: " />
+
+            <TextView
+                android:id="@+id/profile_contract_fill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/profile_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/profile_contract_line"
+            android:layout_margin="30px"
+            android:background="@android:color/darker_gray" />
 
 
-    <Button
-        android:text="Edit Profile"
-        android:id="@+id/editprofilebt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffbf00"
-        android:textColor="@color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:id="@+id/editprofilebt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/amber"
+            android:text="Edit Profile"
+            android:textColor="@color/white" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/profile_picture"
-        android:id="@+id/profile_userpic"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_userpic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_user_profile" />
+    </RelativeLayout>
+</LinearLayout>

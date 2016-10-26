@@ -12,7 +12,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,6 +73,8 @@ public class ViewProfileActivity extends AppCompatActivity {
     TextView profileMobile;
     @BindView(R.id.profile_userpic)
     ImageView profile_pic;
+    @BindView(R.id.devpagetoolbar)
+    Toolbar devtoolbar;
 
     private StorageReference storageReference;
 
@@ -79,12 +84,37 @@ public class ViewProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
+        setSupportActionBar(devtoolbar);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         queryUserfromDatabase();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Log.d(TAG, "toolbar option selected");
+        switch (id) {
+            case R.id.log_out_main:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
     private void queryUserfromDatabase() {
