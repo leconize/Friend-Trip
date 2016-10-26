@@ -29,7 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:src="@drawable/pinkky" />
+                android:src="@drawable/pinkky"
+                android:scaleType="fitXY"/>
 
             <ImageButton
                 android:id="@+id/createtrip_btn"
@@ -38,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/listbtn"
                 android:background="@null"
-                android:src="@drawable/orangy" />
+                android:src="@drawable/orangy"
+                android:scaleType="fitXY"/>
 
             <ImageButton
                 android:id="@+id/greenone"
@@ -47,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/createtrip_btn"
                 android:background="@null"
-                android:src="@drawable/greeny" />
+                android:src="@drawable/greeny"
+                android:scaleType="fitXY"/>
 
             <ImageButton
                 android:id="@+id/blueone"
@@ -56,18 +59,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/greenone"
                 android:background="@null"
-                android:src="@drawable/bluey" />
+                android:src="@drawable/bluey"
+                android:scaleType="fitXY"/>
 
         </com.andexert.library.RippleView>
 
-        <android.support.design.widget.BottomNavigationView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             app:itemBackground="@color/accent"
             app:itemIconTint="@drawable/nav_item_color_state"
             app:itemTextColor="@drawable/nav_item_color_state"
-            app:menu="@menu/bottom_navigation_main" />
+            app:menu="@menu/bottom_navigation_main"
+            />
     </LinearLayout>
 </ScrollView>
