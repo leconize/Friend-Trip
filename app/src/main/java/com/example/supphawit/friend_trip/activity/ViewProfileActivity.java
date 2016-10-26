@@ -60,6 +60,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     public final String APP_TAG = "FRIEND_TRIP";
     private final int REQUEST_CAMERA = 269;
     private final int REQUEST_SELECT_FILE = 369;
+    private boolean isProfileLoad;
 
     @BindView(R.id.profile_email_fill)
     TextView profileEmail;
@@ -84,6 +85,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
+        isProfileLoad = false;
         setSupportActionBar(devtoolbar);
     }
 
@@ -131,7 +133,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference = FirebaseStorage.getInstance().
                                     getReference("profile_pic/" + loginuser.getFirebaseid()
                                             + ".jpg");
-                            loadPicture();
+                            if(isProfileLoad){loadPicture();}
                             setProfile(loginuser);
                             return;
                         }
@@ -267,11 +269,13 @@ public class ViewProfileActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 takePhotoAction();
+                isProfileLoad = true;
             } else if (requestCode == REQUEST_SELECT_FILE) {
                 Uri selectedImageUri = data.getData();
                 Glide.with(ViewProfileActivity.this).load(selectedImageUri).skipMemoryCache(true).diskCacheStrategy( DiskCacheStrategy.NONE )
                         .into(profile_pic);
                 uploadfile(selectedImageUri);
+                isProfileLoad = true;
             }
         }
     }
@@ -285,8 +289,6 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     private void uploadfile(final Uri imageUri){
         Log.i(TAG, "StartUploading File");
-        Log.i(TAG, "New Profile Picture");
-
         StorageUtils.getProfileStorageRef(UserUtils.getUserId()).putFile(imageUri).
                 addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
