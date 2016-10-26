@@ -11,145 +11,133 @@
     android:scrollbars="none"
     >
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:id="@+id/editprofilelogo"
-            android:layout_centerHorizontal="true"
-            android:textSize="40dp"
-            android:layout_margin="20dp"
-            android:textColor="#000000"
-            />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:civ_border_width="2dp"
-            android:src="@drawable/profile_picture"
-            app:civ_border_color="#FF000000"
-            android:padding="5dp"
-            android:layout_below="@+id/editprofilelogo"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/editprofile_picture" />
-        <TableLayout
-            android:id="@+id/table_layout"
+            android:id="@+id/editprofile_username_label"
+            android:textSize="10pt"
+            android:text="Email"/>
+        <EditText
+            android:textSize="8pt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/editprofile_picture">
-            <TableRow>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="#000000"
-                        android:text="Email"
-                        android:hint="Email"
-                        android:inputType="textEmailAddress"
-                        android:id="@+id/editemail" />
-                </android.support.design.widget.TextInputLayout>
-            </TableRow>
-            <TableRow>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="#000000"
-                        android:hint="Firstname"
-                        android:id="@+id/editfirstname"
-                        android:layout_weight="10"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            </TableRow>
-            <TableRow>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="#000000"
-                        android:id="@+id/editlastname"
-                        android:hint="Lastname"
-                        android:layout_weight="10"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            </TableRow>
-            <TableRow>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="#000000"
-                        android:hint="Nickname"
-                        android:id="@+id/editnickname"
-                        android:layout_weight="10"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            </TableRow>
-            <TableRow>
-                <Spinner
-                    android:minHeight="40sp"
+            android:layout_below="@+id/editprofile_username_label"
+            android:layout_height="wrap_content"
+            android:id="@+id/editprofile_username_fill"/>
+
+        <TextView
+            android:layout_below="@+id/editprofile_username_fill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nickname"
+            android:textSize="10pt"
+            android:id="@+id/editprofile_nickname_label"/>
+        <EditText
+            android:textSize="8pt"
+            android:layout_below="@id/editprofile_nickname_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editprofile_nickname_fill"/>
+        <LinearLayout
+            android:id="@+id/sex_birthdayline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:layout_below="@+id/editprofile_nickname_fill">
+
+            <LinearLayout
+                android:layout_weight="0.3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="#000000"
-                    android:id="@+id/editgender"
-                    />
-            </TableRow>
-            <TableRow>
-                <android.support.design.widget.TextInputLayout
+                    android:textSize="10pt"
+                    android:text="Sex"/>
+                <Spinner
+                    android:gravity="center_vertical"
+                    android:textSize="8pt"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editprofile_gender_spinner">
+                </Spinner>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="10pt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="10">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="#000000"
-                        android:hint="Mobile"
-                        android:id="@+id/editmobile"
-                        android:layout_weight="10"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            </TableRow>
-        </TableLayout>
-        <Button
+                    android:text="Mobile"/>
+                <EditText
+                    android:textSize="8pt"
+                    android:id="@+id/editprofile_mobile_fill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/editprfile_address_label"
+            android:layout_below="@+id/sex_birthdayline"
+            android:text="Address"
+            android:textSize="10pt"
+            />
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Close"
-            android:id="@+id/closeeditdialog"
-            android:layout_below="@+id/confirmeditdialog"
-            />
-        <Button
+            android:id="@+id/editprofile_address_fill"
+            android:textSize="8pt"
+            android:layout_below="@+id/editprfile_address_label"/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First Name"
+            android:textSize="10pt"
+        android:id="@+id/editprofile_firstname_label"
+        android:layout_below="@+id/editprofile_address_fill"/>
+        <EditText
+            android:textSize="8pt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Confirm"
-            android:id="@+id/confirmeditdialog"
-            android:layout_below="@+id/table_layout"
+            android:id="@+id/editprofile_firstname_fill"
+            android:layout_below="@+id/editprofile_firstname_label"/>
+        <TextView
+            android:textSize="10pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Name"
+            android:id="@+id/editprofile_lastname_label"
+            android:layout_below="@+id/editprofile_firstname_fill"/>
+        <EditText
+            android:textSize="8pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editprofile_lastname_fill"
+            android:layout_below="@+id/editprofile_lastname_label"/>
+
+        <Button
+            android:layout_marginTop="40px"
+            android:layout_below="@+id/editprofile_lastname_fill"
+            android:layout_width="match_parent"
+            android:id="@+id/editprofile_confirm"
+            android:text="confirm"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="#ffbf00"
             />
-
-
-
 
     </RelativeLayout>
 

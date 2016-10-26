@@ -1,5 +1,6 @@
 package com.example.supphawit.friend_trip.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import com.example.supphawit.friend_trip.model.Trip;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TripDetailActivity extends AppCompatActivity {
 
@@ -37,4 +39,16 @@ public class TripDetailActivity extends AppCompatActivity {
         detail_end_date.setText(trip.getEnddate());
         detail_end_time.setText(trip.getEndtime());
     }
+
+    @OnClick(R.id.edit_btn)
+    public void editBtnClick(){
+
+    }
+
+    public void exitBtnClick(){
+        finish();
+        Intent intent = new Intent(this, TripListActivity.class);
+        startActivity(intent);
+    }
+
 }
