@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth myAuth;
     private static final String TAG = "SignInActivity";
 
+    @BindView(R.id.signin_rippleview) RippleView rippleView;
     @BindView(R.id.idinput) EditText idinput;
     @BindView(R.id.pwdinput) EditText pwdinput;
 
@@ -63,10 +65,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private boolean checktextNotNull(EditText editText){
-        if(editText.getText().toString() != null && !editText.getText().toString().equals("")){
-            return true;
-        }
-        return false;
+        return !editText.getText().toString().equals("");
+
     }
 
     @OnClick(R.id.loginbt)

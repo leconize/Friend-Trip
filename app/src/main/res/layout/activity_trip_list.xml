@@ -11,7 +11,7 @@
     tools:context="com.example.supphawit.friend_trip.activity.TripListActivity">
 
     <SearchView
-        android:id="@+id/search_trip"
+        android:id="@+id/list_searchbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -21,7 +21,7 @@
     </SearchView>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/search_trip"
+        android:layout_below="@+id/list_searchbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvTrip"></android.support.v7.widget.RecyclerView>

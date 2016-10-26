@@ -71,21 +71,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/place"
+                android:id="@+id/detail_place"
                 android:text="anywhere"
                 android:textSize="25dp"
                 android:layout_marginTop="10dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/owner"
+                android:id="@+id/detail_owner"
                 android:text="someone"
                 android:textSize="25dp"
                 android:layout_marginTop="10dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/max_person"
+                android:id="@+id/detail_max_person"
                 android:text="0/4"
                 android:textSize="25dp"
                 android:layout_marginTop="10dp"/>
@@ -99,14 +99,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/start_date"
+                    android:id="@+id/detail_start_date"
                     android:text="dd:mm:yy"
                     android:textSize="25dp"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/start_time"
+                    android:id="@+id/detail_start_time"
                     android:text="hh:mm"
                     android:textSize="25dp"
                     android:layout_marginLeft="10dp"
@@ -121,14 +121,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/end_date"
+                    android:id="@+id/detail_end_date"
                     android:text="dd:mm:yy"
                     android:textSize="25dp"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/end_time"
+                    android:id="@+id/detail_end_time"
                     android:text="hh:mm"
                     android:textSize="25dp"
                     android:layout_marginLeft="10dp"

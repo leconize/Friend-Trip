@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.SearchView;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,12 +26,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TripListActivity extends AppCompatActivity {
+public class TripListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private static final String TAG = "TripListActivity";
     private List<Trip> trips;
     private TripAdapter tripAdapter;
     @BindView(R.id.rvTrip) RecyclerView recyclerView;
+    @BindView(R.id.list_searchbar) SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +46,9 @@ public class TripListActivity extends AppCompatActivity {
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
-        DatabaseReference test = FirebaseDatabase.getInstance().getReference("trips");
-
-        test.addChildEventListener(new ChildEventListener() {
+        DatabaseReference trip_ref = FirebaseDatabase.getInstance().getReference("trips");
+        searchView.setOnQueryTextListener(this);
+        trip_ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 Log.i(TAG, "Add trip id:" + dataSnapshot.getRef().getKey());
@@ -78,5 +80,31 @@ public class TripListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<Trip> tripList = filter(trips, newText);
+        tripAdapter.setTrips(tripList);
+        tripAdapter.notifyDataSetChanged();
+        return true;
+    }
+
+    private static List<Trip> filter(List<Trip> trips, String query){
+        final String lowCaseQuery = query.toLowerCase();
+
+        final List<Trip> filterList = new ArrayList<>();
+        for(Trip trip: trips){
+            final String text = trip.getPlaceString().toLowerCase();
+            if(text.contains(lowCaseQuery)){
+                filterList.add(trip);
+            }
+        }
+        return filterList;
     }
 }

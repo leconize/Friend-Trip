@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,8 +33,7 @@ public class FirstPage extends AppCompatActivity {
         Button signUp = (Button) findViewById(R.id.signup_button);
 
         ImageView pic = (ImageView)findViewById(R.id.picpic);
-        pic.setImageResource(R.drawable.user_something);
-
+        Glide.with(this).load(R.drawable.user_something).into(pic);
         Typeface typeCloud = Typeface.createFromAsset(getAssets(),"fonts/Cloud-Light.otf");
         Typeface typeLeela = Typeface.createFromAsset(getAssets(),"fonts/LeelawUI.ttf");
 

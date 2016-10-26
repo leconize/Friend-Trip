@@ -27,7 +27,7 @@ public class TestCreateTrip {
 
         Assert.assertEquals("My Trip", trip.getName());
         Assert.assertEquals("Supphawit", trip.getCreatername());
-        Assert.assertEquals("somewhere on earth", trip.getPlaces());
+        Assert.assertEquals("someplace of earth", trip.getPlaceString());
         Assert.assertEquals(10, trip.getMaxpeople());
         //Assert.assertEquals("04/10/2559 09.00", trip.getStartdate());
         //Assert.assertEquals("05/10/2559 18.00", trip.getEnddate());
