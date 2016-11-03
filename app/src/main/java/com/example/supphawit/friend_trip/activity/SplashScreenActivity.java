@@ -2,13 +2,10 @@ package com.example.supphawit.friend_trip.activity;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.supphawit.friend_trip.R;
-
-import java.util.concurrent.TimeUnit;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -25,7 +22,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         runnable = new Runnable() {
             public void run() {
-                Intent intent = new Intent(SplashScreenActivity.this, FirstPage.class);
+                Intent intent = new Intent(SplashScreenActivity.this, FirstPageActivity.class);
                 startActivity(intent);
                 finish();
             }

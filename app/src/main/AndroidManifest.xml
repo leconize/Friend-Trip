@@ -26,7 +26,7 @@
         <activity android:name=".activity.ViewProfileActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.TripListActivity" />
-        <activity android:name=".activity.FirstPage">
+        <activity android:name=".activity.FirstPageActivity">
 
         </activity>
         <activity android:name=".activity.TripDetailActivity" />

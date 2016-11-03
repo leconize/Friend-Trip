@@ -21,7 +21,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.listener.FirebaseCompleteListener;
 import com.example.supphawit.friend_trip.model.Trip;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
