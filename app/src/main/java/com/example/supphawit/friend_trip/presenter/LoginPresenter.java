@@ -16,12 +16,20 @@ import com.google.firebase.auth.AuthResult;
 
 public class LoginPresenter{
 
-    LoginInteractor loginInteractor;
-    LoginView loginView;
+    protected LoginInteractor loginInteractor;
+    private LoginView loginView;
 
     private static String TAG = "LoginPresenter";
 
     public LoginPresenter(LoginInteractor loginInteractor) {
+        this.loginInteractor = loginInteractor;
+    }
+
+    public LoginPresenter(){
+
+    }
+
+    public void setLoginInteractor(LoginInteractor loginInteractor) {
         this.loginInteractor = loginInteractor;
     }
 
@@ -41,7 +49,6 @@ public class LoginPresenter{
                     if(loginView != null){
                         loginView.signinSuccess();
                     }
-
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -50,7 +57,9 @@ public class LoginPresenter{
                     if(loginView != null){
                         loginView.sigininFail();
                     }
-
+                    else{
+                        Log.w(TAG, "empty view");
+                    }
                 }
             });
         }
