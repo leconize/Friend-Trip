@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,13 +34,14 @@ public class TripDetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_end_time) TextView detail_end_time;
     @BindView(R.id.devpagetoolbar)
     Toolbar devtoolbar;
+    Trip trip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_detail);
         ButterKnife.bind(this);
-        Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+        trip = (Trip) getIntent().getSerializableExtra("trip");
         setValuetoTextViews(trip);
         setSupportActionBar(devtoolbar);
     }
@@ -74,8 +79,12 @@ public class TripDetailActivity extends AppCompatActivity {
         detail_end_time.setText(trip.getEndtime());
     }
 
-    @OnClick(R.id.edit_btn)
-    public void editBtnClick(){
+    @OnClick(R.id.join_btn)
+    public void joinBtnClick(){
+        DatabaseReference tripMemberRef = DatabaseUtils.getDbRef().child("trip_members");
+        tripMemberRef.setValue(trip.getId());
+        ArrayList<String> strings;
+        tripMemberRef.child(trip.getId()).setValue("test");
 
     }
 

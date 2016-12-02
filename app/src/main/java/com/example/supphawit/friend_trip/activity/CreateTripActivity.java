@@ -106,6 +106,7 @@ public class CreateTripActivity extends AppCompatActivity {
                 Toast.makeText(this, "Trip created", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CreateTripActivity.this, TripListActivity.class);
                 startActivity(intent);
+                finish();
             }
             catch (NullPointerException e){
                 Log.d(TAG, "get null value from place edittexts");

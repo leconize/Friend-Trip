@@ -82,6 +82,7 @@ public class DeveloperActivity extends AppCompatActivity {
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
+        finish();
     }
 
     @Override

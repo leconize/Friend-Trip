@@ -21,7 +21,14 @@ public class DatabaseUtils {
         return FirebaseDatabase.getInstance().getReference("/trips");
     }
 
+    public static DatabaseReference getTripRef(String trip_id){
+        return FirebaseDatabase.getInstance().getReference("/trips/"+trip_id);
+    }
 
+
+    public static DatabaseReference getDbRef(){
+        return FirebaseDatabase.getInstance().getReference();
+    }
 
 
 }
