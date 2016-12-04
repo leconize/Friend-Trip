@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.other.activity;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -12,7 +12,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     Handler handler;
     Runnable runnable;
     long delay_time;
-    long time = 3000L;
+    long time = 2;//3000L
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

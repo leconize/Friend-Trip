@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.trip.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.trip.model.Trip;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
+import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
@@ -24,6 +26,7 @@ import butterknife.OnClick;
 public class TripDetailActivity extends AppCompatActivity {
 
     private static final String TAG = TripDetailActivity.class.getName();
+
 
     @BindView(R.id.detail_owner) TextView detail_owner;
     @BindView(R.id.detail_max_person) TextView detail_max_person;
@@ -66,13 +69,13 @@ public class TripDetailActivity extends AppCompatActivity {
     }
 
     public void logout() {
+        finish();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
     }
 
     private void setValuetoTextViews(Trip trip){
         detail_owner.setText(trip.getCreatername());
-        detail_place.setText(trip.getPlaceString());
         detail_start_date.setText(trip.getStartdate());
         detail_start_time.setText(trip.getStarttime());
         detail_end_date.setText(trip.getEnddate());
@@ -81,13 +84,13 @@ public class TripDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.join_btn)
     public void joinBtnClick(){
-        DatabaseReference tripMemberRef = DatabaseUtils.getDbRef().child("trip_members");
-        tripMemberRef.setValue(trip.getId());
-        ArrayList<String> strings;
-        tripMemberRef.child(trip.getId()).setValue("test");
-
+        DatabaseReference tripMemberRef = DatabaseUtils.getTripRef(trip.getId()).child("joinerId_list");
+        final ArrayList<String> memberIdList = trip.getJoinerId_list();
+        memberIdList.add(UserUtils.getUserId());
+        tripMemberRef.setValue(memberIdList);
     }
 
+    @OnClick(R.id.new_back_btn)
     public void exitBtnClick(){
         finish();
         Intent intent = new Intent(this, TripListActivity.class);

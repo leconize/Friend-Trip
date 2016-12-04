@@ -1,19 +1,14 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.other.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
 
@@ -21,10 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import com.example.supphawit.friend_trip.model.User;
+import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
+import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class DeveloperActivity extends AppCompatActivity {
 

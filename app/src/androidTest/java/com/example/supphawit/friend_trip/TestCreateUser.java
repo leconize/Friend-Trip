@@ -3,13 +3,12 @@ package com.example.supphawit.friend_trip;
 import android.os.Parcel;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.supphawit.friend_trip.model.User;
+import com.example.supphawit.friend_trip.user.model.User;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
 @RunWith(AndroidJUnit4.class)
 public class TestCreateUser {

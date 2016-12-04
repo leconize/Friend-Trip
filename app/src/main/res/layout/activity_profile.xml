@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="com.example.supphawit.friend_trip.activity.ViewProfileActivity">
+    tools:context="com.example.supphawit.friend_trip.user.activity.ViewProfileActivity">
 
     <include layout="@layout/toolbar_layout" />
 

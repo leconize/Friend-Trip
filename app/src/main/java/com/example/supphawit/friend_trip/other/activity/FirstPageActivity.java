@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.other.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.activity.SignUpActivity;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.firebase.auth.FirebaseAuth;
 

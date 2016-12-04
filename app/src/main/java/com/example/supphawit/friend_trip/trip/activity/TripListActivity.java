@@ -1,6 +1,5 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.trip.activity;
 
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -8,12 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.SearchView;
 import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.adapter.TripAdapter;
-import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.trip.adapter.TripAdapter;
+import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -98,13 +95,14 @@ public class TripListActivity extends AppCompatActivity implements SearchView.On
     private static List<Trip> filter(List<Trip> trips, String query){
         final String lowCaseQuery = query.toLowerCase();
 
-        final List<Trip> filterList = new ArrayList<>();
-        for(Trip trip: trips){
-            final String text = trip.getPlaceString().toLowerCase();
-            if(text.contains(lowCaseQuery)){
-                filterList.add(trip);
-            }
-        }
-        return filterList;
+//        final List<Trip> filterList = new ArrayList<>();
+//        for(Trip trip: trips){
+//            final String text = trip.getPlaceString().toLowerCase();
+//            if(text.contains(lowCaseQuery)){
+//                filterList.add(trip);
+//            }
+//        }
+//        return filterList;
+        return null;
     }
 }

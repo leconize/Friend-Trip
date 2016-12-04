@@ -1,11 +1,10 @@
-package com.example.supphawit.friend_trip.presenter;
+package com.example.supphawit.friend_trip.user.presenter;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.EditText;
 
-import com.example.supphawit.friend_trip.model.LoginInteractor;
-import com.example.supphawit.friend_trip.view.LoginView;
+import com.example.supphawit.friend_trip.user.model.LoginInteractor;
+import com.example.supphawit.friend_trip.user.view.LoginView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;

@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.model;
+package com.example.supphawit.friend_trip.user.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

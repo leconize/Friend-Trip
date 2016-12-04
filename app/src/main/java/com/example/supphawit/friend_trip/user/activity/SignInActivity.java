@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.user.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +9,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.model.LoginInteractor;
-import com.example.supphawit.friend_trip.presenter.LoginPresenter;
+import com.example.supphawit.friend_trip.other.activity.DeveloperActivity;
+import com.example.supphawit.friend_trip.user.model.LoginInteractor;
+import com.example.supphawit.friend_trip.user.presenter.LoginPresenter;
 import com.example.supphawit.friend_trip.utils.UserUtils;
-import com.example.supphawit.friend_trip.view.LoginView;
+import com.example.supphawit.friend_trip.user.view.LoginView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

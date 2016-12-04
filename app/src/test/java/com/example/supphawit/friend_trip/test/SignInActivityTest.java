@@ -2,20 +2,16 @@ package com.example.supphawit.friend_trip.test;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.example.supphawit.friend_trip.BuildConfig;
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.activity.DeveloperActivity;
-import com.example.supphawit.friend_trip.activity.SignInActivity;
-import com.example.supphawit.friend_trip.model.LoginInteractor;
-import com.example.supphawit.friend_trip.presenter.LoginPresenter;
-import com.example.supphawit.friend_trip.view.LoginView;
+import com.example.supphawit.friend_trip.other.activity.DeveloperActivity;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.model.LoginInteractor;
+import com.example.supphawit.friend_trip.user.presenter.LoginPresenter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,9 +27,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.internal.Shadow;
 import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowIntent;
 import org.robolectric.shadows.ShadowToast;
 
 import java.util.concurrent.CountDownLatch;

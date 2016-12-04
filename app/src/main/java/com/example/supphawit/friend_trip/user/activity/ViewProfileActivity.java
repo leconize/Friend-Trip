@@ -1,10 +1,8 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.user.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.model.User;
+import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
@@ -133,7 +130,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference = FirebaseStorage.getInstance().
                                     getReference("profile_pic/" + loginuser.getFirebaseid()
                                             + ".jpg");
-                            if(isProfileLoad){loadPicture();}
+                            loadPicture();
                             setProfile(loginuser);
                             return;
                         }

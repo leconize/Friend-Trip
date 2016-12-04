@@ -1,27 +1,19 @@
-package com.example.supphawit.friend_trip.adapter;
+package com.example.supphawit.friend_trip.trip.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.activity.TripDetailActivity;
-import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.trip.activity.NewTripDetailActivity;
+import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
-import com.example.supphawit.friend_trip.utils.UserUtils;
-import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -68,8 +60,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         tripname.setText(trip.getName());
         TextView tripdate = holder.tripdate;
         tripdate.setText(trip.getStartdate());
-        TextView tripplaces = holder.tripplaces;
-        tripplaces.setText(trip.getPlaceString());
         ImageView trippicture = holder.trippicture;
         TextView owner_name = holder.trip_creator_name;
         owner_name.setText(trip.getCreatername());
@@ -112,7 +102,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
             int position = getAdapterPosition(); // gets item position
             if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                 Trip trip = trips.get(position);
-                Intent intent = new Intent(context, TripDetailActivity.class);
+                Intent intent = new Intent(context, NewTripDetailActivity.class);
                 intent.putExtra("trip", trip);
                 context.startActivity(intent);
             }

@@ -30,5 +30,9 @@ public class DatabaseUtils {
         return FirebaseDatabase.getInstance().getReference();
     }
 
+    public static DatabaseReference getTripMemberRef(String trip_id){
+        return FirebaseDatabase.getInstance().getReference("trips/"+trip_id+"/joinerId_list");
+    }
+
 
 }

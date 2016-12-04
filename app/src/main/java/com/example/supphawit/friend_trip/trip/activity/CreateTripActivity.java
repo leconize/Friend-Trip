@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.activity;
+package com.example.supphawit.friend_trip.trip.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -10,27 +10,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
-import com.example.supphawit.friend_trip.model.Trip;
-import com.example.supphawit.friend_trip.utils.DatabaseUtils;
+import com.example.supphawit.friend_trip.trip.model.Trip;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.utils.UserUtils;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -49,8 +46,13 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.name_fill) EditText tripname_fill;
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
-    @BindView(R.id.devpagetoolbar)
-    Toolbar devtoolbar;
+    @BindView(R.id.devpagetoolbar) Toolbar devtoolbar;
+    @BindView(R.id.addplace_btn) EditText meetingPoint;
+
+
+    private int PLACE_PICKER_REQUEST = 1;
+    private LatLng latLng;
+
 
     @BindArray(R.array.string_array_name) String[] autocompleteData;
 
@@ -100,8 +102,7 @@ public class CreateTripActivity extends AppCompatActivity {
         }
         else{
             try{
-                List<String> places = getPlacesValues();
-                Trip trip = createTrip(places);
+                Trip trip = createTrip();
                 FirebaseDatabase.getInstance().getReference("trips").push().setValue(trip);
                 Toast.makeText(this, "Trip created", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CreateTripActivity.this, TripListActivity.class);
@@ -115,39 +116,37 @@ public class CreateTripActivity extends AppCompatActivity {
         }
     }
 
+
     @OnClick(R.id.addplace_btn)
-    public void makePlaceEditText(){
-        AutoCompleteTextView editText = new AutoCompleteTextView(this);
-        editText.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, autocompleteData);
-        editText.setAdapter(adapter);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
-        linearLayout.addView(editText);
+    public void gotoMarker(){
+
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try{
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+        }
+        catch (Exception e){
+            Log.e(TAG, e.getMessage());
+        }
+
     }
 
-    private List<String> getPlacesValues() throws NullPointerException{
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.place_wrapper);
-        final int childcount = linearLayout.getChildCount();
-        ArrayList<String> places = new ArrayList<>();
-        for(int i = 0; i < childcount; i++){
-            AutoCompleteTextView textView = (AutoCompleteTextView) linearLayout.getChildAt(i);
-            places.add(textView.getText().toString());
-            if(places.get(i) == null || places.get(i).equals("")){
-                throw new NullPointerException();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                String toastMsg = String.format("Place: %s", place.getName());
+                latLng = place.getLatLng();
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                meetingPoint.setText(place.getName());
             }
         }
-        return places;
-    }
-
-    private Trip createTrip(List<String> places){
-        Trip trip = createTripWithoutPlaces();
-        trip.setPlaces(places);
-        return trip;
     }
 
 
-    private Trip createTripWithoutPlaces() {
+    private Trip createTrip() {
+        ArrayList<String> joiner_list = new ArrayList<>();
+        joiner_list.add(UserUtils.getUserId());
         Trip trip = new Trip();
         trip.setName(tripname_fill.getText().toString());
         trip.setMaxpeople(Integer.parseInt(maxperson_fill.getText().toString()));
@@ -157,10 +156,11 @@ public class CreateTripActivity extends AppCompatActivity {
         trip.setEndtime(endtime_fill.getText().toString());
         trip.setCreaterid(FirebaseAuth.getInstance().getCurrentUser().getUid());
         trip.setCreatername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        trip.setLatitude(latLng.latitude);
+        trip.setLongitude(latLng.longitude);
+        trip.setJoinerId_list(joiner_list);
         return trip;
     }
-
-
 
     private void setDatePickerDialog(final EditText editText){
         editText.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +177,6 @@ public class CreateTripActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-
     }
     private void setTimePickerDialog(final EditText editText){
         editText.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +202,7 @@ public class CreateTripActivity extends AppCompatActivity {
     private boolean validateData(){
         return checktextNotNull(endtime_fill) && checktextNotNull(startdate_fill) &&
                 checktextNotNull(starttime_fill) && checktextNotNull(maxperson_fill) &&
-                checktextNotNull(tripname_fill);
+                checktextNotNull(tripname_fill) && latLng != null;
     }
 
     private boolean checktextNotNull(EditText editText){
@@ -214,4 +213,5 @@ public class CreateTripActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }

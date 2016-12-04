@@ -1,11 +1,8 @@
-package com.example.supphawit.friend_trip.model;
+package com.example.supphawit.friend_trip.trip.model;
 
-
-import com.google.common.base.Joiner;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Supphawit on 4/10/2559.
@@ -16,7 +13,16 @@ public class Trip implements Serializable{
     private String name;
     private String creatername;
     private String createrid;
-    private List<String> places;
+    private ArrayList<String> joinerId_list;
+
+    public ArrayList<String> getJoinerId_list() {
+        return joinerId_list;
+    }
+
+    public void setJoinerId_list(ArrayList<String> joinerId_list) {
+        this.joinerId_list = joinerId_list;
+    }
+
     private int maxpeople;
     private String starttime;
     private String endtime;
@@ -24,6 +30,25 @@ public class Trip implements Serializable{
     private String enddate;
     private String description;
     private String id;
+    private double latitude;
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    private double longitude;
 
 
     public String getName() {
@@ -72,18 +97,6 @@ public class Trip implements Serializable{
 
     public void setCreatername(String creatername) {
         this.creatername = creatername;
-    }
-
-    public List<String> getPlaces() {
-        return places;
-    }
-
-    public String getPlaceString(){
-        return Joiner.on(" ").join(places);
-    }
-
-    public void setPlaces(List<String> places) {
-        this.places = places;
     }
 
     public int getMaxpeople() {
