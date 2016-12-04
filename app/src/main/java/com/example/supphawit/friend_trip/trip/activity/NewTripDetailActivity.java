@@ -18,9 +18,11 @@ import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
+import com.google.common.base.Joiner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
@@ -44,6 +46,7 @@ public class NewTripDetailActivity extends AppCompatActivity {
     @BindView(R.id.new_join_btn) Button join_btn;
     @BindView(R.id.new_back_btn) Button back_btn;
     @BindView(R.id.detail_profilepic) CircleImageView profile_pic;
+
     private ArrayList<String> memberIdList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +132,29 @@ public class NewTripDetailActivity extends AppCompatActivity {
     public void exitBtnClick(){
         finish();
         Intent intent = new Intent(this, TripListActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.ownerbtn)
+    public void seeOwnerDetail(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        intent.putExtra("user_id", trip.getCreaterid());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.joinerbtn)
+    public void seeJoinerList(){
+        Intent intent = new Intent(this, JoinersListActivity.class);
+        intent.putExtra("list", trip.getJoinerId_list());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.meetingbtn)
+    public void seeMeetingPoint(){
+        Intent intent = new Intent(this, MapsActivity.class);
+        Log.i(TAG, "lat = " + trip.getLatitude());
+        intent.putExtra("lat", trip.getLatitude());
+        intent.putExtra("lng", trip.getLongitude());
         startActivity(intent);
     }
 }

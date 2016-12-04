@@ -25,44 +25,32 @@ public class StorageUtils {
     private static String TAG = "StorageUtils";
 
 
-    public static void loadProfilePicture(final Context context,final ImageView profile_img,final String userid) {
+    public static void loadProfilePicture(final Context context, final ImageView profile_img, final String userid) {
         Log.i(TAG, "Load Picture");
-        DatabaseUtils.getUserProfileRef().child(userid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i(TAG, dataSnapshot.toString());
-                        if (dataSnapshot.exists()) {
-                            Log.i(TAG, "start downloading");
-                            getProfileStorageRef(userid)
-                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        Glide.with(context).load(uri).placeholder(R.drawable.ic_user_profile).into(profile_img);
-                                    }
-                                    catch (Exception e){
-                                        Log.e(TAG, e.getMessage());
-                                    }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, e.getMessage());
-                                }
-                            });
-                        }
+        getProfileStorageRef(userid)
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                try {
+                    if(context != null){
+                        Log.i(TAG, profile_img.toString());
+                        Glide.with(context).load(uri).placeholder(R.drawable.ic_user_profile).fitCenter().dontAnimate().into(profile_img);
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d(TAG, databaseError.getMessage());
-                    }
-                });
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        });
     }
 
-    public static StorageReference getProfileStorageRef(String userid){
-        return FirebaseStorage.getInstance().getReference("profile_pic/" + userid +".jpg");
+
+    public static StorageReference getProfileStorageRef(String userid) {
+        return FirebaseStorage.getInstance().getReference("profile_pic/" + userid + ".jpg");
     }
 
 

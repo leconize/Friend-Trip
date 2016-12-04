@@ -3,6 +3,7 @@ package com.example.supphawit.friend_trip.trip.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +14,28 @@ import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.activity.NewTripDetailActivity;
 import com.example.supphawit.friend_trip.trip.model.Trip;
+import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
+import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
-
 
 /**
- * Created by Supphawit on 14/10/2559.
+ * Created by Supphawit on 12/4/2016.
+ * g.supavit@gmail.com
  */
 
-public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
+public class JoinerAdapter extends RecyclerView.Adapter<JoinerAdapter.ViewHolder> {
 
-    private List<Trip> trips;
+    private List<User> joiners;
     private Context context;
-    private final String TAG = "TripAdapter";
+    private static String TAG = "JoinerAdapter";
 
-    public TripAdapter(List<Trip> trips, Context context) {
-        this.trips = trips;
+    public JoinerAdapter(Context context, List<User> joiners) {
+        this.joiners = joiners;
         this.context = context;
     }
 
@@ -41,54 +43,34 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         return context;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contractView = inflater.inflate(R.layout.triprow_layout, parent, false);
+        View contractView = inflater.inflate(R.layout.joinerrow_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(contractView);
         return viewHolder;
     }
 
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Trip trip = trips.get(position);
-        TextView tripname = holder.tripname;
-        tripname.setText(trip.getName());
-        TextView tripdate = holder.tripdate;
-        tripdate.setText(trip.getStartdate());
-        ImageView trippicture = holder.trippicture;
-        TextView owner_name = holder.trip_creator_name;
-        owner_name.setText(trip.getCreatername());
-        ImageView profile_pic = holder.userprofile;
-        Glide.clear(profile_pic);
-        Glide.clear(trippicture);
-        Glide.with(context)
-                .load("").fitCenter()
-                .placeholder(R.drawable.pic)
-                .into(trippicture);
-        StorageUtils.loadProfilePicture(context, profile_pic, trip.getCreaterid());
-    }
-
-    public void setTrips(List<Trip> trips) {
-        this.trips = trips;
+        User user = joiners.get(position);
+        holder.name.setText(user.getFirstname() + " " + user.getLastname());
+        holder.gender.setText(user.getGender());
+        StorageUtils.loadProfilePicture(getContext(), holder.profile_pic, user.getFirebaseid());
+        Log.i(TAG, "load viewholder");
     }
 
     @Override
     public int getItemCount() {
-        return trips.size();
+        return joiners.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        @BindView(R.id.list_tripname) public TextView tripname;
-        @BindView(R.id.trip_startdate) public TextView tripdate;
-        @BindView(R.id.list_trip_place) public TextView tripplaces;
-        @BindView(R.id.trip_img) public ImageView trippicture;
-        @BindView(R.id.list_profile_image) public CircleImageView userprofile;
-        @BindView(R.id.list_username) public TextView trip_creator_name;
+        @BindView(R.id.joiner_profilepic) ImageView profile_pic;
+        @BindView(R.id.joiner_name) TextView name;
+        @BindView(R.id.joiner_gender) TextView gender;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -100,13 +82,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         public void onClick(View view) {
             int position = getAdapterPosition(); // gets item position
             if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
-                Trip trip = trips.get(position);
-                Intent intent = new Intent(context, NewTripDetailActivity.class);
-                intent.putExtra("trip", trip);
+                User joiner = joiners.get(position);
+                Intent intent = new Intent(context, ViewProfileActivity.class);
+                intent.putExtra("user_id", joiner.getFirebaseid());
                 context.startActivity(intent);
             }
         }
     }
-
-
 }

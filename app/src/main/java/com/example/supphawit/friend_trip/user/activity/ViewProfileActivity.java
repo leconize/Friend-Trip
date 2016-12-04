@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     ImageView profile_pic;
     @BindView(R.id.devpagetoolbar)
     Toolbar devtoolbar;
+    String user_id;
 
     private StorageReference storageReference;
 
@@ -80,8 +82,28 @@ public class ViewProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        user_id = getIntent().getStringExtra("user_id");
+        if(user_id == null){
+            Log.d(TAG, "cann't find user id");
+            user_id = UserUtils.getUserId();
+        }
+        else{
+            Log.d(TAG, user_id);
+
+        }
+        if(user_id != UserUtils.getUserId()){
+            profile_pic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectImage();
+                }
+            });
+        }
+        else{
+            findViewById(R.id.editprofilebt).setVisibility(View.GONE);
+        }
         isProfileLoad = false;
         setSupportActionBar(devtoolbar);
     }
@@ -117,9 +139,8 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
     private void queryUserfromDatabase() {
-        final String user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        Log.d(TAG, "Login as " + user_email);
-        databaseReference.child("users").orderByKey().equalTo(UserUtils.getUserId())
+        Log.d(TAG, "Login as " + user_id);
+        databaseReference.child("users").orderByKey().equalTo(user_id)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot usersdata) {
@@ -130,7 +151,8 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference = FirebaseStorage.getInstance().
                                     getReference("profile_pic/" + loginuser.getFirebaseid()
                                             + ".jpg");
-                            loadPicture();
+                            if(!isProfileLoad)
+                            StorageUtils.loadProfilePicture(ViewProfileActivity.this, profile_pic, user_id);
                             setProfile(loginuser);
                             return;
                         }
@@ -142,41 +164,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadPicture() {
-        Log.i(TAG, "Load Picture function start");
-        databaseReference.child("profile_pic/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i(TAG, dataSnapshot.toString());
-                        if (dataSnapshot.exists()) {
-                            Log.i(TAG, "start downloading");
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try{
-                                        Glide.with(ViewProfileActivity.this).load(uri).override(100,100).into(profile_pic);
-                                    }
-                                    catch (Exception e){
-                                        Log.e(TAG, e.getMessage());
-                                    }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, e.getMessage());
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-        Log.i(TAG, databaseReference.toString());
-    }
 
     private void setProfile(User user) {
         profileEmail.setText(user.getEmail());
@@ -208,10 +195,9 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Glide.clear(profile_pic);
     }
 
-    @OnClick(R.id.profile_userpic)
+
     public void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
@@ -292,7 +278,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Log.i(TAG, "Upload success");
                         Log.i(TAG, taskSnapshot.getDownloadUrl().toString());
-                        Toast.makeText(ViewProfileActivity.this, "Upload success", Toast.LENGTH_SHORT);
                         UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder().
                                 setPhotoUri(taskSnapshot.getDownloadUrl()).build();
                         DatabaseReference updateRef = DatabaseUtils.getUserProfileRef()

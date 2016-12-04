@@ -23,13 +23,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TripListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class TripListActivity extends AppCompatActivity{
 
     private static final String TAG = "TripListActivity";
     private List<Trip> trips;
     private TripAdapter tripAdapter;
     @BindView(R.id.rvTrip) RecyclerView recyclerView;
-    @BindView(R.id.list_searchbar) SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +44,7 @@ public class TripListActivity extends AppCompatActivity implements SearchView.On
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
         DatabaseReference trip_ref = FirebaseDatabase.getInstance().getReference("trips");
-        searchView.setOnQueryTextListener(this);
+        //searchView.setOnQueryTextListener(this);
         trip_ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -79,18 +79,7 @@ public class TripListActivity extends AppCompatActivity implements SearchView.On
 
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        final List<Trip> tripList = filter(trips, newText);
-        tripAdapter.setTrips(tripList);
-        tripAdapter.notifyDataSetChanged();
-        return true;
-    }
 
     private static List<Trip> filter(List<Trip> trips, String query){
         final String lowCaseQuery = query.toLowerCase();

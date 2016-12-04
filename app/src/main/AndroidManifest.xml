@@ -21,7 +21,8 @@
             android:value="GlideModule" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBkobqO9HkzBHPTsh_Y8WzjPtyf9z9CvwM" />
+            android:value="AIzaSyAiWs-3N66iqGbYye3OGFJljoWJbCruNF4" />
+
 
         <activity android:name=".trip.activity.CreateTripActivity" />
         <activity android:name=".user.activity.SignInActivity" />
@@ -30,7 +31,7 @@
         <activity android:name=".user.activity.ViewProfileActivity" />
         <activity android:name=".user.activity.EditProfileActivity" />
         <activity android:name=".trip.activity.TripListActivity" />
-        <activity android:name=".other.activity.FirstPageActivity"></activity>
+        <activity android:name=".other.activity.FirstPageActivity" />
         <activity android:name=".trip.activity.TripDetailActivity" />
         <activity android:name=".other.activity.SplashScreenActivity">
             <intent-filter>
@@ -39,7 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".trip.activity.NewTripDetailActivity"></activity>
+        <activity android:name=".trip.activity.NewTripDetailActivity" />
+        <activity android:name=".trip.activity.JoinersListActivity"></activity>
+        <activity android:name=".trip.activity.MapsActivity"></activity>
     </application>
 
 </manifest>
