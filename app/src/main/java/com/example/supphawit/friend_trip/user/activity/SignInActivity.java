@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.other.activity.DeveloperActivity;
+import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
 import com.example.supphawit.friend_trip.user.model.LoginInteractor;
 import com.example.supphawit.friend_trip.user.presenter.LoginPresenter;
 import com.example.supphawit.friend_trip.utils.UserUtils;
@@ -36,7 +37,7 @@ public class SignInActivity extends AppCompatActivity implements LoginView {
         devtoolbar.setTitle("Login");
         setSupportActionBar(devtoolbar);
         if(UserUtils.isUserInAuth()){
-            Intent intent = new Intent(SignInActivity.this, DeveloperActivity.class);
+            Intent intent = new Intent(SignInActivity.this, TripListActivity.class);
             startActivity(intent);
             finish();
         }
@@ -57,7 +58,7 @@ public class SignInActivity extends AppCompatActivity implements LoginView {
     @Override
     public void signinSuccess() {
         Log.i(TAG, "Login Success Start new Activity");
-        startActivity(new Intent(this, DeveloperActivity.class));
+        startActivity(new Intent(this, TripListActivity.class));
         finish();
     }
 

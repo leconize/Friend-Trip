@@ -6,13 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     Handler handler;
     Runnable runnable;
     long delay_time;
-    long time = 2;//3000L
+    long time = 3000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

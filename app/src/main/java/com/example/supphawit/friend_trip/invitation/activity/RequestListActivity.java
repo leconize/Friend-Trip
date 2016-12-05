@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,10 +15,14 @@ import android.widget.ListView;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.invitation.RequestModel;
+import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.trip.activity.NewTripDetailActivity;
 import com.example.supphawit.friend_trip.trip.model.Trip;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +41,8 @@ public class RequestListActivity extends AppCompatActivity {
     ArrayList<String> requestList;
     private static final String TAG = "RequestListActivtity";
     ArrayList<RequestModel> requestModels;
+    @BindView(R.id.devpagetoolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class RequestListActivity extends AppCompatActivity {
         requestList = new ArrayList<>();
         requestModels = new ArrayList<>();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("invite/"+ UserUtils.getUserId());
+        setSupportActionBar(toolbar);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -83,5 +93,55 @@ public class RequestListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Log.d(TAG, "toolbar option selected");
+        switch (id) {
+            case R.id.create_trip_bar:
+                createtrip();
+                return true;
+            case R.id.view_profile_bar:
+                viewprofile();
+                return true;
+            case R.id.log_out_main:
+                logout();
+                return true;
+            case R.id.mail_noti:
+                checkNoti();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void viewprofile(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void createtrip(){
+        Intent intent = new Intent(this, CreateTripActivity.class);
+        startActivity(intent);
+    }
+
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    public void checkNoti(){
+        Intent intent = new Intent(this, RequestListActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

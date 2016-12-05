@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
+import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
@@ -73,7 +75,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     @BindView(R.id.profile_userpic)
     ImageView profile_pic;
     @BindView(R.id.devpagetoolbar)
-    Toolbar devtoolbar;
+    Toolbar toolbar;
     String user_id;
 
     private StorageReference storageReference;
@@ -105,7 +107,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             findViewById(R.id.editprofilebt).setVisibility(View.GONE);
         }
         isProfileLoad = false;
-        setSupportActionBar(devtoolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -125,17 +127,42 @@ public class ViewProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
+            case R.id.create_trip_bar:
+                createtrip();
+                return true;
+            case R.id.view_profile_bar:
+                viewprofile();
+                return true;
             case R.id.log_out_main:
                 logout();
+                return true;
+            case R.id.mail_noti:
+                checkNoti();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    public void viewprofile(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void createtrip(){
+        Intent intent = new Intent(this, CreateTripActivity.class);
+        startActivity(intent);
+    }
+
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    public void checkNoti(){
+        Intent intent = new Intent(this, RequestListActivity.class);
+        startActivity(intent);
     }
 
     private void queryUserfromDatabase() {

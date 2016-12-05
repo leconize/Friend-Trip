@@ -1,4 +1,4 @@
-package com.example.supphawit.friend_trip.invitation.activity;
+package com.example.supphawit.friend_trip.invitation.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

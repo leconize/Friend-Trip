@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -39,7 +40,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @BindView(R.id.editprofile_gender_spinner) Spinner editGender;
     @BindView(R.id.editprofile_mobile_fill) TextView editMobile;
     @BindView(R.id.devpagetoolbar)
-    Toolbar devtoolbar;
+    Toolbar toolbar;
 
 
 
@@ -59,7 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
         //editEmail.setKeyListener(null);
         editNickname.setText(loginuser.getNickname());
         editGender.setSelection(0);
-        setSupportActionBar(devtoolbar);
+        setSupportActionBar(toolbar);
         if(loginuser.getFirstname() != null) {
             editFirstname.setText(loginuser.getFirstname());
         }
@@ -89,6 +90,12 @@ public class EditProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
+            case R.id.create_trip_bar:
+                createtrip();
+                return true;
+            case R.id.view_profile_bar:
+                viewprofile();
+                return true;
             case R.id.log_out_main:
                 logout();
                 return true;
@@ -97,11 +104,21 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+    public void viewprofile(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void createtrip(){
+        Intent intent = new Intent(this, CreateTripActivity.class);
+        startActivity(intent);
+    }
+
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
+        finish();
     }
-
 
     @OnClick(R.id.editprofile_confirm)
     public void confirmEdit(){

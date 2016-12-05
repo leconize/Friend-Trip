@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.invitation.adapter.InviUserAdapter;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.SignUpActivity;
 import com.example.supphawit.friend_trip.utils.UserUtils;
@@ -29,7 +30,7 @@ public class FirstPageActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.content_first_page);
         if(UserUtils.isUserInAuth()){
-            Intent intent = new Intent(this, DeveloperActivity.class);
+            Intent intent = new Intent(this, TripListActivity.class);
             startActivity(intent);
             finish();
         }
@@ -39,9 +40,6 @@ public class FirstPageActivity extends AppCompatActivity {
         TextView sampleText = (TextView)findViewById(R.id.shitty_text);
         Button signIn = (Button) findViewById(R.id.login_button);
         Button signUp = (Button) findViewById(R.id.signup_button);
-
-        ImageView pic = (ImageView)findViewById(R.id.picpic);
-        Glide.with(this).load(R.drawable.user_something).into(pic);
         Typeface typeCloud = Typeface.createFromAsset(getAssets(),"fonts/Cloud-Light.otf");
         Typeface typeLeela = Typeface.createFromAsset(getAssets(),"fonts/LeelawUI.ttf");
 

@@ -24,8 +24,10 @@ import android.widget.Toast;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
@@ -122,17 +124,42 @@ public class CreateTripActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
+            case R.id.create_trip_bar:
+                createtrip();
+                return true;
+            case R.id.view_profile_bar:
+                viewprofile();
+                return true;
             case R.id.log_out_main:
                 logout();
+                return true;
+            case R.id.mail_noti:
+                checkNoti();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    public void viewprofile(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void createtrip(){
+        Intent intent = new Intent(this, CreateTripActivity.class);
+        startActivity(intent);
+    }
+
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    public void checkNoti(){
+        Intent intent = new Intent(this, RequestListActivity.class);
+        startActivity(intent);
     }
 
 

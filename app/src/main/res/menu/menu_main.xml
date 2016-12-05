@@ -2,14 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/mail_noti"
+        android:icon="@drawable/ic_mail_outline_white"
+        android:title="Notification"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/ic_More_vert"
-        android:icon="@drawable/ic_more_vert"
+        android:icon="@drawable/ic_person_add_white"
         android:title="Logout"
         app:showAsAction="ifRoom">
         <menu>
-            <item
-                android:id="@+id/log_out_main"
-                android:title="Log Out"/>
+                <item
+                    android:id="@+id/create_trip_bar"
+                    android:title="Create Trip" />
+                <item
+                    android:id="@+id/view_profile_bar"
+                    android:title="View Profile" />
+                <item
+                    android:id="@+id/log_out_main"
+                    android:title="Sign Out" />
         </menu>
     </item>
 </menu>

@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.invitation.activity.ChooseInviActivity;
+import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
@@ -57,11 +58,12 @@ public class NewTripDetailActivity extends AppCompatActivity {
     @BindView(R.id.trip_detail_peoplenum) TextView peoplenum;
     @BindView(R.id.trip_detail_starttime) TextView starttime;
     @BindView(R.id.trip_detail_endtime) TextView endtime;
-    @BindView(R.id.devpagetoolbar) Toolbar devtoolbar;
+    @BindView(R.id.devpagetoolbar) Toolbar toolbar;
     @BindView(R.id.new_join_btn) Button join_btn;
     @BindView(R.id.new_back_btn) Button back_btn;
     @BindView(R.id.detail_profilepic) CircleImageView profile_pic;
     @BindView(R.id.trip_description) TextView description;
+
 
     private ArrayList<String> memberIdList;
     @Override
@@ -79,6 +81,7 @@ public class NewTripDetailActivity extends AppCompatActivity {
                 }
             });
         }
+        setSupportActionBar(toolbar);
     }
 
     private void setupText(Trip trip){
@@ -125,17 +128,42 @@ public class NewTripDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
+            case R.id.create_trip_bar:
+                createtrip();
+                return true;
+            case R.id.view_profile_bar:
+                viewprofile();
+                return true;
             case R.id.log_out_main:
                 logout();
+                return true;
+            case R.id.mail_noti:
+                checkNoti();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    public void viewprofile(){
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void createtrip(){
+        Intent intent = new Intent(this, CreateTripActivity.class);
+        startActivity(intent);
+    }
+
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    public void checkNoti(){
+        Intent intent = new Intent(this, RequestListActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.new_join_btn)
