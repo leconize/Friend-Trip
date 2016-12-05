@@ -26,12 +26,17 @@ import com.cunoraz.tagview.TagView;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.model.User;
+import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -138,12 +143,29 @@ public class CreateTripActivity extends AppCompatActivity {
         }
         else{
             try{
-                Trip trip = createTrip();
-                FirebaseDatabase.getInstance().getReference("trips").push().setValue(trip);
-                Toast.makeText(this, "Trip created", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CreateTripActivity.this, TripListActivity.class);
-                startActivity(intent);
-                finish();
+                final Trip trip = createTrip();
+                DatabaseUtils.getUsersRef().orderByKey().equalTo(UserUtils.getUserId())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot usersdata) {
+                                Log.d(TAG, "Query user = " + usersdata.getChildrenCount());
+                                for (DataSnapshot usersnapshot : usersdata.getChildren()) {
+                                    User post = usersnapshot.getValue(User.class);
+                                    User loginuser = post;
+                                    trip.setCreatername(loginuser.getNickname());
+                                    FirebaseDatabase.getInstance().getReference("trips").push().setValue(trip);
+                                    Toast.makeText(CreateTripActivity.this, "Trip created", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(CreateTripActivity.this, TripListActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                    return;
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.d(TAG, databaseError.getMessage());
+                            }
+                        });
             }
             catch (NullPointerException e){
                 Log.d(TAG, "get null value from place edittexts");

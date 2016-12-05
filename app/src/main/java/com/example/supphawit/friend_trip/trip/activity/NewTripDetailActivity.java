@@ -23,20 +23,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.invitation.activity.ChooseInviActivity;
 import com.example.supphawit.friend_trip.trip.model.Trip;
-import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.common.base.Joiner;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -74,10 +70,6 @@ public class NewTripDetailActivity extends AppCompatActivity {
         setContentView(R.layout.new_trip_detail);
         ButterKnife.bind(this);
         trip = (Trip) getIntent().getSerializableExtra("trip");
-//        Glide.with(this)
-//                .load("").fitCenter()
-//                .placeholder(R.drawable.pic)
-//                .into(img);
         setupText(trip);
         if(UserUtils.getUserId().equals(trip.getCreaterid())){
             img.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +99,13 @@ public class NewTripDetailActivity extends AppCompatActivity {
 
     private void setUpButton(){
         if(memberIdList.contains(UserUtils.getUserId())){
-            back_btn.setVisibility(View.INVISIBLE);
-            join_btn.setText("Leave this Trip");
+            if(trip.getCreaterid().equals(UserUtils.getUserId())){
+                join_btn.setText("Invite user");
+            }
+            else{
+                back_btn.setVisibility(View.INVISIBLE);
+                join_btn.setText("Leave this Trip");
+            }
         }
         else if(memberIdList.size() >= trip.getMaxpeople()){
             back_btn.setVisibility(View.INVISIBLE);
@@ -145,13 +142,21 @@ public class NewTripDetailActivity extends AppCompatActivity {
     public void joinBtnClick(){
         DatabaseReference tripMemberRef = DatabaseUtils.getTripRef(trip.getId()).child("joinerId_list");
         final ArrayList<String> memberIdList = trip.getJoinerId_list();
-        if(memberIdList.contains(UserUtils.getUserId())){
+        if(trip.getCreaterid().equals(UserUtils.getUserId())){
+            Log.i(TAG, "go to invite page");
+            Intent intent = new Intent(this, ChooseInviActivity.class);
+            intent.putExtra("trip", trip);
+            startActivity(intent);
+            return;
+        }
+        else if(memberIdList.contains(UserUtils.getUserId())){
+            Log.i(TAG, "user leave trip");
             memberIdList.remove(UserUtils.getUserId());
         }
         else{
+            Log.i(TAG, "user join trip");
             memberIdList.add(UserUtils.getUserId());
         }
-
         tripMemberRef.setValue(memberIdList);
         finish();
         startActivity(getIntent());

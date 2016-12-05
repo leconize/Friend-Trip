@@ -24,6 +24,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAiWs-3N66iqGbYye3OGFJljoWJbCruNF4" />
+
         <activity android:name=".trip.activity.CreateTripActivity" />
         <activity android:name=".user.activity.SignInActivity" />
         <activity android:name=".user.activity.SignUpActivity" />
@@ -41,8 +42,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".trip.activity.NewTripDetailActivity" />
-        <activity android:name=".trip.activity.JoinersListActivity"></activity>
-        <activity android:name=".trip.activity.MapsActivity"></activity>
+        <activity android:name=".trip.activity.JoinersListActivity" />
+        <activity android:name=".trip.activity.MapsActivity" />
+        <activity android:name=".invitation.activity.ChooseInviActivity" />
+        <activity android:name=".invitation.activity.RequestListActivity"></activity>
     </application>
 
 </manifest>

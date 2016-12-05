@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_trip_list"
+    android:id="@+id/activity_choose_invi"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context="com.example.supphawit.friend_trip.invitation.activity.ChooseInviActivity">
 
-    tools:context="com.example.supphawit.friend_trip.trip.activity.TripListActivity">
-
-    <include layout="@layout/toolbar_layout" />
-
+    <include layout="@layout/toolbar_layout"/>
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/invi_userlist"
         android:layout_below="@+id/devpagetoolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rvTrip">
-
+        android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
-
-
 </RelativeLayout>

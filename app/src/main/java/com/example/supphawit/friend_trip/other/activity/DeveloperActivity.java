@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
@@ -80,6 +81,14 @@ public class DeveloperActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SignInActivity.class));
         finish();
+    }
+
+    @OnClick(R.id.greenone)
+    public void testrequestList(){
+        startActivity(new Intent(this, RequestListActivity.class));
+        //st@test.com
+        //123456789
+
     }
 
     @Override
