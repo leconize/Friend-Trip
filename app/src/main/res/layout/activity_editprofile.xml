@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context="com.example.supphawit.friend_trip.activity.EditProfileActivity">
+    tools:context="com.example.supphawit.friend_trip.user.activity.EditProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

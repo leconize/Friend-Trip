@@ -21,7 +21,7 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context="com.example.supphawit.friend_trip.activity.CreateTripActivity">
+            tools:context="com.example.supphawit.friend_trip.trip.activity.CreateTripActivity">
 
             <EditText
                 android:id="@+id/name_fill"
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/maxpeople_fill"
-                android:text="Place"
+                android:text="Meeting point"
                 android:textSize="20dp" />
 
 
@@ -165,23 +165,51 @@
                         android:inputType="time" />
                 </LinearLayout>
             </LinearLayout>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:text="TAG"
+                android:id="@+id/tag_label"
+                android:layout_below="@+id/end"/>
+            <AutoCompleteTextView
+                android:layout_below="@+id/tag_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:hint="type here to add tag"
+                android:id="@+id/tag_edit"
+                />
+            <com.cunoraz.tagview.TagView
+                xmlns:tagview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/tag_group"
+                android:layout_below="@id/tag_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                tagview:lineMargin="5dp"
+                tagview:tagMargin="5dp"
+                tagview:textPaddingLeft="8dp"
+                tagview:textPaddingTop="5dp"
+                tagview:textPaddingRight="8dp"
+                tagview:textPaddingBottom="5dp" />
             <Button
                 android:id="@+id/submit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/end"
+                android:layout_below="@+id/create_des_fill"
                 android:layout_centerHorizontal="true"
                 android:text="create trip" />
 
-            <Button
+            <EditText
                 android:id="@+id/addplace_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/place_wrapper"
-                android:text="Add new place" />
+                android:hint="Click to Set Meeting point" />
 
             <TextView
                 android:id="@+id/name_label"
@@ -192,9 +220,19 @@
                 android:layout_alignParentTop="true"
                 android:text="Trip Name"
                 android:textSize="20dp" />
-
-
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/create_des_label"
+                android:layout_below="@+id/tag_group"
+                android:text="Description"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_des_fill"
+                android:layout_below="@+id/create_des_label"/>
         </RelativeLayout>
+
     </LinearLayout>
 
 </ScrollView>

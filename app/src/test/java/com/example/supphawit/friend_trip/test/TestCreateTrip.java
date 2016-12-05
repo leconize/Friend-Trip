@@ -1,6 +1,6 @@
 package com.example.supphawit.friend_trip.test;
 
-import com.example.supphawit.friend_trip.model.Trip;
+import com.example.supphawit.friend_trip.trip.model.Trip;
 
 import junit.framework.Assert;
 
@@ -8,10 +8,6 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Created by Supphawit on 5/10/2559.
@@ -27,7 +23,7 @@ public class TestCreateTrip {
 
         Assert.assertEquals("My Trip", trip.getName());
         Assert.assertEquals("Supphawit", trip.getCreatername());
-        Assert.assertEquals("someplace of earth", trip.getPlaceString());
+
         Assert.assertEquals(10, trip.getMaxpeople());
         //Assert.assertEquals("04/10/2559 09.00", trip.getStartdate());
         //Assert.assertEquals("05/10/2559 18.00", trip.getEnddate());
@@ -37,7 +33,7 @@ public class TestCreateTrip {
     private Trip setTripValue(Trip trip){
         trip.setName("My Trip");
         trip.setCreatername("Supphawit");
-        trip.setPlaces(java.util.Arrays.asList("someplace of earth"));
+
         trip.setMaxpeople(10);
         trip.setDescription("This is Description");
         return trip;

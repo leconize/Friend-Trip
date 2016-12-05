@@ -21,7 +21,7 @@
             android:id="@+id/activity_developer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.example.supphawit.friend_trip.activity.DeveloperActivity">
+            tools:context=".other.activity.DeveloperActivity">
 
             <ImageButton
                 android:id="@+id/listbtn"

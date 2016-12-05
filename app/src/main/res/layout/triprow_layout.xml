@@ -25,6 +25,7 @@
         android:layout_alignParentBottom="true"/>
 
     <TextView
+        android:visibility="gone"
         android:textSize="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,6 +80,7 @@
         android:layout_below="@+id/trip_img"
         android:layout_toRightOf="@+id/profile_wrapper"
         android:layout_toEndOf="@+id/profile_wrapper" />
+
 
     <ImageView
         android:scaleType="fitXY"

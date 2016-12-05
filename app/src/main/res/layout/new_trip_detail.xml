@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/accent"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp"
+            android:fitsSystemWindows="true">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"/>
+
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/devpagetoolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"
+                app:titleTextColor="@android:color/white" />
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+        <LinearLayout
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+                <RelativeLayout
+                    android:padding="4px"
+                    android:layout_weight="1"
+                    android:background="@drawable/greyborder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ownerbtn"
+                    >
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:id="@+id/detail_profilepic"
+                        android:padding="3dp"/>
+                    <TextView
+                        android:textColor="@color/primary_text"
+                        android:paddingTop="10dp"
+                        android:id="@+id/detail_labelname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/detail_profilepic"
+                        android:text="Owner"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/detail_profilepic"
+                            android:text="My Test Name"
+                            android:id="@+id/trip_detail_ownername"
+                            android:layout_below="@id/detail_labelname"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:padding="4px"
+                    android:layout_weight="1"
+                    android:background="@drawable/greyborder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/joinerbtn"
+                    >
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:id="@+id/join_icon"
+                    android:src="@drawable/ic_group_black_48dp"
+                    android:padding="3dp"/>
+                <TextView
+                    android:textColor="@color/primary_text"
+                    android:paddingTop="10dp"
+                    android:id="@+id/detail_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/join_icon"
+                    android:text="Current Join"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/join_icon"
+                    android:text="1/10"
+                    android:id="@+id/trip_detail_peoplenum"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@+id/detail_join"
+                    android:paddingBottom="10dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/start_time_wraper">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_schedule_black_48dp"/>
+                <TextView
+                    android:padding="10dp"
+                    android:textColor="@color/primary_text"
+                    android:text="Start Time :"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:id="@+id/trip_detail_starttime"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_schedule_black_48dp"/>
+                <TextView
+                    android:padding="10dp"
+                    android:textColor="@color/primary_text"
+                    android:text="End Time   :"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/trip_detail_endtime"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/trip_description_label"
+                android:text="Description"
+                android:textSize="20dp"
+                android:padding="10dp"
+                android:textColor="@color/primary_text"/>
+
+            <TextView
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/trip_description"
+                android:text="This is a Description"/>
+
+            <Button
+                android:id="@+id/meetingbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="25dp"
+                android:shadowColor="@color/cardview_shadow_end_color"
+                android:background="@color/accent"
+                android:text="Check Meeting point"
+                android:drawableLeft="@drawable/ic_location"
+                android:textSize="15dp"/>
+
+            <Button
+                android:layout_marginTop="15dp"
+                android:id="@+id/new_back_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Not Interested"
+                android:textSize="25dp"
+                android:textColor="@android:color/white"
+                android:background="@android:color/holo_red_dark"/>
+
+            <Button
+                android:id="@+id/new_join_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Join This Trip"
+                android:textSize="25dp"
+                android:textColor="@android:color/holo_green_dark"
+                android:background="@color/amber"/>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

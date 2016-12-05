@@ -2197,4 +2197,5 @@
         <item>น้ำตกแสงจันทร์</item>
         <item>ช่องเม็ก</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>

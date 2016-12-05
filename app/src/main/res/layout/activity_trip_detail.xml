@@ -3,13 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Not Interested"
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_red_dark"/>
+
+    <Button
+        android:id="@+id/join_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Join This Trip"
+        android:textSize="25dp"
+        android:layout_above="@id/back_btn"
+        android:textColor="@android:color/holo_green_dark"
+        android:background="@color/amber"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg1"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <include layout="@layout/toolbar_layout" />
 
@@ -168,7 +191,9 @@
                     android:textSize="25dp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/description_fill"
@@ -187,25 +212,5 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Not Interested"
-        android:textSize="25dp"
-        android:layout_alignParentBottom="true"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_dark"/>
-
-    <Button
-        android:id="@+id/edit_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Join This Trip"
-        android:textSize="25dp"
-        android:layout_above="@id/back_btn"
-        android:textColor="@android:color/holo_green_dark"
-        android:background="@color/amber"/>
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.supphawit.friend_trip"
     android:installLocation="preferExternal">
 
@@ -7,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -14,29 +16,33 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Friend-Trip"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <meta-data
             android:name="com.example.supphawit.friend_trip.config.GlideConfig"
             android:value="GlideModule" />
-
-        <activity android:name=".activity.CreateTripActivity" />
-        <activity android:name=".activity.SignInActivity" />
-        <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.DeveloperActivity" />
-        <activity android:name=".activity.ViewProfileActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.TripListActivity" />
-        <activity android:name=".activity.FirstPage">
-
-        </activity>
-        <activity android:name=".activity.TripDetailActivity" />
-        <activity android:name=".activity.SplashScreenActivity">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAiWs-3N66iqGbYye3OGFJljoWJbCruNF4" />
+        <activity android:name=".trip.activity.CreateTripActivity" />
+        <activity android:name=".user.activity.SignInActivity" />
+        <activity android:name=".user.activity.SignUpActivity" />
+        <activity android:name=".other.activity.DeveloperActivity" />
+        <activity android:name=".user.activity.ViewProfileActivity" />
+        <activity android:name=".user.activity.EditProfileActivity" />
+        <activity android:name=".trip.activity.TripListActivity" />
+        <activity android:name=".other.activity.FirstPageActivity" />
+        <activity android:name=".trip.activity.TripDetailActivity" />
+        <activity android:name=".other.activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".trip.activity.NewTripDetailActivity" />
+        <activity android:name=".trip.activity.JoinersListActivity"></activity>
+        <activity android:name=".trip.activity.MapsActivity"></activity>
     </application>
 
 </manifest>

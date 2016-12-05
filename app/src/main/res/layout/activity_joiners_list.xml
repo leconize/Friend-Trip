@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.supphawit.friend_trip.trip.activity.JoinersListActivity">
+<RelativeLayout
+    android:id="@+id/activity_joiners_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include layout="@layout/toolbar_layout" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/devpagetoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/joiner_recycleview">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>
+</ScrollView>
