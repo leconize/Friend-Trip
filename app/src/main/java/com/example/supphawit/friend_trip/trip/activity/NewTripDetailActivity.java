@@ -1,6 +1,12 @@
 package com.example.supphawit.friend_trip.trip.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
@@ -22,10 +30,17 @@ import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.base.Joiner;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -35,6 +50,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewTripDetailActivity extends AppCompatActivity {
 
+    private final String CAMERA_IMG_NAME = "photo.jpg";
+    public final String APP_TAG = "FRIEND_TRIP";
+    private final int REQUEST_CAMERA = 269;
+    private final int REQUEST_SELECT_FILE = 369;
     @BindView(R.id.image) ImageView img;
     private static String TAG = "TripDetailActivity";
     private Trip trip;
@@ -46,6 +65,7 @@ public class NewTripDetailActivity extends AppCompatActivity {
     @BindView(R.id.new_join_btn) Button join_btn;
     @BindView(R.id.new_back_btn) Button back_btn;
     @BindView(R.id.detail_profilepic) CircleImageView profile_pic;
+    @BindView(R.id.trip_description) TextView description;
 
     private ArrayList<String> memberIdList;
     @Override
@@ -54,12 +74,19 @@ public class NewTripDetailActivity extends AppCompatActivity {
         setContentView(R.layout.new_trip_detail);
         ButterKnife.bind(this);
         trip = (Trip) getIntent().getSerializableExtra("trip");
-        Glide.with(this)
-                .load("").fitCenter()
-                .placeholder(R.drawable.pic)
-                .into(img);
+//        Glide.with(this)
+//                .load("").fitCenter()
+//                .placeholder(R.drawable.pic)
+//                .into(img);
         setupText(trip);
-
+        if(UserUtils.getUserId().equals(trip.getCreaterid())){
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectImage();
+                }
+            });
+        }
     }
 
     private void setupText(Trip trip){
@@ -71,7 +98,9 @@ public class NewTripDetailActivity extends AppCompatActivity {
         peoplenum.setText(currentjoiner + "/" + trip.getMaxpeople());
         starttime.setText(trip.getStartdate() + " " + trip.getStarttime());
         endtime.setText(trip.getEnddate() + " " + trip.getEndtime());
+        description.setText(trip.getDescription());
         StorageUtils.loadProfilePicture(this, profile_pic, trip.getCreaterid());
+        StorageUtils.loadTripbg(this, img, trip.getId());
         setUpButton();
 
     }
@@ -156,5 +185,94 @@ public class NewTripDetailActivity extends AppCompatActivity {
         intent.putExtra("lat", trip.getLatitude());
         intent.putExtra("lng", trip.getLongitude());
         startActivity(intent);
+    }
+
+    public void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    Log.i(TAG, "Take Photo");
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(CAMERA_IMG_NAME));
+                    if(intent.resolveActivity(getPackageManager()) != null){
+                        startActivityForResult(intent, REQUEST_CAMERA);
+                    }
+                } else if (items[item].equals("Choose from Library")) {
+                    Log.i(TAG, "Choose from Library");
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(
+                            Intent.createChooser(intent, "Select File"),
+                            REQUEST_SELECT_FILE);
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    public Uri getPhotoFileUri(String fileName) {
+        if (isExternalStorageAvailable()) {
+            File mediaStorageDir = new File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+                Log.d(APP_TAG, "failed to create directory");
+            }
+            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
+        }
+        return null;
+    }
+
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CAMERA) {
+                takePhotoAction();
+            } else if (requestCode == REQUEST_SELECT_FILE) {
+                Uri selectedImageUri = data.getData();
+                Glide.with(NewTripDetailActivity.this).load(selectedImageUri).skipMemoryCache(true).diskCacheStrategy( DiskCacheStrategy.NONE )
+                        .into(img);
+                uploadfile(selectedImageUri);
+            }
+        }
+    }
+
+    private void takePhotoAction(){
+        Uri takenPhotoUri = getPhotoFileUri(CAMERA_IMG_NAME);
+        Glide.with(NewTripDetailActivity.this).load(takenPhotoUri).skipMemoryCache(true).diskCacheStrategy( DiskCacheStrategy.NONE )
+                .into(img);
+        uploadfile(takenPhotoUri);
+    }
+
+    private void uploadfile(final Uri imageUri){
+        Log.i(TAG, "StartUploading File");
+        StorageUtils.getTripbgRef(trip.getId()).putFile(imageUri).
+                addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.i(TAG, "Upload success");
+                        Log.i(TAG, taskSnapshot.getDownloadUrl().toString());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(NewTripDetailActivity.this, "Please Try again", Toast.LENGTH_SHORT);
+                        Log.i(TAG, "Upload fail");
+                    }
+                });
     }
 }

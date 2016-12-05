@@ -65,10 +65,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         ImageView profile_pic = holder.userprofile;
         Glide.clear(profile_pic);
         Glide.clear(trippicture);
-        Glide.with(context)
-                .load("").fitCenter()
-                .placeholder(R.drawable.pic)
-                .into(trippicture);
+        StorageUtils.loadTripbg(context, trippicture, trip.getId());
         StorageUtils.loadProfilePicture(context, profile_pic, trip.getCreaterid());
     }
 

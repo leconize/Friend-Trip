@@ -23,6 +23,16 @@ public class Trip implements Serializable{
         this.joinerId_list = joinerId_list;
     }
 
+    private ArrayList<String> tags;
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
     private int maxpeople;
     private String starttime;
     private String endtime;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.supphawit.friend_trip"
     android:installLocation="preferExternal">
 
@@ -15,15 +16,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Friend-Trip"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <meta-data
             android:name="com.example.supphawit.friend_trip.config.GlideConfig"
             android:value="GlideModule" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAiWs-3N66iqGbYye3OGFJljoWJbCruNF4" />
-
-
         <activity android:name=".trip.activity.CreateTripActivity" />
         <activity android:name=".user.activity.SignInActivity" />
         <activity android:name=".user.activity.SignUpActivity" />

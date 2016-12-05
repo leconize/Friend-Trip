@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,9 +31,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private User loginuser;
     StorageReference profileRef;
     private final String TAG = "EditProfileActivity";
-
-
-
 
     @BindView(R.id.editprofile_username_fill) TextView editEmail;
     @BindView(R.id.editprofile_firstname_fill) TextView editFirstname;
@@ -110,6 +108,9 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ViewProfileActivity.class);
         loginuser.setFirstname(editFirstname.getText().toString());
         loginuser.setLastname(editLastname.getText().toString());
+        UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder().
+                setDisplayName(editFirstname.getText().toString() + " " + editLastname.getText().toString()).build();
+        FirebaseAuth.getInstance().getCurrentUser().updateProfile(profileupdate);
         loginuser.setNickname(editNickname.getText().toString());
         loginuser.setGender(editGender.getSelectedItem().toString());
         loginuser.setMobile(editMobile.getText().toString());

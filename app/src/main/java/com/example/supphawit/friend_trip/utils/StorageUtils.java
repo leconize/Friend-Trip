@@ -26,7 +26,7 @@ public class StorageUtils {
 
 
     public static void loadProfilePicture(final Context context, final ImageView profile_img, final String userid) {
-        Log.i(TAG, "Load Picture");
+        Log.i(TAG, "Load Profile");
         getProfileStorageRef(userid)
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -48,9 +48,43 @@ public class StorageUtils {
         });
     }
 
+    public static void loadTripbg(final Context context, final ImageView trip_bg, final String tripid) {
+        Log.i(TAG, "Load loadTripbg");
+        getTripbgRef(tripid)
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                try {
+                    if(context != null){
+                        Log.i(TAG, trip_bg.toString());
+                        Glide.with(context).load(uri).fitCenter().dontAnimate().into(trip_bg);
+                    }
+                } catch (Exception e) {
+                    Glide.with(context)
+                            .load("").fitCenter()
+                            .placeholder(R.drawable.pic)
+                            .into(trip_bg);
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Glide.with(context)
+                        .load("").fitCenter()
+                        .placeholder(R.drawable.pic)
+                        .into(trip_bg);
+                Log.e(TAG, e.getMessage());
+            }
+        });
+    }
 
     public static StorageReference getProfileStorageRef(String userid) {
         return FirebaseStorage.getInstance().getReference("profile_pic/" + userid + ".jpg");
+    }
+
+    public static StorageReference getTripbgRef(String tripid){
+        return FirebaseStorage.getInstance().getReference("trip_bg/"+ tripid + ".jpg");
     }
 
 

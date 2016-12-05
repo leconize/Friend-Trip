@@ -93,7 +93,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             Log.d(TAG, user_id);
 
         }
-        if(user_id != UserUtils.getUserId()){
+        if(user_id.equals(UserUtils.getUserId())){
             profile_pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

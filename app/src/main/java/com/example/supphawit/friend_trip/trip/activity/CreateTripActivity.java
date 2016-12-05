@@ -7,15 +7,22 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cunoraz.tagview.Tag;
+import com.cunoraz.tagview.TagView;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
@@ -48,6 +55,10 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
     @BindView(R.id.devpagetoolbar) Toolbar devtoolbar;
     @BindView(R.id.addplace_btn) EditText meetingPoint;
+    @BindView(R.id.create_des_fill) EditText description;
+    @BindView(R.id.tag_edit) AutoCompleteTextView tagadd;
+    @BindView(R.id.tag_group)
+    TagView tagView;
 
 
     private int PLACE_PICKER_REQUEST = 1;
@@ -63,11 +74,36 @@ public class CreateTripActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_create_trip);
         ButterKnife.bind(this);
+        tagadd.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, autocompleteData));
+        tagadd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionid, KeyEvent keyEvent) {
+                if(actionid == EditorInfo.IME_ACTION_DONE){
+                    String tagvalue = tagadd.getText().toString();
+                    if(!tagvalue.equals("")){
+                        Tag tag = new Tag(tagadd.getText().toString());
+                        tag.isDeletable = true;
+                        tagView.addTag(tag);
+                        tagadd.setText("");
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+            ;
+        });
         setSupportActionBar(devtoolbar);
         setTimePickerDialog(starttime_fill);
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
         setDatePickerDialog(enddate_fill);
+        tagView.setOnTagDeleteListener(new TagView.OnTagDeleteListener() {
+            @Override
+            public void onTagDeleted(TagView tagView, Tag tag, int i) {
+                tagView.remove(i);
+            }
+        });
     }
 
     @Override
@@ -158,7 +194,13 @@ public class CreateTripActivity extends AppCompatActivity {
         trip.setCreatername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         trip.setLatitude(latLng.latitude);
         trip.setLongitude(latLng.longitude);
+        trip.setDescription(description.getText().toString());
         trip.setJoinerId_list(joiner_list);
+        ArrayList<String> tagslist=  new ArrayList<>();
+        for(Tag tag: tagView.getTags()){
+            tagslist.add(tag.text);
+        }
+        trip.setTags(tagslist);
         return trip;
     }
 
@@ -202,7 +244,7 @@ public class CreateTripActivity extends AppCompatActivity {
     private boolean validateData(){
         return checktextNotNull(endtime_fill) && checktextNotNull(startdate_fill) &&
                 checktextNotNull(starttime_fill) && checktextNotNull(maxperson_fill) &&
-                checktextNotNull(tripname_fill) && latLng != null;
+                checktextNotNull(tripname_fill) && latLng != null && checktextNotNull(description);
     }
 
     private boolean checktextNotNull(EditText editText){
