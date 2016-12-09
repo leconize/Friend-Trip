@@ -18,6 +18,7 @@ import com.example.supphawit.friend_trip.trip.adapter.TripAdapter;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
+import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -93,6 +94,7 @@ public class TripListActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MyUtils.setNotificationValue(menu);
         return true;
     }
 
