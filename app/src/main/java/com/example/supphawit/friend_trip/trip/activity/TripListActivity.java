@@ -32,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TripListActivity extends AppCompatActivity{
+public class TripListActivity extends AppCompatActivity implements android.support.v7.widget.SearchView.OnQueryTextListener{
 
     private static final String TAG = "TripListActivity";
     private List<Trip> trips;
@@ -95,6 +95,9 @@ public class TripListActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MyUtils.setNotificationValue(menu);
+        android.support.v7.widget.SearchView searchView = ( android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setOnQueryTextListener(this);
+
         return true;
     }
 
@@ -144,14 +147,26 @@ public class TripListActivity extends AppCompatActivity{
     private static List<Trip> filter(List<Trip> trips, String query){
         final String lowCaseQuery = query.toLowerCase();
 
-//        final List<Trip> filterList = new ArrayList<>();
-//        for(Trip trip: trips){
-//            final String text = trip.getPlaceString().toLowerCase();
-//            if(text.contains(lowCaseQuery)){
-//                filterList.add(trip);
-//            }
-//        }
-//        return filterList;
-        return null;
+        final List<Trip> filterList = new ArrayList<>();
+        for(Trip trip: trips){
+            final String text = trip.getName();
+            if(text.contains(lowCaseQuery)){
+                filterList.add(trip);
+            }
+        }
+        return filterList;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        final List<Trip> tripList = filter(trips, s);
+        tripAdapter.setTrips(tripList);
+        tripAdapter.notifyDataSetChanged();
+        return true;
     }
 }
