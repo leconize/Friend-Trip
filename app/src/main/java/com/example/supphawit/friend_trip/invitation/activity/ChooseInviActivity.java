@@ -15,6 +15,7 @@ import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -44,17 +45,30 @@ public class ChooseInviActivity extends AppCompatActivity {
         trip = (Trip) getIntent().getSerializableExtra("trip");
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
-        DatabaseUtils.getUsersRef().addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseUtils.getDbRef().child("friend").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot usersnapshot: dataSnapshot.getChildren()){
-                    User user = usersnapshot.getValue(User.class);
-                    if(!user.getFirebaseid().equals(UserUtils.getUserId())){
-                        users.add(user);
-                    }
+                for(DataSnapshot friend: dataSnapshot.getChildren() ){
+                    String id = friend.getValue(String.class);
+                    DatabaseUtils.getUsersRef().orderByKey().equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot usersnapshot: dataSnapshot.getChildren()){
+                                User user = usersnapshot.getValue(User.class);
+                                if(!user.getFirebaseid().equals(UserUtils.getUserId())){
+                                    users.add(user);
+                                }
+                            }
+                            InviUserAdapter inviUserAdapter = new InviUserAdapter(ChooseInviActivity.this, users, trip);
+                            recyclerView.setAdapter(inviUserAdapter);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.d(TAG, databaseError.getMessage());
+                        }
+                    });
                 }
-                InviUserAdapter inviUserAdapter = new InviUserAdapter(ChooseInviActivity.this, users, trip);
-                recyclerView.setAdapter(inviUserAdapter);
             }
 
             @Override
@@ -62,6 +76,7 @@ public class ChooseInviActivity extends AppCompatActivity {
                 Log.d(TAG, databaseError.getMessage());
             }
         });
+
     }
 
 }

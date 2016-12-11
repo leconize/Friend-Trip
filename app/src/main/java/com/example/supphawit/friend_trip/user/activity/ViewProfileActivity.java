@@ -15,13 +15,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.invitation.RequestModel;
 import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
@@ -45,6 +49,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +83,8 @@ public class ViewProfileActivity extends AppCompatActivity {
     @BindView(R.id.devpagetoolbar)
     Toolbar toolbar;
     String user_id;
+    @BindView(R.id.editprofilebt)
+    Button editprofilebt;
 
     private StorageReference storageReference;
 
@@ -103,9 +110,21 @@ public class ViewProfileActivity extends AppCompatActivity {
                     selectImage();
                 }
             });
+            editprofilebt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editProfile();
+                }
+            });
         }
         else{
-            findViewById(R.id.editprofilebt).setVisibility(View.GONE);
+            editprofilebt.setText("Add Friend");
+            editprofilebt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addfriend();
+                }
+            });
         }
         isProfileLoad = false;
         setSupportActionBar(toolbar);
@@ -214,11 +233,48 @@ public class ViewProfileActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.editprofilebt)
     public void editProfile() {
         Intent intent = new Intent(this, EditProfileActivity.class);
         intent.putExtra("loginuser", loginuser);
         startActivityForResult(intent, REQUESTCODE_EDIT);
+    }
+
+    public void addfriend(){
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Confirm Add Friend")
+                .content("You want to Add this person to your friend list")
+                .positiveText("Yes")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        final DatabaseReference database = FirebaseDatabase.getInstance().getReference("invite/"+loginuser.getFirebaseid());
+                        database.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ArrayList<RequestModel> trips = new ArrayList<>();
+                                try{
+                                    for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                                        RequestModel name = dataSnapshot1.getValue(RequestModel.class);
+                                        trips.add(name);
+                                    }
+                                    Log.d(TAG, trips.toString());
+                                    setRequestData(trips, database);
+                                }
+                                catch (Exception e){
+                                    setRequestData(trips, database);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                ArrayList<RequestModel> trips = new ArrayList<RequestModel>();
+                                setRequestData(trips, database);
+                            }
+                        });
+                    }
+                })
+                .negativeText("No")
+                .show();
     }
 
     @Override
@@ -226,6 +282,27 @@ public class ViewProfileActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void setRequestData(final ArrayList<RequestModel> trips, final DatabaseReference database){
+        DatabaseUtils.getUsersRef().orderByKey().equalTo(UserUtils.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot usersnapshot : dataSnapshot.getChildren()) {
+                    User user = usersnapshot.getValue(User.class);
+                    RequestModel model = new RequestModel();
+                    model.setType("addfriend");
+                    model.setCreator_name(user.getNickname());
+                    model.setTrip_id(UserUtils.getUserId());
+                    trips.add(model);
+                    database.setValue(trips);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getMessage());
+            }
+        });
+    }
 
     public void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",

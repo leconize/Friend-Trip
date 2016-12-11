@@ -11,6 +11,15 @@ public class RequestModel implements Serializable{
 
     String trip_id;
     String creator_name;
+    String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getTrip_id() {
         return trip_id;

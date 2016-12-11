@@ -1,6 +1,7 @@
 package com.example.supphawit.friend_trip.invitation.activity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.invitation.RequestModel;
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
@@ -20,6 +23,7 @@ import com.example.supphawit.friend_trip.trip.activity.NewTripDetailActivity;
 import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
+import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
 import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
@@ -31,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,9 +65,15 @@ public class RequestListActivity extends AppCompatActivity {
                 for(DataSnapshot request : dataSnapshot.getChildren()){
                     RequestModel requestModel = request.getValue(RequestModel.class);
                     requestModels.add(requestModel);
-                    requestList.add("You have request from " +requestModel.getCreator_name());
+                    if(requestModel.getType().equals("addfriend")){
+                        requestList.add("You have friend request from " +requestModel.getCreator_name());
+                    }
+                    else{
+                        requestList.add("You have request from " +requestModel.getCreator_name());
+                    }
+
                 }
-                ArrayAdapter<String> t = new ArrayAdapter<String>(RequestListActivity.this, android.R.layout.simple_list_item_1, requestList);
+                ArrayAdapter<String> t = new ArrayAdapter<>(RequestListActivity.this, android.R.layout.simple_list_item_1, requestList);
                 recyclerView.setAdapter(t);
             }
 
@@ -74,26 +85,79 @@ public class RequestListActivity extends AppCompatActivity {
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                ;
-                DatabaseUtils.getTripRef(requestModels.get(i).getTrip_id()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Trip trip = dataSnapshot.getValue(Trip.class);
-                        Intent intent = new Intent(RequestListActivity.this, NewTripDetailActivity.class);
-                        intent.putExtra("trip", trip);
-                        startActivity(intent);
-                        Log.d(TAG, dataSnapshot.getRef().toString());
-                        databaseReference.child(i+"").removeValue();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, databaseError.getMessage());
-                    }
-                });
+                if(requestModels.get(i).getType().equals("addfriend")){
+                    setFriendAddAction(databaseReference, i);
+                }
+                else{
+                    setTripInviteAction(databaseReference, i);
+                }
             }
         });
 
+    }
+
+    public void setFriendAddAction(final DatabaseReference databaseReference,final int i){
+        final String user_id = requestModels.get(i).getTrip_id();
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Confirm Add Friend")
+                .content("You want to Add this person to your friend list")
+                .positiveText("Yes")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        final DatabaseReference database = FirebaseDatabase.getInstance().getReference("friend/"+UserUtils.getUserId());
+                        database.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ArrayList<String> friend_list = new ArrayList<>();
+                                try{
+                                    for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                                        String name = dataSnapshot1.getValue(String.class);
+                                        friend_list.add(name);
+                                    }
+                                    Log.d(TAG, friend_list.toString());
+                                    friend_list.add(user_id);
+                                    database.setValue(friend_list);
+                                    databaseReference.child(i+"").removeValue();
+                                }
+                                catch (Exception e){
+                                    friend_list.add(user_id);
+                                    database.setValue(friend_list);
+                                    databaseReference.child(i+"").removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                ArrayList<String> friend_list = new ArrayList<>();
+                                friend_list.add(user_id);
+                                database.setValue(friend_list);
+                                databaseReference.child(i+"").removeValue();
+                            }
+                        });
+                    }
+                })
+                .negativeText("No")
+                .show();
+    }
+
+    public void setTripInviteAction(final DatabaseReference databaseReference,final int i){
+        DatabaseUtils.getTripRef(requestModels.get(i).getTrip_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Trip trip = dataSnapshot.getValue(Trip.class);
+                Intent intent = new Intent(RequestListActivity.this, NewTripDetailActivity.class);
+                intent.putExtra("trip", trip);
+                startActivity(intent);
+                Log.d(TAG, dataSnapshot.getRef().toString());
+                databaseReference.child(i+"").removeValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, databaseError.getMessage());
+            }
+        });
     }
 
     @Override
