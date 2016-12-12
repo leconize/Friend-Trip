@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.util.Log;
 
@@ -31,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TripListActivity extends AppCompatActivity implements android.support.v7.widget.SearchView.OnQueryTextListener{
 
@@ -92,12 +94,24 @@ public class TripListActivity extends AppCompatActivity implements android.suppo
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.mail_noti);
+        Log.i(TAG, item.toString());
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkNoti();
+            }
+        });
         MyUtils.setNotificationValue(menu);
         android.support.v7.widget.SearchView searchView = ( android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(this);
-
         return true;
     }
 

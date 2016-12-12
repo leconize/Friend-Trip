@@ -65,7 +65,7 @@ public class RequestListActivity extends AppCompatActivity {
                 for(DataSnapshot request : dataSnapshot.getChildren()){
                     RequestModel requestModel = request.getValue(RequestModel.class);
                     requestModels.add(requestModel);
-                    if(requestModel.getType().equals("addfriend")){
+                    if(requestModel.getType() != null){
                         requestList.add("You have friend request from " +requestModel.getCreator_name());
                     }
                     else{
@@ -85,7 +85,7 @@ public class RequestListActivity extends AppCompatActivity {
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                if(requestModels.get(i).getType().equals("addfriend")){
+                if(requestModels.get(i).getType()  != null){
                     setFriendAddAction(databaseReference, i);
                 }
                 else{
@@ -119,11 +119,15 @@ public class RequestListActivity extends AppCompatActivity {
                                     friend_list.add(user_id);
                                     database.setValue(friend_list);
                                     databaseReference.child(i+"").removeValue();
+                                    finish();
+                                    startActivity(getIntent());
                                 }
                                 catch (Exception e){
                                     friend_list.add(user_id);
                                     database.setValue(friend_list);
                                     databaseReference.child(i+"").removeValue();
+                                    finish();
+                                    startActivity(getIntent());
                                 }
                             }
 
@@ -133,6 +137,8 @@ public class RequestListActivity extends AppCompatActivity {
                                 friend_list.add(user_id);
                                 database.setValue(friend_list);
                                 databaseReference.child(i+"").removeValue();
+                                finish();
+                                startActivity(getIntent());
                             }
                         });
                     }

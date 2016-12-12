@@ -45,11 +45,12 @@ public class ChooseInviActivity extends AppCompatActivity {
         trip = (Trip) getIntent().getSerializableExtra("trip");
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
-        DatabaseUtils.getDbRef().child("friend").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseUtils.getDbRef().child("friend").child(UserUtils.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot friend: dataSnapshot.getChildren() ){
                     String id = friend.getValue(String.class);
+                    Log.d(TAG, id);
                     DatabaseUtils.getUsersRef().orderByKey().equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -59,6 +60,7 @@ public class ChooseInviActivity extends AppCompatActivity {
                                     users.add(user);
                                 }
                             }
+                            Log.d(TAG, users.toString());
                             InviUserAdapter inviUserAdapter = new InviUserAdapter(ChooseInviActivity.this, users, trip);
                             recyclerView.setAdapter(inviUserAdapter);
                         }
