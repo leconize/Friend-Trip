@@ -15,7 +15,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/ic_More_vert"
-        android:icon="@drawable/ic_person_add_white"
+        android:icon="@drawable/ic_add"
         android:title="Logout"
         app:showAsAction="ifRoom">
         <menu>

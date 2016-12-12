@@ -5,6 +5,7 @@
         android:id="@+id/mail_noti"
         android:icon="@drawable/ic_mail_outline_white"
         android:title="Notification"
+        app:actionLayout="@layout/notification_layout"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/ic_More_vert"

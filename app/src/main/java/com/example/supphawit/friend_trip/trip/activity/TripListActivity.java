@@ -30,6 +30,7 @@ import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.user.model.User;
+import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +50,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TripListActivity extends AppCompatActivity{
+public class TripListActivity extends AppCompatActivity implements android.support.v7.widget.SearchView.OnQueryTextListener{
 
     private static final String TAG = "TripListActivity";
     private List<Trip> trips;
@@ -183,7 +184,18 @@ public class TripListActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.trip_menu_main, menu);
+        MenuItem item = menu.findItem(R.id.mail_noti);
+        Log.i(TAG, item.toString());
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkNoti();
+            }
+        });
+        MyUtils.setNotificationValue(menu);
+        android.support.v7.widget.SearchView searchView = ( android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -241,19 +253,6 @@ public class TripListActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-    private static List<Trip> filter(List<Trip> trips, String query){
-        final String lowCaseQuery = query.toLowerCase();
-
-//        final List<Trip> filterList = new ArrayList<>();
-//        for(Trip trip: trips){
-//            final String text = trip.getPlaceString().toLowerCase();
-//            if(text.contains(lowCaseQuery)){
-//                filterList.add(trip);
-//            }
-//        }
-//        return filterList;
-        return null;
-    }
 
     private void queryUserfromDatabase() {
         Log.d(TAG, "Login as " + user_id);
@@ -279,5 +278,32 @@ public class TripListActivity extends AppCompatActivity{
                         Log.d(TAG, databaseError.getMessage());
                     }
                 });
+    }
+
+    private static List<Trip> filter(List<Trip> trips, String query){
+        final String lowCaseQuery = query.toLowerCase();
+        Log.d(TAG, lowCaseQuery);
+        final List<Trip> filterList = new ArrayList<>();
+        for(Trip trip: trips){
+            final String text = trip.getName().toLowerCase();
+            Log.d(TAG, text);
+            if(text.contains(lowCaseQuery)){
+                filterList.add(trip);
+            }
+        }
+        return filterList;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<Trip> tripList = filter(trips, newText);
+        tripAdapter.setTrips(tripList);
+        tripAdapter.notifyDataSetChanged();
+        return true;
     }
 }

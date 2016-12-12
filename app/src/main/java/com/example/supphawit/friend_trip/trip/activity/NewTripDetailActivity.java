@@ -40,13 +40,14 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NewTripDetailActivity extends AppCompatActivity {
+public class NewTripDetailActivity extends AppCompatActivity{
 
     private final String CAMERA_IMG_NAME = "photo.jpg";
     public final String APP_TAG = "FRIEND_TRIP";
@@ -318,4 +319,6 @@ public class NewTripDetailActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
