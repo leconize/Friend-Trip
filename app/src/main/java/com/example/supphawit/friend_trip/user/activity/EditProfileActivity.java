@@ -9,11 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
+import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.MyUtils;
@@ -84,6 +86,14 @@ public class EditProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MyUtils.setNotificationValue(menu);
+        MenuItem item = menu.findItem(R.id.mail_noti);
+        Log.i(TAG, item.toString());
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkNoti();
+            }
+        });
         return true;
     }
 
@@ -104,6 +114,11 @@ public class EditProfileActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void checkNoti(){
+        Intent intent = new Intent(this, RequestListActivity.class);
+        startActivity(intent);
     }
 
     public void viewprofile(){

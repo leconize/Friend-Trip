@@ -140,6 +140,14 @@ public class ViewProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MyUtils.setNotificationValue(menu);
+        MenuItem item = menu.findItem(R.id.mail_noti);
+        Log.i(TAG, item.toString());
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkNoti();
+            }
+        });
         return true;
     }
 

@@ -100,7 +100,7 @@ public class TripListActivity extends AppCompatActivity implements android.suppo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.trip_menu_main, menu);
         MenuItem item = menu.findItem(R.id.mail_noti);
         Log.i(TAG, item.toString());
         item.getActionView().setOnClickListener(new View.OnClickListener() {

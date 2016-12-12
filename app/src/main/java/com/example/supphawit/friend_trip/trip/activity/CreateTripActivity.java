@@ -120,6 +120,14 @@ public class CreateTripActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.mail_noti);
+        Log.i(TAG, item.toString());
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkNoti();
+            }
+        });
         MyUtils.setNotificationValue(menu);
         return true;
     }
