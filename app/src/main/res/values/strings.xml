@@ -5,6 +5,8 @@
     <string-array
         name="string_array_navi_drawer">
         <item>Room List</item>
+        <item>Profile</item>
+        <item>Sign Out</item>
     </string-array>
     <string-array name="string_array_name">
         <item>ศูนย์การประชุมแห่งชาติสิริกิติ์</item>

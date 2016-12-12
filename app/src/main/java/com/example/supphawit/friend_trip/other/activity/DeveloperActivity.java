@@ -29,8 +29,8 @@ public class DeveloperActivity extends AppCompatActivity {
     private static final String TAG = "DeveloperActivity";
 
     //@BindView(R.id.welcomeuser) TextView welcomeuser;
-    @BindView(R.id.devpagetoolbar)
-    Toolbar devtoolbar;
+    @BindView(R.id.subtoolbar)
+    Toolbar toolbar;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bot_nav;
 
@@ -40,7 +40,7 @@ public class DeveloperActivity extends AppCompatActivity {
         setContentView(R.layout.activity_developer);
         ButterKnife.bind(this);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        setSupportActionBar(devtoolbar);
+        setSupportActionBar(toolbar);
         bot_nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -56,7 +56,7 @@ public class DeveloperActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         return true;
     }
 
@@ -96,9 +96,6 @@ public class DeveloperActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.log_out_main:
-                logout();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

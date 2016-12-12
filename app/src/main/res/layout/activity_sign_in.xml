@@ -9,7 +9,7 @@
     android:weightSum="1"
     tools:context="com.example.supphawit.friend_trip.user.activity.SignInActivity">
 
-    <include layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_sublayout"/>
 
 <com.andexert.library.RippleView
     android:layout_width="match_parent"

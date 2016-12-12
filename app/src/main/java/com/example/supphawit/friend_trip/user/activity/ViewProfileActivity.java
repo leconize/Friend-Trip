@@ -3,13 +3,20 @@ package com.example.supphawit.friend_trip.user.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +34,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.invitation.RequestModel;
 import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity;
+import com.example.supphawit.friend_trip.other.adapter.NavigationDrawerAdapter;
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
@@ -80,11 +88,20 @@ public class ViewProfileActivity extends AppCompatActivity {
     TextView profileMobile;
     @BindView(R.id.profile_userpic)
     ImageView profile_pic;
-    @BindView(R.id.devpagetoolbar)
+    @BindView(R.id.subtoolbar)
     Toolbar toolbar;
     String user_id;
     @BindView(R.id.editprofilebt)
     Button editprofilebt;
+
+    private String[] mNaviTitles;
+    private int mNaviIcons[] = {R.drawable.ic_list, R.drawable.ic_person, R.drawable.ic_logout};
+    private ActionBarDrawerToggle mDrawerToggle;
+    @BindView(R.id.trip_list_drawer_layout1)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.left_drawer1)
+    RecyclerView mDrawerList;
+    RecyclerView.LayoutManager mLayoutManager;
 
     private StorageReference storageReference;
 
@@ -128,6 +145,27 @@ public class ViewProfileActivity extends AppCompatActivity {
         }
         isProfileLoad = false;
         setSupportActionBar(toolbar);
+        mLayoutManager = new LinearLayoutManager(this);
+        mDrawerList.setLayoutManager(mLayoutManager);
+
+        mNaviTitles = getResources().getStringArray(R.array.string_array_navi_drawer);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+                public void onDrawerClosed(View view) {
+                    invalidateOptionsMenu();
+                }
+
+                public void onDrawerOpened(View drawerView) {
+                    invalidateOptionsMenu();
+                }
+            };
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mDrawerToggle.syncState();
+        }
     }
 
     @Override
@@ -137,15 +175,27 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         MyUtils.setNotificationValue(menu);
         MenuItem item = menu.findItem(R.id.mail_noti);
         Log.i(TAG, item.toString());
         item.getActionView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkNoti();
+                checkNotification();
             }
         });
         return true;
@@ -154,42 +204,20 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.create_trip_bar:
-                createtrip();
-                return true;
-            case R.id.view_profile_bar:
-                viewprofile();
-                return true;
-            case R.id.log_out_main:
-                logout();
-                return true;
             case R.id.mail_noti:
-                checkNoti();
+                checkNotification();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void viewprofile(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void createtrip(){
-        Intent intent = new Intent(this, CreateTripActivity.class);
-        startActivity(intent);
-    }
-
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
-    }
-
-    public void checkNoti(){
+    public void checkNotification(){
         Intent intent = new Intent(this, RequestListActivity.class);
         startActivity(intent);
     }
@@ -207,6 +235,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                             storageReference = FirebaseStorage.getInstance().
                                     getReference("profile_pic/" + loginuser.getFirebaseid()
                                             + ".jpg");
+                            mDrawerList.setAdapter(new NavigationDrawerAdapter(mNaviTitles, mNaviIcons, loginuser.getFirstname(), loginuser.getEmail()));
                             if(!isProfileLoad)
                             StorageUtils.loadProfilePicture(ViewProfileActivity.this, profile_pic, user_id);
                             setProfile(loginuser);

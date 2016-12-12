@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NewTripDetailActivity extends AppCompatActivity{
+public class NewTripDetailActivity extends AppCompatActivity {
 
     private final String CAMERA_IMG_NAME = "photo.jpg";
     public final String APP_TAG = "FRIEND_TRIP";
@@ -122,15 +122,6 @@ public class NewTripDetailActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MyUtils.setNotificationValue(menu);
-        MenuItem item = menu.findItem(R.id.mail_noti);
-        Log.i(TAG, item.toString());
-        item.getActionView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkNoti();
-            }
-        });
         return true;
     }
 
@@ -139,37 +130,12 @@ public class NewTripDetailActivity extends AppCompatActivity{
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.create_trip_bar:
-                createtrip();
-                return true;
-            case R.id.view_profile_bar:
-                viewprofile();
-                return true;
-            case R.id.log_out_main:
-                logout();
-                return true;
             case R.id.mail_noti:
                 checkNoti();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void viewprofile(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void createtrip(){
-        Intent intent = new Intent(this, CreateTripActivity.class);
-        startActivity(intent);
-    }
-
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
     }
 
     public void checkNoti(){
@@ -319,6 +285,4 @@ public class NewTripDetailActivity extends AppCompatActivity{
                     }
                 });
     }
-
-
 }

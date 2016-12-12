@@ -26,7 +26,7 @@ public class SignInActivity extends AppCompatActivity implements LoginView {
 
     @BindView(R.id.idinput)public  EditText idinput;
     @BindView(R.id.pwdinput)public  EditText pwdinput;
-    @BindView(R.id.devpagetoolbar) Toolbar devtoolbar;
+    @BindView(R.id.subtoolbar) Toolbar devtoolbar;
     LoginPresenter loginPresenter;
 
     @Override

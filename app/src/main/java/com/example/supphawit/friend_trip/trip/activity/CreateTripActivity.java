@@ -9,8 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -31,8 +31,8 @@ import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
-import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
+import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
@@ -62,18 +62,20 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.name_fill) EditText tripname_fill;
     @BindView(R.id.submit_btn) Button submit_btn;
     @BindView(R.id.maxpeople_fill) EditText maxperson_fill;
-    @BindView(R.id.devpagetoolbar) Toolbar devtoolbar;
+    @BindView(R.id.subtoolbar)
+    Toolbar toolbar;
     @BindView(R.id.addplace_btn) EditText meetingPoint;
     @BindView(R.id.create_des_fill) EditText description;
     @BindView(R.id.tag_edit) AutoCompleteTextView tagadd;
     @BindView(R.id.tag_group)
     TagView tagView;
 
-    static Button notifCount;
-    static int mNotifCount = 0;
 
     private int PLACE_PICKER_REQUEST = 1;
     private LatLng latLng;
+
+    static Button notifCount;
+    static int mNotifCount = 0;
 
 
     @BindArray(R.array.string_array_name) String[] autocompleteData;
@@ -97,13 +99,14 @@ public class CreateTripActivity extends AppCompatActivity {
                         tagView.addTag(tag);
                         tagadd.setText("");
                     }
+
                     return true;
                 }
                 return false;
             }
             ;
         });
-        setSupportActionBar(devtoolbar);
+        setSupportActionBar(toolbar);
         setTimePickerDialog(starttime_fill);
         setTimePickerDialog(endtime_fill);
         setDatePickerDialog(startdate_fill);
@@ -119,58 +122,20 @@ public class CreateTripActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_sub, menu);
         MenuItem item = menu.findItem(R.id.mail_noti);
         Log.i(TAG, item.toString());
         item.getActionView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkNoti();
+                checkNotification();
             }
         });
         MyUtils.setNotificationValue(menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Log.d(TAG, "toolbar option selected");
-        switch (id) {
-            case R.id.create_trip_bar:
-                createtrip();
-                return true;
-            case R.id.view_profile_bar:
-                viewprofile();
-                return true;
-            case R.id.log_out_main:
-                logout();
-                return true;
-            case R.id.mail_noti:
-                checkNoti();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void viewprofile(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void createtrip(){
-        Intent intent = new Intent(this, CreateTripActivity.class);
-        startActivity(intent);
-    }
-
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
-    }
-
-    public void checkNoti(){
+    public void checkNotification(){
         Intent intent = new Intent(this, RequestListActivity.class);
         startActivity(intent);
     }

@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <include layout="@layout/toolbar_layout" />
+        <include layout="@layout/toolbar_sublayout"/>
 
         <RelativeLayout
             android:id="@+id/activity_create_trip"

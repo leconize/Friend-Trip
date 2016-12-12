@@ -38,7 +38,7 @@ public class JoinersListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<User> users;
     private static final String TAG = "JoinerListActivity";
-    @BindView(R.id.devpagetoolbar)
+    @BindView(R.id.subtoolbar)
     Toolbar toolbar;
 
     @Override
@@ -76,7 +76,7 @@ public class JoinersListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         MyUtils.setNotificationValue(menu);
         MenuItem item = menu.findItem(R.id.mail_noti);
         Log.i(TAG, item.toString());
@@ -94,37 +94,12 @@ public class JoinersListActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.create_trip_bar:
-                createtrip();
-                return true;
-            case R.id.view_profile_bar:
-                viewprofile();
-                return true;
-            case R.id.log_out_main:
-                logout();
-                return true;
             case R.id.mail_noti:
                 checkNoti();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void viewprofile(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void createtrip(){
-        Intent intent = new Intent(this, CreateTripActivity.class);
-        startActivity(intent);
-    }
-
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
     }
 
     public void checkNoti(){

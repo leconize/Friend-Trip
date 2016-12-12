@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.activity.TripListActivity;
+import com.example.supphawit.friend_trip.user.activity.SignInActivity;
+import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -114,9 +117,18 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         Log.d(TAG, position + "");
         switch (position) {
             case 1:
-                Intent intent = new Intent(context, TripListActivity.class);
-                context.startActivity(intent);
+                if(!context.getClass().getName().equals(TripListActivity.class.getName()))
+                    context.startActivity(new Intent(context, TripListActivity.class));
+                return;
+            case 2:
+                if(!context.getClass().getName().equals(ViewProfileActivity.class.getName()))
+                    context.startActivity(new Intent(context, ViewProfileActivity.class));
+                return;
+            case 3:
+                FirebaseAuth.getInstance().signOut();
+                context.startActivity(new Intent(context, SignInActivity.class));
                 ((Activity) context).finish();
+                return;
         }
     }
 }

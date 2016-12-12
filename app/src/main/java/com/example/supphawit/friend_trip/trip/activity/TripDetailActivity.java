@@ -35,8 +35,8 @@ public class TripDetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_start_time) TextView detail_start_time;
     @BindView(R.id.detail_end_date) TextView detail_end_date;
     @BindView(R.id.detail_end_time) TextView detail_end_time;
-    @BindView(R.id.devpagetoolbar)
-    Toolbar devtoolbar;
+    @BindView(R.id.subtoolbar)
+    Toolbar toolbar;
     Trip trip;
 
     @Override
@@ -46,12 +46,12 @@ public class TripDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         trip = (Trip) getIntent().getSerializableExtra("trip");
         setValuetoTextViews(trip);
-        setSupportActionBar(devtoolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         return true;
     }
 
@@ -60,18 +60,9 @@ public class TripDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.log_out_main:
-                logout();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void logout() {
-        finish();
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
     }
 
     private void setValuetoTextViews(Trip trip){

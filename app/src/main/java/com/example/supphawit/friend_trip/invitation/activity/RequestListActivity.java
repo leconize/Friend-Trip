@@ -46,7 +46,7 @@ public class RequestListActivity extends AppCompatActivity {
     ArrayList<String> requestList;
     private static final String TAG = "RequestListActivtity";
     ArrayList<RequestModel> requestModels;
-    @BindView(R.id.devpagetoolbar)
+    @BindView(R.id.subtoolbar)
     Toolbar toolbar;
 
     @Override
@@ -167,7 +167,7 @@ public class RequestListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         return true;
     }
 
@@ -176,40 +176,15 @@ public class RequestListActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.create_trip_bar:
-                createtrip();
-                return true;
-            case R.id.view_profile_bar:
-                viewprofile();
-                return true;
-            case R.id.log_out_main:
-                logout();
-                return true;
             case R.id.mail_noti:
-                checkNoti();
+                checkNotification();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void viewprofile(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void createtrip(){
-        Intent intent = new Intent(this, CreateTripActivity.class);
-        startActivity(intent);
-    }
-
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
-    }
-
-    public void checkNoti(){
+    public void checkNotification(){
         Intent intent = new Intent(this, RequestListActivity.class);
         startActivity(intent);
         finish();

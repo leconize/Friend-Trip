@@ -42,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @BindView(R.id.editprofile_nickname_fill) TextView editNickname;
     @BindView(R.id.editprofile_gender_spinner) Spinner editGender;
     @BindView(R.id.editprofile_mobile_fill) TextView editMobile;
-    @BindView(R.id.devpagetoolbar)
+    @BindView(R.id.subtoolbar)
     Toolbar toolbar;
 
 
@@ -84,14 +84,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         MyUtils.setNotificationValue(menu);
         MenuItem item = menu.findItem(R.id.mail_noti);
         Log.i(TAG, item.toString());
         item.getActionView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkNoti();
+                checkNotification();
             }
         });
         return true;
@@ -102,39 +102,17 @@ public class EditProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "toolbar option selected");
         switch (id) {
-            case R.id.create_trip_bar:
-                createtrip();
-                return true;
-            case R.id.view_profile_bar:
-                viewprofile();
-                return true;
-            case R.id.log_out_main:
-                logout();
+            case R.id.mail_noti:
+                checkNotification();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void checkNoti(){
+    public void checkNotification() {
         Intent intent = new Intent(this, RequestListActivity.class);
         startActivity(intent);
-    }
-
-    public void viewprofile(){
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void createtrip(){
-        Intent intent = new Intent(this, CreateTripActivity.class);
-        startActivity(intent);
-    }
-
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
     }
 
     @OnClick(R.id.editprofile_confirm)

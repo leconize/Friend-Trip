@@ -1,174 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trip_list_drawer_layout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:weightSum="1"
     tools:context="com.example.supphawit.friend_trip.user.activity.ViewProfileActivity">
 
-    <include layout="@layout/toolbar_layout" />
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg"
-        android:paddingTop="16dp"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_userpic"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="5px"
-            android:paddingTop="5px"
-            android:text=""
-            android:textSize="30px" />
+        <include layout="@layout/toolbar_sublayout" />
 
-        <TextView
-            android:id="@+id/profile_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_name"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="20px"
-            android:text=""
-            android:textSize="25px" />
-
-        <View
-            android:id="@+id/profile_divider1"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/profile_username"
-            android:layout_margin="30px"
-            android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-            android:id="@+id/profile_email_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/profile_divider1"
-            android:layout_margin="20px"
-            android:orientation="horizontal"
-            android:padding="10px">
-
-            <ImageView
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:paddingRight="6px"
-                android:src="@drawable/email" />
+            android:layout_height="match_parent"
+            android:background="@drawable/bg"
+            android:orientation="vertical"
+            android:paddingTop="16dp">
 
             <TextView
-                android:id="@+id/profile_email_label"
+                android:id="@+id/profile_name"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Email: " />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_userpic"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="5px"
+                android:paddingTop="5px"
+                android:text=""
+                android:textSize="30px" />
 
             <TextView
-                android:id="@+id/profile_email_fill"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/profile_gender_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/profile_email_line"
-            android:layout_margin="20px"
-            android:orientation="horizontal"
-            android:padding="10px">
-
-            <ImageView
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:paddingRight="6px"
-                android:src="@drawable/ic_face_black_48dp" />
-
-            <TextView
-                android:id="@+id/profile_gender_label"
+                android:id="@+id/profile_username"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Gender: " />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_name"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="20px"
+                android:text=""
+                android:textSize="25px" />
 
-            <TextView
-                android:id="@+id/profile_gender_fill"
+            <View
+                android:id="@+id/profile_divider1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical" />
+                android:layout_height="1dp"
+                android:layout_below="@id/profile_username"
+                android:layout_margin="30px"
+                android:background="@android:color/darker_gray" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/profile_contract_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/profile_gender_line"
-            android:layout_margin="20px"
-            android:orientation="horizontal"
-            android:padding="10px">
-
-            <ImageView
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:paddingRight="6px"
-                android:src="@drawable/ic_face_black_48dp" />
-
-            <TextView
-                android:id="@+id/profile_contract_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Contract: " />
-
-            <TextView
-                android:id="@+id/profile_contract_fill"
+            <LinearLayout
+                android:id="@+id/profile_email_line"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/profile_divider1"
+                android:layout_margin="20px"
+                android:orientation="horizontal"
+                android:padding="10px">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:paddingRight="6px"
+                    android:src="@drawable/email" />
 
-        <View
-            android:id="@+id/profile_divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/profile_contract_line"
-            android:layout_margin="30px"
-            android:background="@android:color/darker_gray" />
+                <TextView
+                    android:id="@+id/profile_email_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Email: " />
+
+                <TextView
+                    android:id="@+id/profile_email_fill"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/profile_gender_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/profile_email_line"
+                android:layout_margin="20px"
+                android:orientation="horizontal"
+                android:padding="10px">
+
+                <ImageView
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:paddingRight="6px"
+                    android:src="@drawable/ic_face_black_48dp" />
+
+                <TextView
+                    android:id="@+id/profile_gender_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Gender: " />
+
+                <TextView
+                    android:id="@+id/profile_gender_fill"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/profile_contract_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/profile_gender_line"
+                android:layout_margin="20px"
+                android:orientation="horizontal"
+                android:padding="10px">
+
+                <ImageView
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:paddingRight="6px"
+                    android:src="@drawable/ic_face_black_48dp" />
+
+                <TextView
+                    android:id="@+id/profile_contract_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Contract: " />
+
+                <TextView
+                    android:id="@+id/profile_contract_fill"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/profile_divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/profile_contract_line"
+                android:layout_margin="30px"
+                android:background="@android:color/darker_gray" />
 
 
-        <Button
-            android:id="@+id/editprofilebt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@color/amber"
-            android:text="Edit Profile"
-            android:textColor="@color/white" />
+            <Button
+                android:id="@+id/editprofilebt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/amber"
+                android:text="Edit Profile"
+                android:textColor="@color/white" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_userpic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_user_profile" />
-    </RelativeLayout>
-</LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_userpic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_user_profile" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/left_drawer1"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+
+</android.support.v4.widget.DrawerLayout>

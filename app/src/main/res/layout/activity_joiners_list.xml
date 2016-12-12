@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     >
 
-    <include layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_sublayout"/>
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/devpagetoolbar"
         android:layout_width="match_parent"
