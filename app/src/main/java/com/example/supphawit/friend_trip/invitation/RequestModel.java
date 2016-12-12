@@ -27,5 +27,4 @@ public class RequestModel implements Serializable{
     public void setCreator_name(String creator_name) {
         this.creator_name = creator_name;
     }
-
 }

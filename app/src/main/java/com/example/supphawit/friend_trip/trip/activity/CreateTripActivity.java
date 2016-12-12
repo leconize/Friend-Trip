@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -31,7 +30,6 @@ import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
-import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -52,7 +50,7 @@ import butterknife.OnClick;
 
 public class CreateTripActivity extends AppCompatActivity {
 
-    private static final String TAG = "CreateTripActivity";
+    private static final String TAG = CreateTripActivity.class.getName();
     FirebaseAuth firebaseAuth;
 
     @BindView(R.id.start_date_fill) EditText startdate_fill;
@@ -69,8 +67,6 @@ public class CreateTripActivity extends AppCompatActivity {
     @BindView(R.id.tag_group)
     TagView tagView;
 
-    static Button notifCount;
-    static int mNotifCount = 0;
 
     private int PLACE_PICKER_REQUEST = 1;
     private LatLng latLng;
@@ -97,6 +93,7 @@ public class CreateTripActivity extends AppCompatActivity {
                         tagView.addTag(tag);
                         tagadd.setText("");
                     }
+
                     return true;
                 }
                 return false;
@@ -118,9 +115,7 @@ public class CreateTripActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        MyUtils.setNotificationValue(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

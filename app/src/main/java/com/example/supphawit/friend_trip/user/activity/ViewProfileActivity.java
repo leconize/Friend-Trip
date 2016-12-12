@@ -26,7 +26,6 @@ import com.example.supphawit.friend_trip.invitation.activity.RequestListActivity
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
-import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -120,7 +119,6 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MyUtils.setNotificationValue(menu);
         return true;
     }
 
@@ -130,28 +128,29 @@ public class ViewProfileActivity extends AppCompatActivity {
         Log.d(TAG, "toolbar option selected");
         switch (id) {
             case R.id.create_trip_bar:
-                createtrip();
+                createTrip();
                 return true;
             case R.id.view_profile_bar:
-                viewprofile();
+                viewProfile();
                 return true;
             case R.id.log_out_main:
                 logout();
                 return true;
             case R.id.mail_noti:
-                checkNoti();
+                checkNotification();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void viewprofile(){
+    public void viewProfile(){
         Intent intent = new Intent(this, ViewProfileActivity.class);
         startActivity(intent);
+        finish();
     }
 
-    public void createtrip(){
+    public void createTrip(){
         Intent intent = new Intent(this, CreateTripActivity.class);
         startActivity(intent);
     }
@@ -162,7 +161,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    public void checkNoti(){
+    public void checkNotification(){
         Intent intent = new Intent(this, RequestListActivity.class);
         startActivity(intent);
     }

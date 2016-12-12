@@ -29,7 +29,6 @@ import com.example.supphawit.friend_trip.trip.model.Trip;
 import com.example.supphawit.friend_trip.user.activity.SignInActivity;
 import com.example.supphawit.friend_trip.user.activity.ViewProfileActivity;
 import com.example.supphawit.friend_trip.utils.DatabaseUtils;
-import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.example.supphawit.friend_trip.utils.StorageUtils;
 import com.example.supphawit.friend_trip.utils.UserUtils;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -121,7 +120,6 @@ public class NewTripDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MyUtils.setNotificationValue(menu);
         return true;
     }
 

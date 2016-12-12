@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.example.supphawit.friend_trip.R;
 import com.example.supphawit.friend_trip.trip.activity.CreateTripActivity;
 import com.example.supphawit.friend_trip.user.model.User;
-import com.example.supphawit.friend_trip.utils.MyUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
@@ -83,7 +82,6 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MyUtils.setNotificationValue(menu);
         return true;
     }
 

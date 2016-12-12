@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">week7</string>
+    <string name="navigation_drawer_open">Open Drawer</string>
+    <string name="navigation_drawer_close">Close Drawer</string>
+    <string-array
+        name="string_array_navi_drawer">
+        <item>Room List</item>
+    </string-array>
     <string-array name="string_array_name">
         <item>ศูนย์การประชุมแห่งชาติสิริกิติ์</item>
         <item>อุทยานเบญจสิริ</item>
